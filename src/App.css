@@ -1,0 +1,97 @@
+:root {
+  --main-color: #6d67e4;
+  --secondary-color: #46c2cb;
+  --third-color: #453c67;
+
+  --main-color-hover: #6fdfe7;
+  --main-color-active: #27cbd6;
+
+  --color-btn: #fff;
+  --color-btn-hover: #fff;
+  --color-btn-active: #fff;
+}
+
+.ant-layout .ant-layout-header {
+  background: var(--main-color);
+  height: 1rem;
+  padding-inline: 0.3rem;
+  @apply flex items-center justify-center;
+}
+
+.ant-layout-header .container {
+  width: 100%;
+  height: 100%;
+  max-width: 15rem;
+  @apply flex flex-row items-center;
+}
+
+.ant-layout-header .col-left {
+  width: 25%;
+  @apply md:hidden;
+}
+
+.ant-layout-header .logo {
+  height: 100%;
+  width: 50%;
+  padding: 0.15rem 0rem;
+  @apply flex justify-center md:justify-start md:w-1/4;
+}
+
+.ant-layout-header .logo img {
+  height: 100%;
+}
+.ant-layout-header .col-right {
+  width: 25%;
+  @apply flex justify-end items-center md:w-3/4;
+}
+
+.ant-badge .ant-badge-count {
+  transform: none;
+}
+
+.wrap-btn .ant-btn-link {
+  color: var(--color-btn);
+  @apply flex items-center justify-center;
+}
+
+.wrap-btn .ant-btn-link:hover {
+  color: var(--main-color-hover);
+}
+
+.wrap-btn .ant-btn-link:active {
+  color: var(--main-color-active);
+}
+
+.wrap-btn .btn-text {
+  font-size: 0.25rem;
+  font-weight: 350;
+}
+
+.icon-btn {
+  font-size: 0.5rem;
+}
+
+.ant-input-wrapper .ant-input:hover {
+  border-color: var(--main-color-hover);
+}
+
+.ant-input-wrapper .ant-input:focus {
+  border-color: var(--main-color-active);
+}
+
+.ant-input-wrapper .ant-input-search-button {
+  color: white !important;
+  @apply flex items-center justify-center;
+}
+
+.ant-input-wrapper .ant-input-search-button:hover {
+  border-color: var(--main-color-hover);
+}
+
+.ant-input-wrapper .ant-input-search-button:active {
+  border-color: var(--main-color-active);
+}
+
+.mrc-1 {
+  margin-right: 0.05rem;
+}
