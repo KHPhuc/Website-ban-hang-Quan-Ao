@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import "./App.css";
 import LayoutAnt from "./components/Ant/Layout";
+import { LoadingSupense } from "./components/common/Loading/LoadingSuspense";
 import Header from "./containers/Header/Header";
 
 function App({ setDevice }: any) {
@@ -26,9 +27,11 @@ function App({ setDevice }: any) {
   }, []);
 
   return (
-    <LayoutAnt>
-      <Header />
-    </LayoutAnt>
+    <Suspense fallback={<LoadingSupense />}>
+      <LayoutAnt>
+        <Header />
+      </LayoutAnt>
+    </Suspense>
   );
 }
 

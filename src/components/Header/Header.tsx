@@ -56,7 +56,7 @@ export default function HeaderAnt({ device }: any) {
             </div>
           </div>
           <div className="logo">
-            <img src="/logo/png/logo-no-background.png" alt="" />
+            <img src="/logo/png/logo-no-background.png" alt="" loading="lazy" />
           </div>
           <div className="col-right">
             <Dropdown
