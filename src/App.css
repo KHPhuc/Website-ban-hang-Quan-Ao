@@ -151,6 +151,7 @@
   margin-top: 1rem;
   color: black;
   background-color: rgba(173, 173, 173, 0.274);
+  transition: all 0.5s;
 }
 
 .sideBar .ant-input-search-button {

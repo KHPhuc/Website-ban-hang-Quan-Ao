@@ -1,9 +1,10 @@
 import { Layout, Button, Dropdown, Badge, Input, Menu } from "antd";
-import { IoIosMenu } from "react-icons/io";
+import { IoIosMenu, IoIosClose } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiShoppingBasketLine } from "react-icons/ri";
+import { MdClose } from "react-icons/md";
 import { useState } from "react";
-import getItem from "../Ant/ItemMenu/ItemMenu";
+import getItem from "../../Ant/ItemMenu/ItemMenu";
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -26,7 +27,7 @@ export default function HeaderAnt({ device }: any) {
 
   const subitemsNav = [
     getItem("Áo nam", "sub1", null, [getItem("Áo 1", "a1", null)]),
-    getItem("Áo nam", "sub1", null, [getItem("Áo 1", "a1", null)]),
+    getItem("Áo nam", "sub2", null, [getItem("Áo 1", "a2", null)]),
   ];
 
   return (
@@ -48,7 +49,13 @@ export default function HeaderAnt({ device }: any) {
             <div className="wrap-btn">
               <Button
                 type="link"
-                icon={<IoIosMenu className="icon-btn" />}
+                icon={
+                  isOpenSidebar ? (
+                    <MdClose className="icon-btn" />
+                  ) : (
+                    <IoIosMenu className="icon-btn" />
+                  )
+                }
                 onClick={() => {
                   setIsOpenSidebar(!isOpenSidebar);
                 }}

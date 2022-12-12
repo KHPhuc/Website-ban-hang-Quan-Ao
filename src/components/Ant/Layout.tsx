@@ -9,7 +9,9 @@ export default function LayoutAnt(props: any) {
         },
       }}
     >
-      <Layout style={{ minHeight: "100vh" }}>{props.children}</Layout>
+      <Layout style={{ minHeight: "100vh", backgroundColor: "#fff" }}>
+        {props.children}
+      </Layout>
     </ConfigProvider>
   );
 }
