@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 
-import Home from "../../../components/User/Home/Home";
+import Home from "../../../components/User/Content/Home/Home";
 
 const mapStatesToProps = (state: any) => {
   return {
