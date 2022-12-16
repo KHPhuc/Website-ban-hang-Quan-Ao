@@ -225,3 +225,80 @@
 .col .info .title {
   font-weight: 600;
 }
+
+.button-radio {
+  border: 1px solid #c6c6c6;
+  border-radius: 10px;
+  margin-right: 15px;
+  padding: 0 25px;
+  font-size: 0.2rem;
+  margin-top: 7px;
+  height: 35px;
+}
+
+.button-radio:hover,
+.button-radio-size:hover {
+  border: 1px solid #ff9113;
+}
+
+.button-radio-size {
+  border: 1px solid #c6c6c6;
+  border-radius: 10px;
+  font-size: 0.2rem;
+  margin-top: 7px;
+  height: 35px;
+}
+
+.button-radio-selected {
+  border: 1px solid #ff8800;
+}
+
+.button-number {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0 40px;
+  position: relative;
+  font-size: 20px;
+  height: 40px;
+  margin-right: 15px;
+}
+
+.button-number .add {
+  position: absolute;
+  left: 10px;
+  top: 5px;
+}
+
+.button-number .minus {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.button-add-cart {
+  border-radius: 20px;
+  background-color: #2f5acf;
+}
+
+.borderRight {
+  @apply md:border-r-[1px] md:border-solid md:divide-gray-300;
+}
+
+.button-pay {
+  background-color: #000;
+  color: #fff;
+  border-radius: 20px;
+}
+
+.button-pay:hover {
+  background-color: #d9d9d9;
+  color: #000;
+}
+
+.checkbox-cart span:last-child {
+  width: 100%;
+}
+
+/* .ant-checkbox+span:last-child {
+
+} */

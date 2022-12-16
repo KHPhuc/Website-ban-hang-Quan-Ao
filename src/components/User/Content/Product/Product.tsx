@@ -1,5 +1,5 @@
 import { product } from "../../../DataTest/DataTest";
-import { Typography, Select, FloatButton } from "antd";
+import { Typography, Select } from "antd";
 import { AiTwotoneStar } from "react-icons/ai";
 import FooterAntd from "../../../common/Footer/Footer";
 
@@ -100,7 +100,6 @@ export default function Product() {
             })}
           </div>
         </div>
-        <FloatButton.BackTop />
       </div>
       <FooterAntd />
     </>

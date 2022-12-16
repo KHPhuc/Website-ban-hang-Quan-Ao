@@ -1,6 +1,6 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Typography, Input, Button } from "antd";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import FooterAntd from "../../../common/Footer/Footer";
 
 const { Title } = Typography;
@@ -9,10 +9,8 @@ export default function LoginRegister() {
   const location = useLocation();
   const [path, setPath] = useState("");
 
-  const setP = useCallback(() => setPath(location.pathname), [path]);
-
   useEffect(() => {
-    setP();
+    setPath(location.pathname);
   }, [location.pathname]);
 
   return (
@@ -37,20 +35,70 @@ export default function LoginRegister() {
               padding: "0.5rem 0",
             }}
           >
-            <Title level={3} style={{ marginBottom: "0.5rem" }}>
+            <Title
+              level={3}
+              style={{ marginBottom: "0.5rem", color: "#e4ac2b" }}
+            >
               {path === "/login" ? "Đăng nhập" : "Đăng ký"}
             </Title>
-            <Input
-              style={{ width: "70%", marginBottom: "20px" }}
-              placeholder="Nhập SĐT hoặc Email"
-            />
-            <Input.Password
-              style={{ width: "70%", marginBottom: "20px" }}
-              placeholder="Nhập mật khẩu"
-            />
+            {path === "/login" ? (
+              <>
+                <Input
+                  style={{ width: "70%", marginBottom: "20px" }}
+                  placeholder="SĐT hoặc Email"
+                />
+                <Input.Password
+                  style={{ width: "70%", marginBottom: "20px" }}
+                  placeholder="Mật khẩu"
+                />
+              </>
+            ) : (
+              <>
+                <Input
+                  style={{ width: "70%", marginBottom: "20px" }}
+                  placeholder="Họ và tên"
+                />
+                <Input
+                  style={{ width: "70%", marginBottom: "20px" }}
+                  placeholder="Số điện thoại"
+                />
+                <Input
+                  style={{ width: "70%", marginBottom: "20px" }}
+                  placeholder="Địa chỉ email"
+                />
+                <Input.Password
+                  style={{ width: "70%", marginBottom: "20px" }}
+                  placeholder="Mật khẩu"
+                />
+                <Input.Password
+                  style={{ width: "70%", marginBottom: "20px" }}
+                  placeholder="Nhập lại mật khẩu"
+                />
+              </>
+            )}
             <Button type={"primary"} style={{ backgroundColor: "#eb6440" }}>
-              Default
+              {path === "/login" ? "Đăng nhập" : "Đăng ký"}
             </Button>
+            <div
+              className=" mt-[25px] w-[70%] text-center pt-[20px]"
+              style={{ borderTop: "1px solid #DDE1E3" }}
+            >
+              {path === "/login" ? (
+                <p>
+                  Bạn chưa có tài khoản?{" "}
+                  <Link to="../register" style={{ color: "#1677ff" }}>
+                    Đăng ký ngay!
+                  </Link>
+                </p>
+              ) : (
+                <p>
+                  Bạn đã có tài khoản?{" "}
+                  <Link to="../login" style={{ color: "#1677ff" }}>
+                    Đăng nhập ngay!
+                  </Link>
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>

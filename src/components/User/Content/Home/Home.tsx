@@ -1,7 +1,7 @@
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { Typography, FloatButton } from "antd";
+import { Typography } from "antd";
 import { AiTwotoneStar } from "react-icons/ai";
 import FooterAntd from "../../../common/Footer/Footer";
 
@@ -208,7 +208,6 @@ export default function Home() {
             })}
           </div>
         </div>
-        <FloatButton.BackTop />
       </div>
       <FooterAntd />
     </>

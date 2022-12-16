@@ -1,4 +1,4 @@
-import { ConfigProvider, Layout } from "antd";
+import { ConfigProvider, FloatButton, Layout } from "antd";
 
 export default function LayoutAnt(props: any) {
   return (
@@ -11,6 +11,7 @@ export default function LayoutAnt(props: any) {
     >
       <Layout style={{ minHeight: "100vh", backgroundColor: "#fff" }}>
         {props.children}
+        <FloatButton.BackTop />
       </Layout>
     </ConfigProvider>
   );

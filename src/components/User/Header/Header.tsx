@@ -3,13 +3,14 @@ import { IoIosMenu, IoIosClose } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiShoppingBasketLine } from "react-icons/ri";
 import { MdClose } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import getItem from "../../Ant/ItemMenu/ItemMenu";
 
 const { Header } = Layout;
 const { Search } = Input;
 
 export default function HeaderAnt({ device }: any) {
+  const refSidebar: any = useRef();
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
   const items = [
@@ -30,12 +31,27 @@ export default function HeaderAnt({ device }: any) {
     getItem("Áo nam", "sub2", null, [getItem("Áo 1", "a2", null)]),
   ];
 
+  useEffect(() => {
+    const handle = (event: any) => {
+      if (refSidebar.current && !refSidebar.current.contains(event.target)) {
+        setIsOpenSidebar(false);
+      }
+    };
+
+    window.addEventListener("scroll", handle);
+    window.addEventListener("mousedown", handle);
+    return () => {
+      window.removeEventListener("scroll", handle);
+      window.removeEventListener("mousedown", handle);
+    };
+  }, []);
+
   return (
     <>
       <div
         className={`sideBar ${isOpenSidebar ? "sideBarOpen" : ""} md:hidden`}
       >
-        <div className="container">
+        <div ref={refSidebar} className="container">
           <div className="flex justify-center pt-1">
             <Search placeholder="input search text" style={{ width: "98%" }} />
           </div>

@@ -7,6 +7,8 @@ import Home from "./containers/User/Home/Home";
 import { Routes, Route } from "react-router-dom";
 import Product from "./components/User/Content/Product/Product";
 import LoginRegister from "./components/User/Content/LoginRegister/LoginRegister";
+import DetailProduct from "./components/User/Content/DetailProduct/DetailProduct";
+import Cart from "./components/User/Content/Cart/Cart";
 
 function App({ setDevice }: any) {
   useEffect(() => {
@@ -39,10 +41,12 @@ function App({ setDevice }: any) {
       <LayoutAnt>
         <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/product" element={<Product />} />
-          <Route path="/login" element={<LoginRegister />} />
-          <Route path="/register" element={<LoginRegister />} />
+          <Route path="" element={<Home />} />
+          <Route path="product" element={<Product />} />
+          <Route path="productdetail" element={<DetailProduct />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="login" element={<LoginRegister />} />
+          <Route path="register" element={<LoginRegister />} />
         </Routes>
       </LayoutAnt>
     </Suspense>
