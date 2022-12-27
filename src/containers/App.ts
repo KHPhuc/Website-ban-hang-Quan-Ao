@@ -4,7 +4,9 @@ import App from "../App";
 import { setDevice } from "../app/Device/Device";
 
 const mapStatesToProps = (state: any) => {
-  return {};
+  return {
+    auth: state.auth.auth,
+  };
 };
 
 const mapActionsToProps = {

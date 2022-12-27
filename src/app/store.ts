@@ -7,6 +7,8 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import Device from "./Device/Device";
+import Sidebar from "./Admin/Sidebar/Sidebar";
+import Auth from "./API/Auth/Auth";
 
 const persistConfig = {
   key: "root",
@@ -16,6 +18,8 @@ const persistConfig = {
 
 const reducer = combineReducers({
   device: Device,
+  sidebar: Sidebar,
+  auth: Auth,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

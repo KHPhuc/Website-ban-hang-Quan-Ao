@@ -5,6 +5,7 @@ import { RiShoppingBasketLine } from "react-icons/ri";
 import { MdClose } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import getItem from "../../Ant/ItemMenu/ItemMenu";
+import { Link } from "react-router-dom";
 
 const { Header } = Layout;
 const { Search } = Input;
@@ -15,11 +16,11 @@ export default function HeaderAnt({ device }: any) {
 
   const items = [
     {
-      label: "Đăng nhập",
+      label: <Link to="/login">Đăng nhập</Link>,
       key: "login",
     },
     {
-      label: "Đăng ký",
+      label: <Link to="/register">Đăng ký</Link>,
       key: "register",
     },
   ];
@@ -79,7 +80,13 @@ export default function HeaderAnt({ device }: any) {
             </div>
           </div>
           <div className="logo">
-            <img src="/logo/png/logo-no-background.png" alt="" loading="lazy" />
+            <Link to="/">
+              <img
+                src="/logo/png/logo-no-background.png"
+                alt=""
+                loading="lazy"
+              />
+            </Link>
           </div>
           <div className="col-right">
             <Dropdown
@@ -102,12 +109,12 @@ export default function HeaderAnt({ device }: any) {
                 />
                 <div className="wrap-btn">
                   <Button className="btn-text" type="link">
-                    Đăng nhập
+                    <Link to="/login">Đăng nhập</Link>
                   </Button>
                 </div>
                 <div className="wrap-btn">
                   <Button className="btn-text" type="link">
-                    Đăng nhập
+                    <Link to="/register">Đăng ký</Link>
                   </Button>
                 </div>
               </>

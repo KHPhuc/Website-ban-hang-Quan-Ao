@@ -5,9 +5,11 @@ import FooterAntd from "../../../common/Footer/Footer";
 
 const { Title } = Typography;
 
-export default function LoginRegister() {
+export default function LoginRegister({ login }: any) {
   const location = useLocation();
   const [path, setPath] = useState("");
+  const [inputUsername, setInputUsername] = useState();
+  const [inputPassword, setInputPassword] = useState();
 
   useEffect(() => {
     setPath(location.pathname);
@@ -46,10 +48,14 @@ export default function LoginRegister() {
                 <Input
                   style={{ width: "70%", marginBottom: "20px" }}
                   placeholder="SĐT hoặc Email"
+                  value={inputUsername}
+                  onChange={(e: any) => setInputUsername(e.target.value)}
                 />
                 <Input.Password
                   style={{ width: "70%", marginBottom: "20px" }}
                   placeholder="Mật khẩu"
+                  value={inputPassword}
+                  onChange={(e: any) => setInputPassword(e.target.value)}
                 />
               </>
             ) : (
@@ -76,7 +82,13 @@ export default function LoginRegister() {
                 />
               </>
             )}
-            <Button type={"primary"} style={{ backgroundColor: "#eb6440" }}>
+            <Button
+              type={"primary"}
+              style={{ backgroundColor: "#eb6440" }}
+              onClick={() => {
+                path === "/login" ? login(inputUsername, inputPassword) : "";
+              }}
+            >
               {path === "/login" ? "Đăng nhập" : "Đăng ký"}
             </Button>
             <div

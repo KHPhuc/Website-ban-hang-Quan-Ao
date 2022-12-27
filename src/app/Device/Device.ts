@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   device: "",
+  loadingApp: false,
 };
 
 const device = createSlice({
@@ -11,9 +12,12 @@ const device = createSlice({
     setDevice(state, action) {
       state.device = action.payload;
     },
+    setLoadingApp(state, action) {
+      state.loadingApp = action.payload;
+    },
   },
 });
 
-export const { setDevice } = device.actions;
+export const { setDevice, setLoadingApp } = device.actions;
 
 export default device.reducer;
