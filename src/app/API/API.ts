@@ -39,6 +39,8 @@ api.interceptors.response.use(
     // else {
     //   return Promise.reject(err.response);
     // }
+    // return err;
+    return Promise.reject(err.response);
   }
 );
 

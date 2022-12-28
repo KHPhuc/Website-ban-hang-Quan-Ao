@@ -1,20 +1,21 @@
 import { useLocation, Link } from "react-router-dom";
 import { Typography, Input, Button } from "antd";
 import { useEffect, useState } from "react";
-// import phone from "vietnam-phone-validator";
+import { detectPhoneNumber } from "../../../common/CheckPhoneNumber/CheckPhoneNumber";
+// import validator from "email-validator";
 import FooterAntd from "../../../common/Footer/Footer";
-
-const phone = require("vietnam-phone-validator");
+import { validate } from "email-validator";
+// var validator = require("email-validator");
 const { Title } = Typography;
 
 export default function LoginRegister({ login, register }: any) {
   const location = useLocation();
   const [path, setPath] = useState("");
   const [inputUsername, setInputUsername] = useState();
-  const [inputPassword, setInputPassword] = useState();
+  const [inputPassword, setInputPassword]: any = useState();
 
   const [inputName, setInputName] = useState();
-  const [inputPhoneNumber, setInputPhoneNumber] = useState();
+  const [inputPhoneNumber, setInputPhoneNumber]: any = useState();
   const [inputEmail, setInputEmail] = useState();
   const [inputRePassword, setInputRePassword] = useState();
 
@@ -39,7 +40,7 @@ export default function LoginRegister({ login, register }: any) {
       error.password = "Vui lòng nhập mật khẩu của bạn";
     }
     setError({ ...error });
-    if (inputUsername && inputPassword) {
+    if (!error.username && !error.password) {
       login(inputUsername, inputPassword);
     }
   };
@@ -48,10 +49,12 @@ export default function LoginRegister({ login, register }: any) {
     if (!inputName) {
       error.name = "Vui lòng nhập tên của bạn";
     }
-    if (!inputPhoneNumber) {
+    if (!inputPhoneNumber || !detectPhoneNumber(inputPhoneNumber)) {
       error.phoneNumber = "SĐT không hợp lệ";
+    } else if (inputPhoneNumber.length !== 10) {
+      error.phoneNumber = "SĐT phải là 10 số";
     }
-    if (!inputEmail) {
+    if (!inputEmail || !validate(inputEmail)) {
       error.email = "Email không hợp lệ!";
     }
     if (!inputPassword) {
@@ -59,9 +62,17 @@ export default function LoginRegister({ login, register }: any) {
     }
     if (!inputRePassword) {
       error.rePassword = "Vui lòng nhập lại mật khẩu";
+    } else if (inputRePassword !== inputPassword) {
+      error.rePassword = "Mật khẩu không khớp!";
     }
     setError({ ...error });
-    if (inputName && inputPhoneNumber && inputEmail && inputPassword) {
+    if (
+      !error.name &&
+      !error.phoneNumber &&
+      !error.email &&
+      !error.password &&
+      !error.rePassword
+    ) {
       register(inputName, inputPhoneNumber, inputEmail, inputPassword);
     }
   };
@@ -132,42 +143,63 @@ export default function LoginRegister({ login, register }: any) {
               </>
             ) : (
               <>
-                <Input
-                  style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="Tên của bạn"
-                  maxLength={30}
-                  value={inputName}
-                  onChange={(e: any) => setInputName(e.target.value)}
-                />
-                <Input
-                  style={{ width: "70%" }}
-                  placeholder="SĐT của bạn"
-                  maxLength={10}
-                  value={inputPhoneNumber}
-                  onChange={(e: any) => setInputPhoneNumber(e.target.value)}
-                />
-                <div className="text-red-500" style={{ marginBottom: "20px" }}>
-                  {!inputPhoneNumber ? <p>Không được để trống</p> : ""}
+                <div style={{ width: "70%", marginBottom: "20px" }}>
+                  <Input
+                    placeholder="Tên của bạn"
+                    maxLength={30}
+                    value={inputName}
+                    onChange={(e: any) => setInputName(e.target.value)}
+                  />
+                  <div className="text-red-500 px-[11px]">
+                    {error.password ? <p>{error.name}</p> : ""}
+                  </div>
                 </div>
-                <Input
-                  style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="Email của bạn"
-                  value={inputEmail}
-                  onChange={(e: any) => setInputEmail(e.target.value)}
-                />
-                <Input.Password
-                  style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="Mật khẩu"
-                  maxLength={30}
-                  value={inputPassword}
-                  onChange={(e: any) => setInputPassword(e.target.value)}
-                />
-                <Input.Password
-                  style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="Nhập lại mật khẩu"
-                  value={inputRePassword}
-                  onChange={(e: any) => setInputRePassword(e.target.value)}
-                />
+
+                <div style={{ width: "70%", marginBottom: "20px" }}>
+                  <Input
+                    placeholder="SĐT của bạn"
+                    maxLength={10}
+                    value={inputPhoneNumber}
+                    onChange={(e: any) => setInputPhoneNumber(e.target.value)}
+                  />
+                  <div className="text-red-500 px-[11px]">
+                    {error.password ? <p>{error.name}</p> : ""}
+                  </div>
+                </div>
+
+                <div style={{ width: "70%", marginBottom: "20px" }}>
+                  <Input
+                    placeholder="Email của bạn"
+                    value={inputEmail}
+                    onChange={(e: any) => setInputEmail(e.target.value)}
+                  />
+                  <div className="text-red-500 px-[11px]">
+                    {error.password ? <p>{error.name}</p> : ""}
+                  </div>
+                </div>
+
+                <div style={{ width: "70%", marginBottom: "20px" }}>
+                  <Input.Password
+                    placeholder="Mật khẩu"
+                    maxLength={30}
+                    value={inputPassword}
+                    onChange={(e: any) => setInputPassword(e.target.value)}
+                  />
+                  <div className="text-red-500 px-[11px]">
+                    {error.password ? <p>{error.name}</p> : ""}
+                  </div>
+                </div>
+
+                <div style={{ width: "70%", marginBottom: "20px" }}>
+                  <Input.Password
+                    placeholder="Nhập lại mật khẩu"
+                    value={inputRePassword}
+                    onChange={(e: any) => setInputRePassword(e.target.value)}
+                  />
+                  <div className="text-red-500 px-[11px]">
+                    {error.password ? <p>{error.name}</p> : ""}
+                  </div>
+                </div>
               </>
             )}
             <Button

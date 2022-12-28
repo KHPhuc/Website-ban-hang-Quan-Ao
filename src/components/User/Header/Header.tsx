@@ -10,20 +10,35 @@ import { Link } from "react-router-dom";
 const { Header } = Layout;
 const { Search } = Input;
 
-export default function HeaderAnt({ device }: any) {
+export default function HeaderAnt({ device, auth, logout }: any) {
   const refSidebar: any = useRef();
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
-  const items = [
-    {
-      label: <Link to="/login">Đăng nhập</Link>,
-      key: "login",
-    },
-    {
-      label: <Link to="/register">Đăng ký</Link>,
-      key: "register",
-    },
-  ];
+  const items = auth
+    ? [
+        {
+          label: <Link to="/login">Thông tin cá nhân</Link>,
+          key: "infor",
+        },
+        {
+          label: (
+            <div className="cursor-pointer" onClick={() => logout()}>
+              Đăng xuất
+            </div>
+          ),
+          key: "logout",
+        },
+      ]
+    : [
+        {
+          label: <Link to="/login">Đăng nhập</Link>,
+          key: "login",
+        },
+        {
+          label: <Link to="/register">Đăng ký</Link>,
+          key: "register",
+        },
+      ];
 
   const itemsNav = ["Áo nam", "Quần nam", "Phụ kiện"];
 
@@ -89,37 +104,55 @@ export default function HeaderAnt({ device }: any) {
             </Link>
           </div>
           <div className="col-right">
-            <Dropdown
-              className="md:hidden"
-              menu={{ items }}
-              trigger={["click"]}
-            >
-              <div className="wrap-btn">
-                <Button
-                  type="link"
-                  icon={<AiOutlineUser className="icon-btn" />}
-                />
-              </div>
-            </Dropdown>
             {device === "desktop" ? (
               <>
                 <Search
                   placeholder="input search text"
                   style={{ width: "3rem" }}
                 />
-                <div className="wrap-btn">
-                  <Button className="btn-text" type="link">
-                    <Link to="/login">Đăng nhập</Link>
-                  </Button>
-                </div>
-                <div className="wrap-btn">
-                  <Button className="btn-text" type="link">
-                    <Link to="/register">Đăng ký</Link>
-                  </Button>
-                </div>
+                {auth ? (
+                  ""
+                ) : (
+                  <>
+                    <div className="wrap-btn">
+                      <Button className="btn-text" type="link">
+                        <Link to="/login">Đăng nhập</Link>
+                      </Button>
+                    </div>
+                    <div className="wrap-btn">
+                      <Button className="btn-text" type="link">
+                        <Link to="/register">Đăng ký</Link>
+                      </Button>
+                    </div>
+                  </>
+                )}
               </>
             ) : (
               ""
+            )}
+
+            {auth ? (
+              <Dropdown menu={{ items }} trigger={["click"]}>
+                <div className="wrap-btn md:ml-[0.15rem] md:mr-[0.05rem]">
+                  <Button
+                    type="link"
+                    icon={<AiOutlineUser className="icon-btn" />}
+                  />
+                </div>
+              </Dropdown>
+            ) : (
+              <Dropdown
+                className="md:hidden"
+                menu={{ items }}
+                trigger={["click"]}
+              >
+                <div className="wrap-btn">
+                  <Button
+                    type="link"
+                    icon={<AiOutlineUser className="icon-btn" />}
+                  />
+                </div>
+              </Dropdown>
             )}
 
             <Badge count={0} showZero size="small" color="#faad14">

@@ -16,6 +16,7 @@
     "autoprefixer": "^10.4.13",
     "axios": "^1.2.1",
     "dvhcvn": "^1.0.20221001",
+    "email-validator": "^2.0.4",
     "postcss": "^8.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -26,8 +27,7 @@
     "react-toastify": "^9.1.1",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
-    "tailwindcss": "^3.2.4",
-    "vietnam-phone-validator": "^0.3.3"
+    "tailwindcss": "^3.2.4"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

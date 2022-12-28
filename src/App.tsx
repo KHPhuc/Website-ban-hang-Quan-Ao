@@ -48,8 +48,10 @@ function App({ auth, setDevice }: any) {
   }, []);
 
   useEffect(() => {
-    if (auth) {
+    if (auth.isAdmin) {
       navigate("/admin");
+    } else {
+      navigate("/");
     }
   }, [auth]);
 
@@ -84,7 +86,7 @@ function App({ auth, setDevice }: any) {
           <Route
             path="admin/*"
             element={
-              auth ? (
+              auth.isAdmin ? (
                 <>
                   <Sidebar />
                   <Layout>

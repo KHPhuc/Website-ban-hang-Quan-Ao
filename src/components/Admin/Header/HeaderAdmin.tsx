@@ -33,7 +33,7 @@ export default function HeaderAdmin({ sidebar, setSidebar, logout }: any) {
           className="flex items-center cursor-pointer"
           onClick={() => {
             logout();
-            navigate("/");
+            // navigate("/");
           }}
         >
           <AiOutlineLogout style={{ fontSize: "18px" }} />

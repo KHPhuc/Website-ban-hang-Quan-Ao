@@ -13,7 +13,7 @@ import Auth from "./API/Auth/Auth";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: ["auth"],
 };
 
 const reducer = combineReducers({

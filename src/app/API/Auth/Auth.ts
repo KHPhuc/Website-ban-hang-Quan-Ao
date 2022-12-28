@@ -5,6 +5,9 @@ import {
   updateToast,
   loginSuccess,
   loginFail,
+  registerSuccess,
+  registerFail,
+  logoutToast,
 } from "../../../components/common/Toast/Toast";
 import api from "../API";
 
@@ -31,6 +34,7 @@ export const { setAuth, setAccount } = auth.actions;
 export const register =
   (name: any, phoneNumber: any, email: any, password: any) =>
   async (dispatch: any) => {
+    var idToast = loadingToast("Đang đăng ký ...");
     let data = JSON.stringify({
       name: name,
       phoneNumber: phoneNumber,
@@ -48,8 +52,13 @@ export const register =
             password: password,
           })
         );
+        let toast = registerSuccess(res.data.name);
+        updateToast(idToast, toast.message, toast.type);
       })
-      .catch((err) => {})
+      .catch((err) => {
+        let toast = registerFail(err.data.message);
+        updateToast(idToast, toast.message, toast.type);
+      })
       .finally(() => {});
   };
 
@@ -69,16 +78,15 @@ export const login =
         updateToast(idToast, toast.message, toast.type);
       })
       .catch((err) => {
-        // loginFail();
         updateToast(idToast, loginFail.message, loginFail.type);
       })
-      .finally(() => {
-        dispatch(setLoadingApp(false));
-      });
+      .finally(() => {});
   };
 
 export const logout = () => async (dispatch: any) => {
   dispatch(setAuth(""));
+  var idToast = loadingToast("Đăng xuất ...");
+  updateToast(idToast, logoutToast.message, logoutToast.type);
 };
 
 export default auth.reducer;

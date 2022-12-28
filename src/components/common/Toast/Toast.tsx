@@ -19,7 +19,12 @@ const updateToast = (id: any, message: any, type: any) => {
 
 const loginSuccess = (name: any) => {
   return {
-    message: `Xin chào ${name ? name : ""}!`,
+    message: (
+      <div className="text-slate-500">
+        Xin chào <p className="font-semibold inline">{name ? name : ""}</p>!
+      </div>
+    ),
+
     type: "success",
   };
 };
@@ -28,22 +33,56 @@ const loginFail = {
   message: (
     <div className="text-red-500">
       <div>Đăng nhập thất bại!</div>
-      <div className=" inline">
+      <div>
         Sai <p className="font-semibold inline">tài khoản</p> hoặc{" "}
         <p className="font-semibold inline">mật khẩu</p>!
       </div>
     </div>
   ),
   type: "error",
-  //   toast.error(
-  //     <div className="text-red-500">
-  //       <div>Đăng nhập thất bại!</div>
-  //       <div className=" inline">
-  //         Sai <p className="font-semibold inline">tài khoản</p> hoặc{" "}
-  //         <p className="font-semibold inline">mật khẩu</p>!
-  //       </div>
-  //     </div>
-  //   );
 };
 
-export { loadingToast, updateToast, loginSuccess, loginFail };
+const registerSuccess = (name: any) => {
+  return {
+    message: (
+      <div className="text-slate-500">
+        <div>Đăng ký thành công!</div>
+        <div>
+          Xin chào <p className="font-semibold inline">{name ? name : ""}</p>!
+        </div>
+      </div>
+    ),
+    type: "success",
+  };
+};
+
+const registerFail = (message: any) => {
+  return {
+    message: (
+      <div className="text-red-500">
+        <div>Đăng ký thất bại!</div>
+        <div className="font-semibold">{message}</div>
+        {/* <div>
+          Sai <p className="font-semibold inline">tài khoản</p> hoặc{" "}
+          <p className="font-semibold inline">mật khẩu</p>!
+        </div> */}
+      </div>
+    ),
+    type: "error",
+  };
+};
+
+const logoutToast = {
+  message: <div className="text-orange-600">👋 Hẹn gặp lại!</div>,
+  type: "default",
+};
+
+export {
+  loadingToast,
+  updateToast,
+  loginSuccess,
+  loginFail,
+  registerSuccess,
+  registerFail,
+  logoutToast,
+};
