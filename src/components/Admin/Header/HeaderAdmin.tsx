@@ -1,10 +1,12 @@
 import { Layout } from "antd";
+import { useNavigate } from "react-router-dom";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { AiOutlineLogout } from "react-icons/ai";
 
 const { Header } = Layout;
 
 export default function HeaderAdmin({ sidebar, setSidebar, logout }: any) {
+  const navigate = useNavigate();
   return (
     <Header
       style={{ backgroundColor: "#fff", height: "80px" }}
@@ -29,7 +31,10 @@ export default function HeaderAdmin({ sidebar, setSidebar, logout }: any) {
         </div>
         <div
           className="flex items-center cursor-pointer"
-          onClick={() => logout()}
+          onClick={() => {
+            logout();
+            navigate("/");
+          }}
         >
           <AiOutlineLogout style={{ fontSize: "18px" }} />
           <p className="ml-[5px]">Đăng xuất</p>

@@ -297,7 +297,6 @@
   top: 0px;
 }
 
-
 .button-add-cart {
   border-radius: 20px;
   background-color: #2f5acf;
@@ -316,4 +315,8 @@
 .button-pay:hover {
   background-color: #d9d9d9;
   color: #000;
+}
+
+.Toastify__toast-container .Toastify__toast {
+  margin-bottom: 0.15rem;
 }

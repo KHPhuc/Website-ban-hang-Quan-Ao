@@ -1,10 +1,18 @@
 import { Suspense, useEffect } from "react";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import "./App.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import LayoutAnt from "./components/Ant/Layout";
 import { LoadingSupense } from "./components/common/Loading/LoadingSuspense";
 import Header from "./containers/User/Header/Header";
 import Home from "./containers/User/Home/Home";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Product from "./components/User/Content/Product/Product";
 import LoginRegister from "./containers/User/LoginRegister/LoginRegister";
 import DetailProduct from "./components/User/Content/DetailProduct/DetailProduct";
@@ -17,6 +25,7 @@ const { Content } = Layout;
 
 function App({ auth, setDevice }: any) {
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
     if (window.innerWidth < 768) {
       setDevice("mobile");
@@ -41,8 +50,6 @@ function App({ auth, setDevice }: any) {
   useEffect(() => {
     if (auth) {
       navigate("/admin");
-    } else {
-      navigate("/");
     }
   }, [auth]);
 
@@ -52,47 +59,53 @@ function App({ auth, setDevice }: any) {
 
   return (
     <Suspense fallback={<LoadingSupense />}>
-      <Routes>
-        <Route
-          path="/*"
-          element={
-            <LayoutAnt>
-              <Header />
-              <Routes>
-                <Route path="" element={<Home />} />
-                <Route path="product" element={<Product />} />
-                <Route path="productdetail" element={<DetailProduct />} />
-                <Route path="cart" element={<Cart />} />
-                <Route path="login" element={<LoginRegister />} />
-                <Route path="register" element={<LoginRegister />} />
-              </Routes>
-            </LayoutAnt>
-          }
-        />
-        <Route
-          path="/admin/*"
-          element={
-            auth ? (
-              <LayoutAnt>
-                <Sidebar />
-                <Layout>
-                  <HeaderAdmin />
-                  <Content
-                    style={{
-                      margin: "24px 16px",
-                      padding: 24,
-                      minHeight: 280,
-                      background: "#fff",
-                    }}
-                  ></Content>
-                </Layout>
-              </LayoutAnt>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-      </Routes>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={true}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable
+        pauseOnHover={false}
+        theme="light"
+        className={"text-[0.3rem] md:text-[0.2rem]"}
+      />
+      <LayoutAnt>
+        {location.pathname.split("/")[1] !== "admin" ? <Header /> : ""}
+        <Routes>
+          <Route path="" element={<Home />} />
+          <Route path="product" element={<Product />} />
+          <Route path="productdetail" element={<DetailProduct />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="login" element={<LoginRegister />} />
+          <Route path="register" element={<LoginRegister />} />
+          <Route
+            path="admin/*"
+            element={
+              auth ? (
+                <>
+                  <Sidebar />
+                  <Layout>
+                    <HeaderAdmin />
+                    <Content
+                      style={{
+                        margin: "24px 16px",
+                        padding: 24,
+                        minHeight: 280,
+                        background: "#fff",
+                      }}
+                    ></Content>
+                  </Layout>
+                </>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+        </Routes>
+      </LayoutAnt>
       {/* <LayoutAnt>
         <Header />
         <Routes>

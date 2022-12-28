@@ -1,19 +1,70 @@
 import { useLocation, Link } from "react-router-dom";
 import { Typography, Input, Button } from "antd";
 import { useEffect, useState } from "react";
+// import phone from "vietnam-phone-validator";
 import FooterAntd from "../../../common/Footer/Footer";
 
+const phone = require("vietnam-phone-validator");
 const { Title } = Typography;
 
-export default function LoginRegister({ login }: any) {
+export default function LoginRegister({ login, register }: any) {
   const location = useLocation();
   const [path, setPath] = useState("");
   const [inputUsername, setInputUsername] = useState();
   const [inputPassword, setInputPassword] = useState();
 
+  const [inputName, setInputName] = useState();
+  const [inputPhoneNumber, setInputPhoneNumber] = useState();
+  const [inputEmail, setInputEmail] = useState();
+  const [inputRePassword, setInputRePassword] = useState();
+
+  const [error, setError] = useState({
+    username: "",
+    password: "",
+    name: "",
+    phoneNumber: "",
+    email: "",
+    rePassword: "",
+  });
+
   useEffect(() => {
     setPath(location.pathname);
   }, [location.pathname]);
+
+  const handleLogin = () => {
+    if (!inputUsername) {
+      error.username = "Vui lòng nhập Email/SĐT của bạn";
+    }
+    if (!inputPassword) {
+      error.password = "Vui lòng nhập mật khẩu của bạn";
+    }
+    setError({ ...error });
+    if (inputUsername && inputPassword) {
+      login(inputUsername, inputPassword);
+    }
+  };
+
+  const handleRegister = () => {
+    if (!inputName) {
+      error.name = "Vui lòng nhập tên của bạn";
+    }
+    if (!inputPhoneNumber) {
+      error.phoneNumber = "SĐT không hợp lệ";
+    }
+    if (!inputEmail) {
+      error.email = "Email không hợp lệ!";
+    }
+    if (!inputPassword) {
+      error.password = "Vui lòng nhập mật khẩu của bạn";
+    }
+    if (!inputRePassword) {
+      error.rePassword = "Vui lòng nhập lại mật khẩu";
+    }
+    setError({ ...error });
+    if (inputName && inputPhoneNumber && inputEmail && inputPassword) {
+      register(inputName, inputPhoneNumber, inputEmail, inputPassword);
+    }
+  };
 
   return (
     <>
@@ -45,40 +96,77 @@ export default function LoginRegister({ login }: any) {
             </Title>
             {path === "/login" ? (
               <>
-                <Input
-                  style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="SĐT hoặc Email"
-                  value={inputUsername}
-                  onChange={(e: any) => setInputUsername(e.target.value)}
-                />
-                <Input.Password
-                  style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="Mật khẩu"
-                  value={inputPassword}
-                  onChange={(e: any) => setInputPassword(e.target.value)}
-                />
+                <div style={{ width: "70%", marginBottom: "20px" }}>
+                  <Input
+                    placeholder="Email/SĐT của bạn"
+                    value={inputUsername}
+                    onChange={(e: any) => {
+                      setInputUsername(e.target.value);
+                      if (e.target.value) {
+                        error.username = "";
+                        setError(error);
+                      }
+                    }}
+                  />
+                  <div className="text-red-500 px-[11px]">
+                    {error.username ? <p>{error.username}</p> : ""}
+                  </div>
+                </div>
+
+                <div style={{ width: "70%", marginBottom: "20px" }}>
+                  <Input.Password
+                    placeholder="Mật khẩu"
+                    value={inputPassword}
+                    onChange={(e: any) => {
+                      setInputPassword(e.target.value);
+                      if (e.target.value) {
+                        error.password = "";
+                        setError(error);
+                      }
+                    }}
+                  />
+                  <div className="text-red-500 px-[11px]">
+                    {error.password ? <p>{error.password}</p> : ""}
+                  </div>
+                </div>
               </>
             ) : (
               <>
                 <Input
                   style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="Họ và tên"
+                  placeholder="Tên của bạn"
+                  maxLength={30}
+                  value={inputName}
+                  onChange={(e: any) => setInputName(e.target.value)}
                 />
                 <Input
-                  style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="Số điện thoại"
+                  style={{ width: "70%" }}
+                  placeholder="SĐT của bạn"
+                  maxLength={10}
+                  value={inputPhoneNumber}
+                  onChange={(e: any) => setInputPhoneNumber(e.target.value)}
                 />
+                <div className="text-red-500" style={{ marginBottom: "20px" }}>
+                  {!inputPhoneNumber ? <p>Không được để trống</p> : ""}
+                </div>
                 <Input
                   style={{ width: "70%", marginBottom: "20px" }}
-                  placeholder="Địa chỉ email"
+                  placeholder="Email của bạn"
+                  value={inputEmail}
+                  onChange={(e: any) => setInputEmail(e.target.value)}
                 />
                 <Input.Password
                   style={{ width: "70%", marginBottom: "20px" }}
                   placeholder="Mật khẩu"
+                  maxLength={30}
+                  value={inputPassword}
+                  onChange={(e: any) => setInputPassword(e.target.value)}
                 />
                 <Input.Password
                   style={{ width: "70%", marginBottom: "20px" }}
                   placeholder="Nhập lại mật khẩu"
+                  value={inputRePassword}
+                  onChange={(e: any) => setInputRePassword(e.target.value)}
                 />
               </>
             )}
@@ -86,7 +174,7 @@ export default function LoginRegister({ login }: any) {
               type={"primary"}
               style={{ backgroundColor: "#eb6440" }}
               onClick={() => {
-                path === "/login" ? login(inputUsername, inputPassword) : "";
+                path === "/login" ? handleLogin() : handleRegister();
               }}
             >
               {path === "/login" ? "Đăng nhập" : "Đăng ký"}
