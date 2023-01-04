@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import { Typography, Input, Button } from "antd";
 import { useEffect, useState } from "react";
 import { detectPhoneNumber } from "../../../common/CheckPhoneNumber/CheckPhoneNumber";
@@ -8,8 +8,9 @@ import { validate } from "email-validator";
 // var validator = require("email-validator");
 const { Title } = Typography;
 
-export default function LoginRegister({ login, register }: any) {
+export default function LoginRegister({ login, register, auth }: any) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [path, setPath] = useState("");
   const [inputUsername, setInputUsername] = useState();
   const [inputPassword, setInputPassword]: any = useState();
@@ -27,6 +28,17 @@ export default function LoginRegister({ login, register }: any) {
     email: "",
     rePassword: "",
   });
+
+  useEffect(() => {
+    console.log("===\n", auth);
+    if (auth) {
+      if (auth.isAdmin) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    }
+  }, [auth]);
 
   useEffect(() => {
     setPath(location.pathname);

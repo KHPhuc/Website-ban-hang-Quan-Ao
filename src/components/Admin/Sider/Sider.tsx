@@ -8,44 +8,103 @@ import {
   RiBillFill,
 } from "react-icons/ri";
 import { MdPayment, MdLocalShipping } from "react-icons/md";
+import { AiFillHome } from "react-icons/ai";
 import { TableOutlined } from "@ant-design/icons";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 
 const { Sider } = Layout;
 
 export default function SiderAnt({ sidebar }: any) {
+  const navigate = useNavigate();
+  const location = useLocation().pathname;
+
   const itemMenu = [
-    getItem("Thống kê", "1", <TableOutlined />),
-    getItem("Quản lý sản phẩm", "menu2", <GiClothes />, [
-      getItem("Loại", "productTypeName", <GiRolledCloth />),
-      getItem("Sản phẩm", "product", <GiLoincloth />),
+    getItem(
+      <Link to={"/admin"}>Thống kê</Link>,
+      "dashboard",
+      <TableOutlined />
+    ),
+    getItem("Quản lý sản phẩm", "productManagement", <GiClothes />, [
+      getItem(
+        <Link to={"/admin/productType"}>Loại</Link>,
+        "productType",
+        <GiRolledCloth />
+      ),
+      getItem(
+        <Link to={"/admin/product"}>Sản phẩm</Link>,
+        "product",
+        <GiLoincloth />
+      ),
     ]),
     getItem("Quản lý khách hàng", "customer", <HiUserGroup />, [
-      getItem("Khách hàng", "cus", <HiUser />),
-      getItem("Giỏ hàng", "cart", <RiShoppingBasketLine />),
-      getItem("Đơn hàng", "order", <RiBillFill />),
+      getItem(
+        <Link to={"/admin/customer"}>Khách hàng</Link>,
+        "cus",
+        <HiUser />
+      ),
+      getItem(
+        <Link to={"/admin/cart"}>Giỏ hàng</Link>,
+        "cart",
+        <RiShoppingBasketLine />
+      ),
+      getItem(
+        <Link to={"/admin/order"}>Đơn hàng</Link>,
+        "order",
+        <RiBillFill />
+      ),
     ]),
-    getItem("Mã giảm giá", "promotion", <RiCoupon2Fill />),
-    getItem("Phương thức thanh toán", "paygate", <MdPayment />),
-    getItem("Phương thức giao hàng", "shipping", <MdLocalShipping />),
+    getItem(
+      <Link to={"/admin/promotion"}>Mã giảm giá</Link>,
+      "promotion",
+      <RiCoupon2Fill />
+    ),
+    getItem(
+      <Link to={"/admin/payment"}>Phương thức thanh toán</Link>,
+      "paygate",
+      <MdPayment />
+    ),
+    getItem(
+      <Link to={"/admin/shipping"}>Phương thức giao hàng</Link>,
+      "shipping",
+      <MdLocalShipping />
+    ),
+    getItem(<Link to={"/"}>Trang chủ</Link>, "home", <AiFillHome />),
   ];
+
   return (
     <Sider
       trigger={null}
       collapsible
       collapsed={sidebar}
-      // className={"w-[256px]"}
       width={256}
+      // theme="light"
     >
       <div className="h-[80px] flex justify-center">
         <img
-          className="h-[80px] py-[5px]"
+          className="h-[80px] py-[5px] cursor-pointer"
           src="/logo/png/logo-no-background.png"
           alt=""
           loading="lazy"
+          onClick={() => navigate("/admin")}
         />
       </div>
       <div>
-        <Menu theme="dark" mode="inline" items={itemMenu} />
+        <Menu
+          theme="dark"
+          // theme="light"
+          mode="inline"
+          items={itemMenu}
+          defaultSelectedKeys={
+            location.split("/")[2] ? [location.split("/")[2]] : ["dashboard"]
+          }
+          defaultOpenKeys={[
+            itemMenu.find(
+              (e: any) =>
+                e.children &&
+                e.children.find((c: any) => c.key === location.split("/")[2])
+            )?.key! as string,
+          ]}
+        />
       </div>
     </Sider>
   );

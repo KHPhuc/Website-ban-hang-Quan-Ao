@@ -15,20 +15,35 @@ export default function HeaderAnt({ device, auth, logout }: any) {
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 
   const items = auth
-    ? [
-        {
-          label: <Link to="/login">Thông tin cá nhân</Link>,
-          key: "infor",
-        },
-        {
-          label: (
-            <div className="cursor-pointer" onClick={() => logout()}>
-              Đăng xuất
-            </div>
-          ),
-          key: "logout",
-        },
-      ]
+    ? auth.isAdmin
+      ? [
+          {
+            label: <Link to="/admin">Bảng điều khiển</Link>,
+            key: "dashboard",
+          },
+          {
+            label: (
+              <div className="cursor-pointer" onClick={() => logout()}>
+                Đăng xuất
+              </div>
+            ),
+            key: "logout",
+          },
+        ]
+      : [
+          {
+            label: <Link to="/login">Thông tin cá nhân</Link>,
+            key: "infor",
+          },
+          {
+            label: (
+              <div className="cursor-pointer" onClick={() => logout()}>
+                Đăng xuất
+              </div>
+            ),
+            key: "logout",
+          },
+        ]
     : [
         {
           label: <Link to="/login">Đăng nhập</Link>,
@@ -155,14 +170,18 @@ export default function HeaderAnt({ device, auth, logout }: any) {
               </Dropdown>
             )}
 
-            <Badge count={0} showZero size="small" color="#faad14">
-              <div className="wrap-btn">
-                <Button
-                  type="link"
-                  icon={<RiShoppingBasketLine className="icon-btn" />}
-                />
-              </div>
-            </Badge>
+            {auth.isAdmin ? (
+              ""
+            ) : (
+              <Badge count={0} showZero size="small" color="#faad14">
+                <div className="wrap-btn">
+                  <Button
+                    type="link"
+                    icon={<RiShoppingBasketLine className="icon-btn" />}
+                  />
+                </div>
+              </Badge>
+            )}
           </div>
         </div>
         {device === "desktop" ? (

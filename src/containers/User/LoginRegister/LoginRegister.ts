@@ -6,6 +6,7 @@ import { login, register } from "../../../app/API/Auth/Auth";
 const mapStatesToProps = (state: any) => {
   return {
     // device: state.device.device,
+    auth: state.auth.auth,
   };
 };
 

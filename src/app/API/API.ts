@@ -3,10 +3,12 @@ import store from "../store";
 // import { refreshToken } from "./Auth/Auth";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000/api",
+  // baseURL: "http://localhost:5000/api",
+  baseURL: "https://server-ban-hang.herokuapp.com/api",
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 api.interceptors.request.use(

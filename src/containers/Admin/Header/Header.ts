@@ -8,6 +8,7 @@ import { logout } from "../../../app/API/Auth/Auth";
 const mapStatesToProps = (state: any) => {
   return {
     sidebar: state.sidebar.isOpen,
+    title: state.header.title,
   };
 };
 

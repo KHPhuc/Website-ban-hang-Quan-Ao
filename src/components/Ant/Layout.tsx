@@ -5,7 +5,8 @@ export default function LayoutAnt(props: any) {
     <ConfigProvider
       theme={{
         token: {
-          colorPrimary: "#eb6440",
+          // colorPrimary: "#eb6440",
+          colorPrimary: "#1677FF",
         },
       }}
     >

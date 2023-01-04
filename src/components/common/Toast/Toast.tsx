@@ -7,14 +7,30 @@ const loadingToast = (message: any) => {
 };
 
 const updateToast = (id: any, message: any, type: any) => {
-  toast.update(id, {
-    render: message,
-    type: type,
-    isLoading: false,
-    autoClose: 5000,
-    closeOnClick: true,
-    draggable: true,
-  });
+  // toast.update(id, {
+  //   render: message,
+  //   type: type,
+  //   isLoading: false,
+  //   autoClose: 2000,
+  //   closeOnClick: true,
+  //   draggable: true,
+  //   pauseOnFocusLoss: false,
+  //   pauseOnHover: false,
+  //   theme: "light",
+  // });
+  setTimeout(() => {
+    toast.update(id, {
+      render: message,
+      type: type,
+      isLoading: false,
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+      theme: "light",
+    });
+  }, 100);
 };
 
 const loginSuccess = (name: any) => {
@@ -77,6 +93,71 @@ const logoutToast = {
   type: "default",
 };
 
+const getDataSuccess = {
+  message: "Lấy dữ liệu thành công!",
+  type: "success",
+};
+
+const getDataFail = {
+  message: (
+    <div className="text-red-500">
+      <div>Lấy dữ liệu thất bại!</div>
+    </div>
+  ),
+  type: "error",
+};
+
+const addSuccess = {
+  message: "Thêm thành công!",
+  type: "success",
+};
+
+const addFail = (message: any) => {
+  return {
+    message: (
+      <div className="text-red-500">
+        <div>Thêm thất bại!</div>
+        <div className="font-semibold">{message}</div>
+      </div>
+    ),
+    type: "error",
+  };
+};
+
+const updateSuccess = {
+  message: "Cập nhật thành công!",
+  type: "success",
+};
+
+const updateFail = (message: any) => {
+  return {
+    message: (
+      <div className="text-red-500">
+        <div>Cập nhật thất bại!</div>
+        <div className="font-semibold">{message}</div>
+      </div>
+    ),
+    type: "error",
+  };
+};
+
+const deleteSuccess = {
+  message: "Xóa thành công!",
+  type: "success",
+};
+
+const deleteFail = (message: any) => {
+  return {
+    message: (
+      <div className="text-red-500">
+        <div>Xóa thất bại!</div>
+        <div className="font-semibold">{message}</div>
+      </div>
+    ),
+    type: "error",
+  };
+};
+
 export {
   loadingToast,
   updateToast,
@@ -85,4 +166,12 @@ export {
   registerSuccess,
   registerFail,
   logoutToast,
+  addSuccess,
+  addFail,
+  getDataSuccess,
+  getDataFail,
+  updateSuccess,
+  updateFail,
+  deleteSuccess,
+  deleteFail,
 };

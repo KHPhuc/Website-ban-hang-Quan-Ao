@@ -5,7 +5,12 @@ import { AiOutlineLogout } from "react-icons/ai";
 
 const { Header } = Layout;
 
-export default function HeaderAdmin({ sidebar, setSidebar, logout }: any) {
+export default function HeaderAdmin({
+  sidebar,
+  setSidebar,
+  logout,
+  title,
+}: any) {
   const navigate = useNavigate();
   return (
     <Header
@@ -27,7 +32,7 @@ export default function HeaderAdmin({ sidebar, setSidebar, logout }: any) {
           className=" text-center"
           style={{ fontSize: "25px", fontWeight: 500 }}
         >
-          ABC
+          {title}
         </div>
         <div
           className="flex items-center cursor-pointer"
