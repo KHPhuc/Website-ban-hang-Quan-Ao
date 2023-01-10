@@ -11,12 +11,14 @@ import { MdPayment, MdLocalShipping } from "react-icons/md";
 import { AiFillHome } from "react-icons/ai";
 import { TableOutlined } from "@ant-design/icons";
 import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useState } from "react";
 
 const { Sider } = Layout;
 
-export default function SiderAnt({ sidebar }: any) {
+export default function SiderAnt({ sidebar, setSidebar }: any) {
   const navigate = useNavigate();
   const location = useLocation().pathname;
+  const [collapsedWidth, setCollapsedWidth] = useState(80);
 
   const itemMenu = [
     getItem(
@@ -77,7 +79,27 @@ export default function SiderAnt({ sidebar }: any) {
       collapsible
       collapsed={sidebar}
       width={256}
+      breakpoint="md"
+      collapsedWidth={collapsedWidth}
       // theme="light"
+      onBreakpoint={(broken) => {
+        if (broken) {
+          setCollapsedWidth(0);
+        } else {
+          setCollapsedWidth(80);
+        }
+      }}
+      onCollapse={(collapsed, type) => {
+        setSidebar(collapsed);
+      }}
+      style={{
+        overflow: "auto",
+        height: "100vh",
+        position: "fixed",
+        left: 0,
+        top: 0,
+        bottom: 0,
+      }}
     >
       <div className="h-[80px] flex justify-center">
         <img

@@ -1,5 +1,5 @@
 import "react-toastify/dist/ReactToastify.css";
-import React, { Suspense, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
@@ -11,13 +11,7 @@ import Product from "./components/User/Content/Product/Product";
 import LoginRegister from "./containers/User/LoginRegister/LoginRegister";
 import DetailProduct from "./components/User/Content/DetailProduct/DetailProduct";
 import Cart from "./components/User/Content/Cart/Cart";
-import { Layout } from "antd";
-// import Sidebar from "./containers/Admin/Sidebar/Sidebar";
-
-import HeaderAdmin from "./containers/Admin/Header/Header";
-import ContentAdmin from "./components/Admin/Content/ContentAdmin";
-
-const Sidebar = React.lazy(() => import("./containers/Admin/Sidebar/Sidebar"));
+import Admin from "./containers/Admin/Admin";
 
 function App({ auth, setDevice }: any) {
   const location = useLocation();
@@ -59,7 +53,7 @@ function App({ auth, setDevice }: any) {
       <ToastContainer
         position="top-center"
         autoClose={2000}
-        // hideProgressBar={true}
+        hideProgressBar={true}
         newestOnTop
         closeOnClick={true}
         rtl={false}
@@ -112,13 +106,7 @@ function App({ auth, setDevice }: any) {
               path="admin/*"
               element={
                 auth.isAdmin ? (
-                  <>
-                    <Sidebar />
-                    <Layout>
-                      <HeaderAdmin />
-                      <ContentAdmin />
-                    </Layout>
-                  </>
+                  <Admin/>
                 ) : (
                   <Navigate to="/login" />
                 )

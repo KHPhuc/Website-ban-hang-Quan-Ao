@@ -8,11 +8,11 @@ import { validate } from "email-validator";
 // var validator = require("email-validator");
 const { Title } = Typography;
 
-export default function LoginRegister({ login, register, auth }: any) {
+export default function LoginRegister({ login, register, auth, account }: any) {
   const location = useLocation();
   const navigate = useNavigate();
   const [path, setPath] = useState("");
-  const [inputUsername, setInputUsername] = useState();
+  const [inputUsername, setInputUsername]: any = useState();
   const [inputPassword, setInputPassword]: any = useState();
 
   const [inputName, setInputName] = useState();
@@ -30,7 +30,6 @@ export default function LoginRegister({ login, register, auth }: any) {
   });
 
   useEffect(() => {
-    console.log("===\n", auth);
     if (auth) {
       if (auth.isAdmin) {
         navigate("/admin");
@@ -42,6 +41,13 @@ export default function LoginRegister({ login, register, auth }: any) {
 
   useEffect(() => {
     setPath(location.pathname);
+    if (account && location.pathname === "/login") {
+      setInputUsername(account.username);
+      setInputPassword(account.password);
+    } else {
+      setInputUsername("");
+      setInputPassword("");
+    }
   }, [location.pathname]);
 
   const handleLogin = () => {
@@ -147,6 +153,9 @@ export default function LoginRegister({ login, register, auth }: any) {
                         setError(error);
                       }
                     }}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" ? handleLogin() : null
+                    }
                   />
                   <div className="text-red-500 px-[11px]">
                     {error.password ? <p>{error.password}</p> : ""}
@@ -207,6 +216,9 @@ export default function LoginRegister({ login, register, auth }: any) {
                     placeholder="Nhập lại mật khẩu"
                     value={inputRePassword}
                     onChange={(e: any) => setInputRePassword(e.target.value)}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" ? handleRegister() : null
+                    }
                   />
                   <div className="text-red-500 px-[11px]">
                     {error.password ? <p>{error.name}</p> : ""}

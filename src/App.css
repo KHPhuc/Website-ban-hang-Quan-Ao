@@ -342,3 +342,28 @@
 .ant-btn-dangerous:hover {
   background-color: #ff7875 !important;
 }
+
+img.ant-image-preview-img {
+  display: inline-block;
+}
+
+.img-upload-preview:hover ~ .img-upload {
+  display: block !important;
+}
+
+.img-upload {
+  display: none;
+}
+
+.img-upload:hover a {
+  display: block !important;
+}
+
+.ant-table-wrapper a {
+  color: #1677ff !important;
+}
+
+.ant-table-wrapper a:hover {
+  color: #69b1ff !important;
+}
+

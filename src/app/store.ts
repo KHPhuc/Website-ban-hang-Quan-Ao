@@ -12,6 +12,7 @@ import Auth from "./API/Auth/Auth";
 import Header from "./Admin/Header/Header";
 
 import ProductType from "./API/ProductType/ProductType";
+import Product from "./API/Product/Product";
 
 const persistConfig = {
   key: "root",
@@ -26,6 +27,7 @@ const reducer = combineReducers({
   header: Header,
 
   productType: ProductType,
+  product: Product,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

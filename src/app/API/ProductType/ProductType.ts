@@ -12,10 +12,9 @@ import {
   deleteSuccess,
   deleteFail,
 } from "../../../components/common/Toast/Toast";
-import { toast } from "react-toastify";
-// import store from "../../store";
 
 const initialState = {
+  allProductType: "",
   productType: "",
   detailProductType: "",
 };
@@ -30,10 +29,13 @@ const productType = createSlice({
     setDetailProductType(state, action) {
       state.detailProductType = action.payload;
     },
+    setAllProductType(state, action) {
+      state.allProductType = action.payload;
+    }
   },
 });
 
-export const { setProductType, setDetailProductType } = productType.actions;
+export const { setProductType, setDetailProductType, setAllProductType } = productType.actions;
 
 export const getProductType = () => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
@@ -43,7 +45,7 @@ export const getProductType = () => async (dispatch: any) => {
       if (res.data.length) {
         dispatch(setProductType(res.data));
       } else {
-        dispatch(setProductType(res.data));
+        dispatch(setProductType(""));
       }
       updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
     })
@@ -52,6 +54,24 @@ export const getProductType = () => async (dispatch: any) => {
     })
     .finally(() => {});
 };
+
+export const getAllProductType = () => async (dispatch:any) => {
+  var idToast = loadingToast("Đang tải dữ liệu ...");
+  api
+    .get("/product_type/all")
+    .then((res) => {
+      if (res.data.length) {
+        dispatch(setAllProductType(res.data));
+      } else {
+        dispatch(setAllProductType(""));
+      }
+      updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
+    })
+    .catch((err) => {
+      updateToast(idToast, getDataFail.message, getDataFail.type);
+    })
+    .finally(() => {});
+}
 
 export const addProductType =
   (productTypeName: any) => async (dispatch: any) => {

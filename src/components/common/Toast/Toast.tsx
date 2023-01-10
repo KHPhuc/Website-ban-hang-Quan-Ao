@@ -7,22 +7,27 @@ const loadingToast = (message: any) => {
 };
 
 const updateToast = (id: any, message: any, type: any) => {
-  // toast.update(id, {
-  //   render: message,
-  //   type: type,
-  //   isLoading: false,
-  //   autoClose: 2000,
-  //   closeOnClick: true,
-  //   draggable: true,
-  //   pauseOnFocusLoss: false,
-  //   pauseOnHover: false,
-  //   theme: "light",
-  // });
   setTimeout(() => {
     toast.update(id, {
       render: message,
       type: type,
       isLoading: false,
+      autoClose: 2000,
+      closeOnClick: true,
+      draggable: true,
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+      theme: "light",
+    });
+  }, 100);
+};
+
+const updateToastNoStop = (id: any, message: any, type: any) => {
+  setTimeout(() => {
+    toast.update(id, {
+      render: message,
+      type: type,
+      isLoading: true,
       autoClose: 2000,
       closeOnClick: true,
       draggable: true,
@@ -174,4 +179,5 @@ export {
   updateFail,
   deleteSuccess,
   deleteFail,
+  updateToastNoStop
 };

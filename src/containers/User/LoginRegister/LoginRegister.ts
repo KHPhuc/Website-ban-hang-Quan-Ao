@@ -7,6 +7,7 @@ const mapStatesToProps = (state: any) => {
   return {
     // device: state.device.device,
     auth: state.auth.auth,
+    account: state.auth.account,
   };
 };
 
