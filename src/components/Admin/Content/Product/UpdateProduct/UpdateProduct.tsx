@@ -1,25 +1,11 @@
 import {
   Button,
   Form,
-  Image,
   Input,
-  InputNumber,
   Modal,
-  Popconfirm,
-  Row,
-  Space,
-  Table,
   TreeSelect,
-  Upload,
 } from "antd";
-import uniqid from "uniqid";
-import { PlusOutlined } from "@ant-design/icons";
-import { AiOutlinePlus, AiOutlineMinus, AiOutlineDelete } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import {
-  uploadImage,
-  deleteImage,
-} from "../../../../../app/API/Product/Product";
 
 const { TextArea } = Input;
 
@@ -74,14 +60,14 @@ export default function UpdateProduct(props: any) {
 
   return (
     <Modal
-      title="Thêm sản phẩm"
+      title="Sửa thông tin sản phẩm"
       open={props.isOpenModalUpdateProduct}
       maskClosable={false}
       onCancel={() => props.setIsOpenModalUpdateProduct(false)}
       width={"80%"}
       footer={null}
       // style={{ top: 30 }}
-      centered
+      // centered
     >
       <Form
         colon={false}

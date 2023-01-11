@@ -232,8 +232,23 @@ export default function AddProduct(props: any) {
     color: (key: any) => (
       <Form.Item
         className="mb-[10px]"
-        name={key}
-        rules={[{ required: true, message: "Không được để trống ô" }]}
+        name={"color-" + key}
+        rules={[
+          { required: true, message: "Không được để trống ô" },
+          ({ getFieldValue }) => ({
+            validator(_: any, value) {
+              let values = form.getFieldsValue();
+              for (const [key, v] of Object.entries(values)) {
+                if (key !== _.field) {
+                  if (key.split("-")[0] === "color" && value === v) {
+                    return Promise.reject("Đã có kích thước");
+                  }
+                }
+              }
+              return Promise.resolve();
+            },
+          }),
+        ]}
       >
         <Input
           className="w-full"
@@ -351,7 +366,22 @@ export default function AddProduct(props: any) {
               <Form.Item
                 className="mb-[10px]"
                 name={key}
-                rules={[{ required: true, message: "Không được để trống ô" }]}
+                rules={[
+                  { required: true, message: "Không được để trống ô" },
+                  ({ getFieldValue }) => ({
+                    validator(_: any, value) {
+                      let values = form.getFieldsValue();
+                      for (const [key, v] of Object.entries(values)) {
+                        if (key !== _.field) {
+                          if (key.split("-")[0] === "color" && value === v) {
+                            return Promise.reject("Đã có kích thước");
+                          }
+                        }
+                      }
+                      return Promise.resolve();
+                    },
+                  }),
+                ]}
               >
                 <Input
                   className="w-full"
@@ -475,8 +505,32 @@ export default function AddProduct(props: any) {
         <Form.Item
           key={uniqid()}
           className="mb-[10px]"
-          name={uniqid()}
-          rules={[{ required: true, message: "Không được để trống ô" }]}
+          name={"size-" + key + "-" + kInput}
+          rules={[
+            { required: true, message: "Không được để trống ô" },
+            ({ getFieldValue }) => ({
+              validator(o: any, value) {
+                let values = form.getFieldsValue();
+                let index = dataConvert.detailProduct.findIndex(
+                  (x: any) => x.key === o.field.split("-")[1]
+                );
+                let data = dataConvert.detailProduct[index].subDetail;
+                // console.log(, o.field.split("-")[2]);
+                console.log(data);
+                for (const [key, v] of Object.entries(values)) {
+                  if (key !== o.field && key.split("-")[0] === "size") {
+                    let index2 = data.findIndex(
+                      (x1: any) => x1.key === key.split("-")[2]
+                    );
+                    if (index2 !== -1 && value === data[index2].size) {
+                      return Promise.reject("Đã có size");
+                    }
+                  }
+                }
+                return Promise.resolve();
+              },
+            }),
+          ]}
         >
           {ls[index].sizeLength.length > 0 ? (
             <Space direction="horizontal">
@@ -653,12 +707,12 @@ export default function AddProduct(props: any) {
       }
       if (inputCurrentPrice) {
         if (key.split("-")[0] === "current") {
-          form.setFieldValue(key, inputFakePrice);
+          form.setFieldValue(key, inputCurrentPrice);
         }
       }
       if (inputQuantity) {
         if (key.split("-")[0] === "quantity") {
-          form.setFieldValue(key, inputFakePrice);
+          form.setFieldValue(key, inputQuantity);
         }
       }
     }

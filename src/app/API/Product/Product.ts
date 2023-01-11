@@ -113,6 +113,55 @@ export const addProduct = (product: any) => async (dispatch: any) => {
     .finally(() => {});
 };
 
+export const addDetailProduct = (product: any) => async (dispatch: any) => {
+  var idToast = loadingToast("Đang thêm ...");
+  api
+    .post(`/detail_product/create`, JSON.stringify(product))
+    .then((res) => {
+      updateToast(idToast, addSuccess.message, addSuccess.type);
+      dispatch(setProduct(res.data));
+      dispatch(setAddStatus(true));
+    })
+    .catch((err) => {
+      let toast = addFail(err.data.message);
+      updateToast(idToast, toast.message, toast.type);
+      dispatch(setAddStatus(false));
+    })
+    .finally(() => {});
+};
+
+export const addMultiDetailProduct =
+  (detailProduct: any) => async (dispatch: any) => {
+    var idToast = loadingToast("Đang thêm ...");
+    var promises = detailProduct.map((e: any, i: any) => {
+      return new Promise((resolve, rej) => {
+        api
+          .post(`/detail_product/create`, JSON.stringify(e))
+          .then((res) => {
+            updateToastNoStop(idToast, (i + 1) / detailProduct.length, "success");
+            dispatch(setProduct(res.data));
+            resolve(res);
+          })
+          .catch((err) => {
+            let toast = addFail(err.data.message);
+            updateToast(idToast, toast.message, toast.type);
+
+            rej(err);
+          })
+          .finally(() => {});
+      });
+    });
+    Promise.all(promises)
+      .then((res) => {
+        updateToast(idToast, addSuccess.message, addSuccess.type);
+        dispatch(setAddStatus(true));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(setAddStatus(false));
+      });
+  };
+
 export const addProductByExcel = (product: any) => {
   var idToast = loadingToast("Đang thêm ...");
   var promises = product.map((e: any, i: any) => {
@@ -128,8 +177,8 @@ export const addProductByExcel = (product: any) => {
         .catch((err) => {
           console.log(err);
           rej(err);
-          // let toast = addFail(err.data.message);
-          // updateToast(idToast, toast.message, toast.type);
+          let toast = addFail(err.data.message);
+          updateToast(idToast, toast.message, toast.type);
           // dispatch(setAddStatus("fail"));
         })
         .finally(() => {});
@@ -148,6 +197,7 @@ export const addProductByExcel = (product: any) => {
 export const updateProduct =
   (productId: any, product: any) => async (dispatch: any) => {
     var idToast = loadingToast("Đang cập nhật ...");
+
     api
       .put(`product/update/${productId}`, JSON.stringify(product))
       .then((res) => {
@@ -163,21 +213,95 @@ export const updateProduct =
       .finally(() => {});
   };
 
-export const deleteProduct =
-  (productId: any) => async (dispatch: any) => {
-    var idToast = loadingToast("Đang xóa ...");
-    api
-      .delete(`/product/delete/${productId}`)
+export const updateAndDeleteDetailProduct =
+  (detailProduct: any) => async (dispatch: any) => {
+    var idToast = loadingToast("Đang cập nhật ...");
+    var promises = detailProduct.map((e: any, i: any) => {
+      return new Promise((resolve, rej) => {
+        api
+          .put(
+            `/detail_product/updateAndDelete/${e.detailProductId}`,
+            JSON.stringify(e)
+          )
+          .then((res) => {
+            // updateToast(idToast, updateSuccess.message, updateSuccess.type);
+            updateToastNoStop(
+              idToast,
+              (i + 1) / detailProduct.length,
+              "success"
+            );
+            dispatch(setProduct(res.data));
+            resolve(res);
+          })
+          .catch((err) => {
+            let toast = updateFail(err.data.message);
+            updateToast(idToast, toast.message, toast.type);
+            rej(err);
+          })
+          .finally(() => {});
+      });
+    });
+
+    Promise.all(promises)
       .then((res) => {
-        updateToast(idToast, deleteSuccess.message, deleteSuccess.type);
-        dispatch(setProduct(res.data));
+        updateToast(idToast, updateSuccess.message, updateSuccess.type);
+        dispatch(setUpdateStatus(true));
       })
       .catch((err) => {
-        let toast = deleteFail(err.data.message);
-        updateToast(idToast, toast.message, toast.type);
-      })
-      .finally(() => {});
+        dispatch(setUpdateStatus(false));
+      });
   };
+
+export const updateDetailProduct =
+  (detailProduct: any) => async (dispatch: any) => {
+    var idToast = loadingToast("Đang cập nhật ...");
+    var promises = detailProduct.map((e: any, i: any) => {
+      return new Promise((resolve, rej) => {
+        api
+          .put(`/detail_product/update/${e.detailProductId}`, JSON.stringify(e))
+          .then((res) => {
+            // updateToast(idToast, updateSuccess.message, updateSuccess.type);
+            updateToastNoStop(
+              idToast,
+              (i + 1) / detailProduct.length,
+              "success"
+            );
+            dispatch(setProduct(res.data));
+            resolve(res);
+          })
+          .catch((err) => {
+            let toast = updateFail(err.data.message);
+            updateToast(idToast, toast.message, toast.type);
+            rej(err);
+          })
+          .finally(() => {});
+      });
+    });
+
+    Promise.all(promises)
+      .then((res) => {
+        updateToast(idToast, updateSuccess.message, updateSuccess.type);
+        dispatch(setUpdateStatus(true));
+      })
+      .catch((err) => {
+        dispatch(setUpdateStatus(false));
+      });
+  };
+
+export const deleteProduct = (productId: any) => async (dispatch: any) => {
+  var idToast = loadingToast("Đang xóa ...");
+  api
+    .delete(`/product/delete/${productId}`)
+    .then((res) => {
+      updateToast(idToast, deleteSuccess.message, deleteSuccess.type);
+      dispatch(setProduct(res.data));
+    })
+    .catch((err) => {
+      let toast = deleteFail(err.data.message);
+      updateToast(idToast, toast.message, toast.type);
+    })
+    .finally(() => {});
+};
 
 export const deleteDetailProduct =
   (detailProductId: any) => async (dispatch: any) => {
@@ -194,7 +318,5 @@ export const deleteDetailProduct =
       })
       .finally(() => {});
   };
-
-
 
 export default product.reducer;

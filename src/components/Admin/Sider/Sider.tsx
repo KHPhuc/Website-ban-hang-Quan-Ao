@@ -65,11 +65,6 @@ export default function SiderAnt({ sidebar, setSidebar }: any) {
       "paygate",
       <MdPayment />
     ),
-    getItem(
-      <Link to={"/admin/shipping"}>Phương thức giao hàng</Link>,
-      "shipping",
-      <MdLocalShipping />
-    ),
     getItem(<Link to={"/"}>Trang chủ</Link>, "home", <AiFillHome />),
   ];
 

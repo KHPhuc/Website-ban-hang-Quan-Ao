@@ -13,6 +13,8 @@ import Header from "./Admin/Header/Header";
 
 import ProductType from "./API/ProductType/ProductType";
 import Product from "./API/Product/Product";
+import Promotion from "./API/Promotion/Promotion";
+import Payment from "./API/Payment/Payment";
 
 const persistConfig = {
   key: "root",
@@ -28,6 +30,8 @@ const reducer = combineReducers({
 
   productType: ProductType,
   product: Product,
+  promotion: Promotion,
+  payment: Payment,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

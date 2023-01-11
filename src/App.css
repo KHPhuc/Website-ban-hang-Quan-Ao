@@ -355,7 +355,7 @@ img.ant-image-preview-img {
   display: none;
 }
 
-.img-upload:hover a {
+.img-upload:hover {
   display: block !important;
 }
 

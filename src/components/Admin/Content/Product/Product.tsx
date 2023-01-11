@@ -9,7 +9,9 @@ import {
 } from "antd";
 import AddProduct from "../../../../containers/Admin/Content/Product/AddProduct/AddProduct";
 import UpdateProduct from "../../../../containers/Admin/Content/Product/UpdateProduct/UpdateProduct";
-
+import UpdateDetailProduct from "../../../../containers/Admin/Content/Product/UpdateDetailProduct/UpdateDetailProduct";
+import AddDetailProduct from "../../../../containers/Admin/Content/Product/AddDetailProduct/AddDetailProduct";
+import AddColorProduct from "../../../../containers/Admin/Content/Product/AddColorProduct/AddColorProduct";
 // import { AiFillFileAdd, AiFillFileExcel } from "react-icons/ai";
 // import { getExcelPT } from "../../../../app/API/Product/Product";
 // var XLSX = require("xlsx");
@@ -32,9 +34,20 @@ export default function Product({
   const [isOpenModalDescription, setIsOpenModalDescription] = useState(false);
   const [isOpenModalUpdateProduct, setIsOpenModalUpdateProduct] =
     useState(false);
+  const [isOpenModalUpdateDetailProduct, setIsOpenModalUpdateDetailProduct] =
+    useState(false);
+  const [isOpenModalAddDetailProduct, setIsOpenModalAddDetailProduct] =
+    useState(false);
+  const [isOpenModalAddColorProduct, setIsOpenModalAddColorProduct] =
+    useState(false);
 
   const [valueDescription, setValueDescription]: any = useState();
   const [valueUpdateProduct, setValueUpdateProduct]: any = useState();
+  var [valueUpdateDetailProduct, setValueUpdateDetailProduct]: any = useState();
+  const [valueAddDetailProduct, setValueAddDetailProduct]: any = useState();
+  const [valueAddColorProduct, setValueAddColorProduct]: any = useState();
+
+  var [arrColorProduct, setArrColorProduct]: any = useState();
 
   useEffect(() => {
     setTitle("Quản lý sản phẩm");
@@ -75,15 +88,15 @@ export default function Product({
     {
       title: "Số lượng",
       render: (e: any) =>
-        e.detailProduct.reduce((e1: any, e2: any) => e1 + e2.quantity, 0),
+        e.detailProduct?.reduce((e1: any, e2: any) => e1 + e2.quantity, 0),
       key: "total",
     },
     Table.EXPAND_COLUMN,
     {
-      title: "Số màu",
+      title: "Số loại",
       //   dataIndex: "colors",
       //   key: "colors"
-      render: (x: any) => x.detailProduct.length,
+      render: (x: any) => x.detailProduct?.length,
     },
     {
       title: "Mô tả",
@@ -100,6 +113,7 @@ export default function Product({
           Mô tả
         </a>
       ),
+      width: 70,
     },
     {
       title: "Hành động",
@@ -107,7 +121,24 @@ export default function Product({
         <Space size="middle">
           <a
             onClick={() => {
-              console.log(x);
+              let color: any = [];
+              x.detailProduct.forEach((e: any) => {
+                if (e.span) {
+                  color.push(e.color);
+                }
+              });
+              setValueAddColorProduct({
+                productId: x.productId,
+                productName: x.productName,
+                color: color,
+              });
+              setIsOpenModalAddColorProduct(true);
+            }}
+          >
+            Thêm màu
+          </a>
+          <a
+            onClick={() => {
               setValueUpdateProduct({
                 productId: x.productId,
                 productName: x.productName,
@@ -129,19 +160,20 @@ export default function Product({
           </Popconfirm>
         </Space>
       ),
+      width: 180,
     },
   ];
 
   const columnsExpand = [
     {
       title: "Hình ảnh",
-      // dataIndex: "image",
-      // key: "image",
-      //   render: (x: any) => (
-      //     <Button onClick={() => console.log(x)}>Nhấn thử</Button>
-      //   ),
-      // width: "1%",
-      // render: (x: any) => <>{x.image(x.urlImage, x.key, detailProductList)}</>,
+      render: (x: any) => (
+        <img
+          className="w-[100px]"
+          src={`http://localhost:5000/${x.image}`}
+          alt=""
+        />
+      ),
       onCell: (x: any, index: any) => {
         return x.span ? { rowSpan: x.span } : { rowSpan: 0 };
       },
@@ -193,21 +225,90 @@ export default function Product({
       width: 110,
     },
     {
-      title: "Hành động",
+      title: "Thêm",
       render: (e: any) => (
-        <Space>
-          <a>Sửa</a>
-          <Popconfirm
-            title="Bạn có muốn xóa không?"
-            onConfirm={() => {
-              deleteDetailProduct(e.detailProductId);
-            }}
-          >
-            <a>Xóa</a>
-          </Popconfirm>
-        </Space>
+        <a
+          onClick={() => {
+            let index = product.findIndex(
+              (x: any) => x.productId === e.productId
+            );
+            let index2 = product[index].detailProduct.findIndex(
+              (x: any) => x.detailProductId === e.detailProductId
+            );
+
+            let size: any = [];
+            product[index].detailProduct
+              .slice(index2, index2 + e.span)
+              .forEach((e: any) => {
+                size.push(e.size);
+              });
+
+            setValueAddDetailProduct({
+              detailProductId: e.detailProductId,
+              productId: e.productId,
+              image: e.image,
+              color: e.color,
+              size: size,
+            });
+            setIsOpenModalAddDetailProduct(true);
+          }}
+        >
+          Thêm
+        </a>
       ),
-      width: 110,
+      width: 65,
+      onCell: (x: any, index: any) => {
+        return x.span ? { rowSpan: x.span } : { rowSpan: 0 };
+      },
+    },
+    {
+      title: "Sửa",
+      render: (e: any) => (
+        <a
+          onClick={() => {
+            let index = product.findIndex(
+              (x: any) => x.productId === e.productId
+            );
+            let index2 = product[index].detailProduct.findIndex(
+              (x: any) => x.detailProductId === e.detailProductId
+            );
+            let color: any = [];
+            product[index].detailProduct.forEach((x: any, i: any) => {
+              if (x.span && i !== index2) {
+                color.push(x.color);
+              }
+            });
+            let data = product[index].detailProduct.slice(
+              index2,
+              index2 + e.span
+            );
+
+            setValueUpdateDetailProduct(data);
+            setArrColorProduct(color);
+            setIsOpenModalUpdateDetailProduct(true);
+          }}
+        >
+          Sửa
+        </a>
+      ),
+      width: 55,
+      onCell: (x: any, index: any) => {
+        return x.span ? { rowSpan: x.span } : { rowSpan: 0 };
+      },
+    },
+    {
+      title: "Xóa",
+      render: (e: any) => (
+        <Popconfirm
+          title="Bạn có muốn xóa không?"
+          onConfirm={() => {
+            deleteDetailProduct(e.detailProductId);
+          }}
+        >
+          <a>Xóa</a>
+        </Popconfirm>
+      ),
+      width: 55,
     },
   ];
 
@@ -435,6 +536,22 @@ export default function Product({
         setIsOpenModalUpdateProduct={setIsOpenModalUpdateProduct}
         data={valueUpdateProduct}
         allProductType={allProductType}
+      />
+      <UpdateDetailProduct
+        isOpenModalUpdateDetailProduct={isOpenModalUpdateDetailProduct}
+        setIsOpenModalUpdateDetailProduct={setIsOpenModalUpdateDetailProduct}
+        data={valueUpdateDetailProduct}
+        color={arrColorProduct}
+      />
+      <AddDetailProduct
+        isOpenModalAddDetailProduct={isOpenModalAddDetailProduct}
+        setIsOpenModalAddDetailProduct={setIsOpenModalAddDetailProduct}
+        data={valueAddDetailProduct}
+      />
+      <AddColorProduct
+        isOpenModalAddColorProduct={isOpenModalAddColorProduct}
+        setIsOpenModalAddColorProduct={setIsOpenModalAddColorProduct}
+        data={valueAddColorProduct}
       />
     </>
   );
