@@ -44,11 +44,11 @@ export default function SiderAnt({ sidebar, setSidebar }: any) {
         "cus",
         <HiUser />
       ),
-      getItem(
-        <Link to={"/admin/cart"}>Giỏ hàng</Link>,
-        "cart",
-        <RiShoppingBasketLine />
-      ),
+      // getItem(
+      //   <Link to={"/admin/cart"}>Giỏ hàng</Link>,
+      //   "cart",
+      //   <RiShoppingBasketLine />
+      // ),
       getItem(
         <Link to={"/admin/order"}>Đơn hàng</Link>,
         "order",

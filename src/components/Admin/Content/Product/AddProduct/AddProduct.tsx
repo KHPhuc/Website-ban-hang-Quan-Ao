@@ -1,5 +1,6 @@
 import {
   Button,
+  Cascader,
   Form,
   Image,
   Input,
@@ -20,6 +21,8 @@ import {
   uploadImage,
   deleteImage,
 } from "../../../../../app/API/Product/Product";
+import { removeAccents } from "../../../../common/RemoveAccents/RemoveAccents";
+import { BACKEND } from "../../../../common/Config/Config";
 
 const { TextArea } = Input;
 
@@ -28,6 +31,7 @@ export default function AddProduct(props: any) {
   const [detailProductList, setDetailProductList]: any = useState([]);
   const [dataConvert, setDataConvert]: any = useState({
     productName: "",
+    linkProduct: "",
     detailPTId: "",
     description: "",
     detailProduct: [],
@@ -41,6 +45,7 @@ export default function AddProduct(props: any) {
   const [inputFakePrice, setInputFakePrice]: any = useState();
   const [inputCurrentPrice, setInputCurrentPrice]: any = useState();
   const [inputQuantity, setInputQuantity]: any = useState();
+  const displayRender = (labels: string[]) => labels[labels.length - 1];
 
   useEffect(() => {
     let key = uniqid();
@@ -63,13 +68,13 @@ export default function AddProduct(props: any) {
       let a = props.allProductType.map((e: any, i: any) => {
         return {
           value: e.productTypeId,
-          title: e.productTypeName,
-          selectable: false,
+          label: e.productTypeName,
+          // selectable: false,
           children: e.detailProductType.map((e1: any, i1: any) => {
             return {
               value: e1.detailPTId,
-              title: e1.detailPTName,
-              selectable: true,
+              label: e1.detailPTName,
+              // selectable: true,
             };
           }),
         };
@@ -460,7 +465,7 @@ export default function AddProduct(props: any) {
     uploadImage(formData).then((res: any) => {
       let index = ls.findIndex((x: any) => x.key === key);
 
-      ls[index].urlImage = `http://localhost:5000/${res}`;
+      ls[index].urlImage = `${BACKEND}/${res}`;
       setDetailProductList([...ls]);
 
       let indexD = findIndexData(key);
@@ -771,6 +776,11 @@ export default function AddProduct(props: any) {
             showCount={true}
             onChange={(e: any) => {
               dataConvert.productName = e.target.value;
+              dataConvert.linkProduct = removeAccents(e.target.value)
+                .split("/")
+                .join("-")
+                .split(" ")
+                .join("-");
             }}
           />
         </Form.Item>
@@ -779,13 +789,18 @@ export default function AddProduct(props: any) {
           name="productType"
           rules={[{ required: true, message: "Chọn loại sản phẩm!" }]}
         >
-          <TreeSelect
+          <Cascader
+            options={treeSelectData}
+            displayRender={displayRender}
+            onChange={(e) => (dataConvert.detailPTId = e[1])}
+          />
+          {/* <TreeSelect
             treeLine
             treeData={treeSelectData}
             onChange={(e) => {
               dataConvert.detailPTId = e;
             }}
-          />
+          /> */}
         </Form.Item>
         <Form.Item
           label="Mô tả sản phẩm"

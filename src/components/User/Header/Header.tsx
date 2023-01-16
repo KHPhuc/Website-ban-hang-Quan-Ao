@@ -1,18 +1,38 @@
-import { Layout, Button, Dropdown, Badge, Input, Menu } from "antd";
+import { Layout, Button, Dropdown, Badge, Input, Menu, MenuProps } from "antd";
 import { IoIosMenu, IoIosClose } from "react-icons/io";
 import { AiOutlineUser } from "react-icons/ai";
 import { RiShoppingBasketLine } from "react-icons/ri";
 import { MdClose } from "react-icons/md";
 import { useEffect, useRef, useState } from "react";
 import getItem from "../../Ant/ItemMenu/ItemMenu";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { removeAccents } from "../../common/RemoveAccents/RemoveAccents";
 
 const { Header } = Layout;
 const { Search } = Input;
 
-export default function HeaderAnt({ device, auth, logout }: any) {
+export default function HeaderAnt({
+  device,
+  auth,
+  logout,
+  allProductType,
+  getAllProductType,
+
+  setSelectedProductType,
+
+  cart,
+  setCart,
+  setDetailCart,
+}: any) {
+  const location = useLocation();
+  const nav = useNavigate();
   const refSidebar: any = useRef();
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const [itemsNav, setItemNav] = useState([]);
+
+  const [selectedKey, setSelectedKey]: any = useState();
+
+  const [quantityCart, setQuantityCart] = useState(0);
 
   const items = auth
     ? auth.isAdmin
@@ -23,7 +43,7 @@ export default function HeaderAnt({ device, auth, logout }: any) {
           },
           {
             label: (
-              <div className="cursor-pointer" onClick={() => logout()}>
+              <div className="cursor-pointer" onClick={() => onLogout()}>
                 Đăng xuất
               </div>
             ),
@@ -37,7 +57,7 @@ export default function HeaderAnt({ device, auth, logout }: any) {
           },
           {
             label: (
-              <div className="cursor-pointer" onClick={() => logout()}>
+              <div className="cursor-pointer" onClick={() => onLogout()}>
                 Đăng xuất
               </div>
             ),
@@ -55,14 +75,9 @@ export default function HeaderAnt({ device, auth, logout }: any) {
         },
       ];
 
-  const itemsNav = ["Áo nam", "Quần nam", "Phụ kiện"];
-
-  const subitemsNav = [
-    getItem("Áo nam", "sub1", null, [getItem("Áo 1", "a1", null)]),
-    getItem("Áo nam", "sub2", null, [getItem("Áo 1", "a2", null)]),
-  ];
-
   useEffect(() => {
+    getAllProductType();
+
     const handle = (event: any) => {
       if (refSidebar.current && !refSidebar.current.contains(event.target)) {
         setIsOpenSidebar(false);
@@ -77,6 +92,83 @@ export default function HeaderAnt({ device, auth, logout }: any) {
     };
   }, []);
 
+  useEffect(() => {
+    let cutUrl = location.pathname.split("/");
+    if (cutUrl[1] === "product") {
+      if (allProductType) {
+        allProductType.forEach((e: any) => {
+          e.detailProductType.forEach((e1: any) => {
+            if (
+              cutUrl[2] === removeAccents(e1.detailPTName).split(" ").join("-")
+            ) {
+              setSelectedKey(e1.detailPTId);
+              setSelectedProductType([e1.detailPTId, e1.detailPTName]);
+            }
+          });
+        });
+      }
+    } else {
+      setSelectedKey(null);
+      setSelectedProductType("");
+    }
+  }, [location.pathname, allProductType]);
+
+  useEffect(() => {
+    if (allProductType) {
+      let cache: any = [];
+      allProductType.forEach((e: any) => {
+        var subItems: any = [];
+        e.detailProductType.forEach((e1: any) => {
+          subItems.push({
+            label: (
+              <Link
+                to={`/product/${removeAccents(e1.detailPTName)
+                  .split(" ")
+                  .join("-")}`}
+              >
+                {e1.detailPTName}
+              </Link>
+            ),
+            key: e1.detailPTId,
+          });
+        });
+        cache.push({
+          // label: (
+          //   <Link to={`/product/${e.productTypeName}`}>
+          //     {e.productTypeName}
+          //   </Link>
+          // ),
+          label: e.productTypeName,
+          key: e.productTypeId,
+          children: subItems,
+        });
+      });
+      setItemNav(cache);
+    }
+  }, [allProductType]);
+
+  useEffect(() => {
+    if (!auth) {
+      // console.log(cart);
+      var total = cart.reduce((x1: any, x2: any) => x1 + x2.quantity, 0);
+      setQuantityCart(total);
+    } else {
+      if (cart.length) {
+        var total = cart.reduce((x1: any, x2: any) => x1 + x2.quantity, 0);
+        console.log(total);
+        setQuantityCart(total);
+      } else {
+        setQuantityCart(0);
+      }
+    }
+  }, [cart]);
+
+  const onLogout = () => {
+    setCart([] );
+    setDetailCart("");
+    logout();
+  } 
+
   return (
     <>
       <div
@@ -87,7 +179,7 @@ export default function HeaderAnt({ device, auth, logout }: any) {
             <Search placeholder="input search text" style={{ width: "98%" }} />
           </div>
 
-          <Menu style={{ width: "100%" }} mode="inline" items={subitemsNav} />
+          <Menu style={{ width: "100%" }} mode="inline" items={itemsNav} />
         </div>
       </div>
       <Header>
@@ -173,11 +265,12 @@ export default function HeaderAnt({ device, auth, logout }: any) {
             {auth.isAdmin ? (
               ""
             ) : (
-              <Badge count={0} showZero size="small" color="#faad14">
+              <Badge count={quantityCart} showZero size="small" color="#faad14">
                 <div className="wrap-btn">
                   <Button
                     type="link"
                     icon={<RiShoppingBasketLine className="icon-btn" />}
+                    onClick={() => nav("/cart")}
                   />
                 </div>
               </Badge>
@@ -186,19 +279,25 @@ export default function HeaderAnt({ device, auth, logout }: any) {
         </div>
         {device === "desktop" ? (
           <div className="nav">
-            <ul>
-              {itemsNav.map((e: any, i: any) => {
+            <Menu
+              items={itemsNav}
+              onClick={(e) => console.log(e)}
+              mode="horizontal"
+              selectedKeys={[selectedKey]}
+            />
+            {/* <ul>
+              {itemsNav.map((e: MenuProps, i: any) => {
                 return (
                   <li key={i}>
-                    <Dropdown menu={{ items }}>
+                    <Dropdown menu={{e.children}}>
                       <div className="wrap-btn">
-                        <Button type="link">{e}</Button>
+                        <Button type="link">{e.label}</Button>
                       </div>
                     </Dropdown>
                   </li>
                 );
               })}
-            </ul>
+            </ul> */}
           </div>
         ) : (
           ""

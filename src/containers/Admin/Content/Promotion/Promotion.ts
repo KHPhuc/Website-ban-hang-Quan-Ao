@@ -10,6 +10,7 @@ import {
   setUpdateStatus,
   updatePromotion,
   updateAndDeletePromotion,
+  removePromotion,
 } from "../../../../app/API/Promotion/Promotion";
 
 const mapStatesToProps = (state: any) => {
@@ -30,6 +31,7 @@ const mapActionsToProps = {
     updatePromotion(value, promotion),
   updateAndDeletePromotion: (value: any, promotion: any) =>
     updateAndDeletePromotion(value, promotion),
+  removePromotion: (promotionId: any) => removePromotion(promotionId),
 };
 
 export default connect(mapStatesToProps, mapActionsToProps)(Promotion);

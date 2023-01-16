@@ -1,4 +1,5 @@
 import { ConfigProvider, FloatButton, Layout } from "antd";
+import FooterAntd from "../common/Footer/Footer";
 
 export default function LayoutAnt(props: any) {
   return (
@@ -10,8 +11,12 @@ export default function LayoutAnt(props: any) {
         },
       }}
     >
-      <Layout style={{ minHeight: "100vh", backgroundColor: "#fff" }}>
+      <Layout
+        className="relative"
+        style={{ minHeight: "100vh", backgroundColor: "#fff" }}
+      >
         {props.children}
+
         <FloatButton.BackTop />
       </Layout>
     </ConfigProvider>

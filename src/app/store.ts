@@ -15,6 +15,10 @@ import ProductType from "./API/ProductType/ProductType";
 import Product from "./API/Product/Product";
 import Promotion from "./API/Promotion/Promotion";
 import Payment from "./API/Payment/Payment";
+import Customer from "./API/Customer/Customer";
+import Cart from "./API/Cart/Cart";
+import Address from "./API/Address/Address";
+import Order from "./API/Order/Order";
 
 const persistConfig = {
   key: "root",
@@ -32,6 +36,10 @@ const reducer = combineReducers({
   product: Product,
   promotion: Promotion,
   payment: Payment,
+  customer: Customer,
+  cart: Cart,
+  address: Address,
+  order: Order,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

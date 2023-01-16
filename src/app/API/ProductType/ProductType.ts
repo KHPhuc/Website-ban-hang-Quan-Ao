@@ -73,6 +73,22 @@ export const getAllProductType = () => async (dispatch:any) => {
     .finally(() => {});
 }
 
+
+export const getAllProductTypeNoNoti = () => async (dispatch:any) => {
+  api
+    .get("/product_type/all")
+    .then((res) => {
+      if (res.data.length) {
+        dispatch(setAllProductType(res.data));
+      } else {
+        dispatch(setAllProductType(""));
+      }
+    })
+    .catch((err) => {
+    })
+    .finally(() => {});
+}
+
 export const addProductType =
   (productTypeName: any) => async (dispatch: any) => {
     var idToast = loadingToast("Đang thêm ...");

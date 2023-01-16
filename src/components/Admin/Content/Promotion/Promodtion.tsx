@@ -30,6 +30,8 @@ export default function Promotion({
 
   updatePromotion,
   updateAndDeletePromotion,
+
+  removePromotion,
 }: any) {
   const [form]: any = Form.useForm();
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -111,21 +113,23 @@ export default function Promotion({
     {
       title: "Hành động",
       render: (x: any) => (
-        <a
-          onClick={() => {
-            setValueUpdate(x);
-            setIsAdd(false);
-            setIsOpenModal(true);
-          }}
-        >
-          Sửa
-        </a>
-        // <Space size={"middle"}>
-
-        //   <Popconfirm title="Bạn có chắc chắn muốn xóa?" onConfirm={() => {}}>
-        //     <a>Xóa</a>
-        //   </Popconfirm>
-        // </Space>
+        <Space size={"middle"}>
+          <a
+            onClick={() => {
+              setValueUpdate(x);
+              setIsAdd(false);
+              setIsOpenModal(true);
+            }}
+          >
+            Sửa
+          </a>
+          <Popconfirm
+            title="Bạn có chắc chắn muốn xóa?"
+            onConfirm={() => removePromotion(x.promotionId)}
+          >
+            <a>Xóa</a>
+          </Popconfirm>
+        </Space>
       ),
     },
   ];
@@ -138,7 +142,8 @@ export default function Promotion({
         sale: valueUpdate.sale,
         minimum: valueUpdate.minimum,
         times: valueUpdate.times === -1 ? null : valueUpdate.times,
-        date: [valueUpdate.startDate, valueUpdate.endDate],
+        startDate: dayjs(valueUpdate.startDate),
+        endDate: dayjs(valueUpdate.endDate),
       });
     }
   }, [isOpenModal]);
@@ -321,6 +326,7 @@ export default function Promotion({
             >
               <DatePicker
                 placeholder="Ngày bắt đầu"
+                format={"DD-MM-YYYY"}
                 disabledDate={(current) => {
                   return current && current < dayjs().startOf("day");
                 }}
@@ -342,6 +348,7 @@ export default function Promotion({
             >
               <DatePicker
                 placeholder="Ngày kết thúc"
+                format={"DD-MM-YYYY"}
                 disabledDate={(current) => {
                   return current && current < dayjs().startOf("day");
                 }}

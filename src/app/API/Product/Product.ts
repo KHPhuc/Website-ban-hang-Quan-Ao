@@ -19,6 +19,11 @@ const initialState = {
   addStatus: "",
   updateStatus: "",
   product: "",
+
+  selectedProductType: "", // chọn loại sản phẩm để xem
+  selectedProduct: "", // chọn sản phẩm xem chi tiết
+  detailProduct: "", //chi tiết sản phẩm
+  loadingGetDetailProduct: false,
 };
 
 const product = createSlice({
@@ -34,10 +39,31 @@ const product = createSlice({
     setProduct(state, action) {
       state.product = action.payload;
     },
+
+    setSelectedProductType(state, action) {
+      state.selectedProductType = action.payload;
+    },
+    setSelectedProduct(state, action) {
+      state.selectedProduct = action.payload;
+    },
+    setDetailProduct(state, action) {
+      state.detailProduct = action.payload;
+    },
+    setLoadingGetDetailProduct(state, action) {
+      state.loadingGetDetailProduct = action.payload;
+    },
   },
 });
 
-export const { setProduct, setAddStatus, setUpdateStatus } = product.actions;
+export const {
+  setProduct,
+  setAddStatus,
+  setUpdateStatus,
+  setSelectedProductType,
+  setSelectedProduct,
+  setDetailProduct,
+  setLoadingGetDetailProduct,
+} = product.actions;
 
 export const uploadImage = (file: any) => {
   return new Promise((res, rej) => {
@@ -77,6 +103,57 @@ export const deleteImage = (name: any) => {
 //     .catch((err) => {})
 //     .finally(() => {});
 // };
+
+export const getProductToShow = () => async (dispatch: any) => {
+  api
+    .get("/detail_product")
+    .then((res) => {
+      if (res.data.length) {
+        dispatch(setProduct(res.data));
+      } else {
+        dispatch(setProduct(res.data));
+      }
+    })
+    .catch((err) => {})
+    .finally(() => {});
+};
+
+export const getProductTypeToShow =
+  (detailPTId: any) => async (dispatch: any) => {
+    api
+      .get(`/detail_product/productType/${detailPTId}`)
+      .then((res) => {
+        if (res.data.length) {
+          dispatch(setProduct(res.data));
+        } else {
+          dispatch(setProduct(res.data));
+        }
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  };
+
+// => async (dispatch: any)
+export const getProductByUrl = (linkProduct: any) => {
+  return new Promise((resolve, reject) => {
+    api
+      .get(`/product/detail_product/${linkProduct}`)
+      .then((res) => {
+        resolve(res.data);
+        if (res.data.length) {
+          // dispatch(setDetailProduct(res.data));
+        } else {
+          // dispatch(setDetailProduct(res.data));
+        }
+      })
+      .catch((err) => {
+        reject(err);
+      })
+      .finally(() => {
+        // dispatch(setLoadingGetDetailProduct(false));
+      });
+  });
+};
 
 export const getProduct = () => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
@@ -138,7 +215,11 @@ export const addMultiDetailProduct =
         api
           .post(`/detail_product/create`, JSON.stringify(e))
           .then((res) => {
-            updateToastNoStop(idToast, (i + 1) / detailProduct.length, "success");
+            updateToastNoStop(
+              idToast,
+              (i + 1) / detailProduct.length,
+              "success"
+            );
             dispatch(setProduct(res.data));
             resolve(res);
           })

@@ -18,6 +18,7 @@ import AddColorProduct from "../../../../containers/Admin/Content/Product/AddCol
 import * as XLSX from "xlsx";
 import { addProductByExcel } from "../../../../app/API/Product/Product";
 import { NumericFormat } from "react-number-format";
+import { BACKEND } from "../../../common/Config/Config";
 
 export default function Product({
   setTitle,
@@ -46,6 +47,8 @@ export default function Product({
   var [valueUpdateDetailProduct, setValueUpdateDetailProduct]: any = useState();
   const [valueAddDetailProduct, setValueAddDetailProduct]: any = useState();
   const [valueAddColorProduct, setValueAddColorProduct]: any = useState();
+
+  const [detailPT, setDetailPT]: any = useState();
 
   var [arrColorProduct, setArrColorProduct]: any = useState();
 
@@ -170,7 +173,7 @@ export default function Product({
       render: (x: any) => (
         <img
           className="w-[100px]"
-          src={`http://localhost:5000/${x.image}`}
+          src={`${BACKEND}/${x.image}`}
           alt=""
         />
       ),
@@ -212,7 +215,8 @@ export default function Product({
       render: (x: any) => (
         <NumericFormat
           displayType={"text"}
-          thousandSeparator={true}
+          thousandSeparator={"."}
+          decimalSeparator={","}
           suffix={" ₫"}
           value={x.currentPrice}
         />
@@ -283,6 +287,17 @@ export default function Product({
               index2 + e.span
             );
 
+            setDetailPT(
+              allProductType
+                .find((x: any) => {
+                  return x.detailProductType.find(
+                    (x1: any) => x1.detailPTId === product[index].detailPTId
+                  );
+                })
+                ?.detailProductType.find(
+                  (x1: any) => x1.detailPTId === product[index].detailPTId
+                )?.detailPTName
+            );
             setValueUpdateDetailProduct(data);
             setArrColorProduct(color);
             setIsOpenModalUpdateDetailProduct(true);
@@ -542,6 +557,7 @@ export default function Product({
         setIsOpenModalUpdateDetailProduct={setIsOpenModalUpdateDetailProduct}
         data={valueUpdateDetailProduct}
         color={arrColorProduct}
+        detailPT={detailPT}
       />
       <AddDetailProduct
         isOpenModalAddDetailProduct={isOpenModalAddDetailProduct}

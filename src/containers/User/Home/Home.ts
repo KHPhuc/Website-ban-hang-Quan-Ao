@@ -2,10 +2,22 @@ import { connect } from "react-redux";
 
 import Home from "../../../components/User/Content/Home/Home";
 
+import {
+  getProductToShow,
+  setSelectedProduct,
+  setDetailProduct
+} from "../../../app/API/Product/Product";
+
 const mapStatesToProps = (state: any) => {
   return {
-    // device: state.device.device,
+    product: state.product.product,
   };
 };
 
-export default connect(mapStatesToProps, null)(Home);
+const mapActionsToProps = {
+  getProductToShow: () => getProductToShow(),
+  setSelectedProduct: (value: any) => setSelectedProduct(value),
+  setDetailProduct: (value: any) => setDetailProduct(value)
+};
+
+export default connect(mapStatesToProps, mapActionsToProps)(Home);

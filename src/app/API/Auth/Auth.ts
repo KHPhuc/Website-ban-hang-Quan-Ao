@@ -10,6 +10,7 @@ import {
   logoutToast,
 } from "../../../components/common/Toast/Toast";
 import api from "../API";
+import { getCart } from "../Cart/Cart";
 
 const initialState = {
   auth: "",
@@ -54,6 +55,7 @@ export const register =
         );
         let toast = registerSuccess(res.data.name);
         updateToast(idToast, toast.message, toast.type);
+        localStorage.removeItem("cart");
       })
       .catch((err) => {
         let toast = registerFail(err.data.message);
@@ -76,6 +78,8 @@ export const login =
         dispatch(setAccount(JSON.parse(data)));
         let toast = loginSuccess(res.data.name);
         updateToast(idToast, toast.message, toast.type);
+        localStorage.removeItem("cart");
+        dispatch(getCart(res.data.id));
       })
       .catch((err) => {
         updateToast(idToast, loginFail.message, loginFail.type);

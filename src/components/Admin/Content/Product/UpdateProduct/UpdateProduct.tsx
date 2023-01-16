@@ -1,11 +1,6 @@
-import {
-  Button,
-  Form,
-  Input,
-  Modal,
-  TreeSelect,
-} from "antd";
+import { Button, Form, Input, Modal, TreeSelect } from "antd";
 import { useEffect, useState } from "react";
+import { removeAccents } from "../../../../common/RemoveAccents/RemoveAccents";
 
 const { TextArea } = Input;
 
@@ -53,6 +48,11 @@ export default function UpdateProduct(props: any) {
   const handleUpdate = (value: any) => {
     props.updateProduct(props.data.productId, {
       productName: value.productName,
+      linkProduct: removeAccents(value.productName)
+        .split("/")
+        .join("-")
+        .split(" ")
+        .join("-"),
       detailPTId: value.productType,
       description: value.description,
     });

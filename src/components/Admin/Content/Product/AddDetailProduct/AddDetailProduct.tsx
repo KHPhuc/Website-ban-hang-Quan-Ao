@@ -8,6 +8,7 @@ import {
   Space,
 } from "antd";
 import { useEffect, useState } from "react";
+import { BACKEND } from "../../../../common/Config/Config";
 
 export default function AddDetailProduct(props: any) {
   const [form]: any = Form.useForm();
@@ -66,7 +67,7 @@ export default function AddDetailProduct(props: any) {
       >
         <div className="flex justify-center mb-[10px]">
           <Space size="large">
-            <Image width={100} src={`http://localhost:5000/${urlImage}`} />
+            <Image width={100} src={`${BACKEND}/${urlImage}`} />
             <Form.Item
               label="Màu sắc"
               className=""

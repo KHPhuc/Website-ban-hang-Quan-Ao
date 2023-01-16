@@ -17,6 +17,7 @@ import {
   uploadImage,
   deleteImage,
 } from "../../../../../app/API/Product/Product";
+import { BACKEND } from "../../../../common/Config/Config";
 
 export default function UpdateDetailProduct(props: any) {
   const [form]: any = Form.useForm();
@@ -63,33 +64,48 @@ export default function UpdateDetailProduct(props: any) {
     return {
       key: key,
       size: (ls: any) => (
-        <Form.Item
-          className="mb-[10px]"
-          name={"size-" + key}
-          rules={[
-            { required: true, message: "Không được để trống ô" },
-            ({ getFieldValue }) => ({
-              validator(o: any, value) {
-                let values = form.getFieldsValue();
-                for (const [key, v] of Object.entries(values)) {
-                  if (key !== o.field) {
-                    if (key.split("-")[0] === "size" && value === v) {
-                      return Promise.reject("Đã có kích thước");
+        <>
+          {props.detailPT.includes("Mũ") ? (
+            <Form.Item className="mb-[10px]" name={"size-" + key}>
+              <Input
+                className="w-full"
+                placeholder="ví dụ: S, M, v.v"
+                maxLength={3}
+                disabled
+                onChange={(e) => handleInputSize(e, key, ls)}
+              />
+            </Form.Item>
+          ) : (
+            <Form.Item
+              className="mb-[10px]"
+              name={"size-" + key}
+              rules={[
+                { required: true, message: "Không được để trống ô" },
+                ({ getFieldValue }) => ({
+                  validator(o: any, value) {
+                    let values = form.getFieldsValue();
+                    for (const [key, v] of Object.entries(values)) {
+                      if (key !== o.field) {
+                        if (key.split("-")[0] === "size" && value === v) {
+                          return Promise.reject("Đã có kích thước");
+                        }
+                      }
                     }
-                  }
-                }
-                return Promise.resolve();
-              },
-            }),
-          ]}
-        >
-          <Input
-            className="w-full"
-            placeholder="ví dụ: S, M, v.v"
-            maxLength={3}
-            onChange={(e) => handleInputSize(e, key, ls)}
-          />
-        </Form.Item>
+                    return Promise.resolve();
+                  },
+                }),
+              ]}
+            >
+              <Input
+                className="w-full"
+                placeholder="ví dụ: S, M, v.v"
+                maxLength={3}
+                disabled
+                onChange={(e) => handleInputSize(e, key, ls)}
+              />
+            </Form.Item>
+          )}
+        </>
       ),
       originPrice: (ls: any) => (
         <Form.Item
@@ -281,46 +297,64 @@ export default function UpdateDetailProduct(props: any) {
   };
 
   const updateDP = (values: any) => {
-    if (
-      (urlImage && urlImage !== props.data[0].image) ||
-      values.color !== props.data[0].color
-    ) {
+    if (urlImage && urlImage !== props.data[0].image) {
+      let pre: any = [];
+      let pre2: any = [];
+      let pre3: any = [];
+      let hasUp1 = false;
+      let hasUp2 = false;
+      cacheData.forEach((e: any, i: any) => {
+        if (
+          e.originalPrice !== props.data[i].originalPrice ||
+          e.currentPrice !== props.data[i].currentPrice
+        ) {
+          hasUp1 = true;
+          let dtP = { ...e, image: urlImage };
+          pre.push(dtP);
+        } else if (e.quantity !== props.data[i].quantity) {
+          hasUp2 = true;
+          let dtP = { ...e, image: urlImage };
+          pre2.push(dtP);
+        } else {
+          let dtP = { ...e, image: urlImage };
+          pre3.push(dtP);
+        }
+      });
+      if (hasUp1) {
+        props.updateAndDeleteDetailProduct(pre);
+      }
+      if (hasUp2) {
+        props.updateDetailProduct(pre2);
+      }
+      if (!hasUp1 && !hasUp2) {
+        props.updateDetailProduct(pre3);
+      }
+    } else {
+      let hasUp1 = false;
+      let hasUp2 = false;
       let pre: any = [];
       let pre2: any = [];
       cacheData.forEach((e: any, i: any) => {
         if (
-          e.size !== props.data[i].size ||
           e.originalPrice !== props.data[i].originalPrice ||
-          e.currentPrice !== props.data[i].currentPrice ||
-          e.quantity !== props.data[i].quantity
+          e.currentPrice !== props.data[i].currentPrice
         ) {
-          let dtP = { ...e, image: urlImage, color: values.color };
-          pre.push(dtP);
-        } else {
-          let dtP = { ...e, image: urlImage, color: values.color };
-          pre2.push(dtP);
-        }
-      });
-      props.updateAndDeleteDetailProduct(pre);
-      props.updateDetailProduct(pre2);
-    } else {
-      let hasUp = false;
-      let pre: any = [];
-      cacheData.forEach((e: any, i: any) => {
-        if (
-          e.size !== props.data[i].size ||
-          e.originalPrice !== props.data[i].originalPrice ||
-          e.currentPrice !== props.data[i].currentPrice ||
-          e.quantity !== props.data[i].quantity
-        ) {
-          hasUp = true;
+          hasUp1 = true;
           let dtP = { ...e };
           pre.push(dtP);
+        } else {
+          if (e.quantity !== props.data[i].quantity) {
+            hasUp2 = true;
+            let dtP = { ...e };
+            pre2.push(dtP);
+          }
         }
       });
-      if (hasUp) {
+      if (hasUp1) {
         props.updateAndDeleteDetailProduct(pre);
-      } else {
+      }
+      if (hasUp2) {
+        props.updateDetailProduct(pre2);
       }
     }
   };
@@ -355,7 +389,7 @@ export default function UpdateDetailProduct(props: any) {
                 <div className="relative">
                   <img
                     className="img-upload-preview"
-                    src={`http://localhost:5000/${urlImage}`}
+                    src={`${BACKEND}/${urlImage}`}
                     width={110}
                   />
                   <div className="absolute bottom-0 w-[110px] h-[25px] bg-[#0000004f] img-upload">
@@ -412,6 +446,7 @@ export default function UpdateDetailProduct(props: any) {
                 className="w-full"
                 placeholder="ví dụ: Trắng, Đỏ v.v"
                 maxLength={30}
+                disabled
                 onChange={(e: any) => {
                   // handleInputColor(e, key);
                 }}

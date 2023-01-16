@@ -1,4 +1,4 @@
-export const product = [
+export const product1 = [
   {
     title: "Product 1",
     product: [

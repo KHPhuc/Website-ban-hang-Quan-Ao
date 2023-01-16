@@ -82,12 +82,12 @@ export const updatePromotion =
       .then((res) => {
         dispatch(setPromotion(res.data));
         updateToast(idToast, updateSuccess.message, updateSuccess.type);
-        dispatch(setAddStatus(true));
+        dispatch(setUpdateStatus(true));
       })
       .catch((err) => {
         let toast = updateFail(err.data.message);
         updateToast(idToast, toast.message, toast.type);
-        dispatch(setAddStatus(false));
+        dispatch(setUpdateStatus(false));
       })
       .finally(() => {});
   };
@@ -103,14 +103,29 @@ export const updateAndDeletePromotion =
       .then((res) => {
         dispatch(setPromotion(res.data));
         updateToast(idToast, updateSuccess.message, updateSuccess.type);
-        dispatch(setAddStatus(true));
+        dispatch(setUpdateStatus(true));
       })
       .catch((err) => {
         let toast = updateFail(err.data.message);
         updateToast(idToast, toast.message, toast.type);
-        dispatch(setAddStatus(false));
+        dispatch(setUpdateStatus(false));
       })
       .finally(() => {});
   };
+
+export const removePromotion = (promotionId: any) => async (dispatch: any) => {
+  var idToast = loadingToast("Đang xóa ...");
+  api
+    .delete(`/promotion/delete/${promotionId}`)
+    .then((res) => {
+      dispatch(setPromotion(res.data));
+      updateToast(idToast, deleteSuccess.message, deleteSuccess.type);
+    })
+    .catch((err) => {
+      let toast = deleteFail(err.data.message);
+      updateToast(idToast, toast.message, toast.type);
+    })
+    .finally(() => {});
+};
 
 export default promotion.reducer;

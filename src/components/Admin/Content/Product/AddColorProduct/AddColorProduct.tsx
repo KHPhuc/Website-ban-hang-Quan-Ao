@@ -18,6 +18,7 @@ import {
   uploadImage,
   deleteImage,
 } from "../../../../../app/API/Product/Product";
+import { BACKEND } from "../../../../common/Config/Config";
 
 export default function AddColorProduct(props: any) {
   const [form]: any = Form.useForm();
@@ -439,7 +440,7 @@ export default function AddColorProduct(props: any) {
                 <div className="relative">
                   <img
                     className="img-upload-preview"
-                    src={`http://localhost:5000/${urlImage}`}
+                    src={`${BACKEND}/${urlImage}`}
                     width={110}
                   />
                   <div className="absolute bottom-0 w-[110px] h-[25px] bg-[#0000004f] img-upload">

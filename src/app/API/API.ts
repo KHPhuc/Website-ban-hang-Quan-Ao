@@ -1,10 +1,12 @@
 import axios from "axios";
 import store from "../store";
 // import { refreshToken } from "./Auth/Auth";
+import { BACKEND } from "../../components/common/Config/Config";
 
 const api = axios.create({
   // baseURL: "http://localhost:5000/api",
-  baseURL: "https://server-ban-hang.herokuapp.com/api",
+  // baseURL: `https://server-ban-hang.herokuapp.com/api`,
+  baseURL: `${BACKEND}/api`,
   headers: {
     "Content-Type": "application/json",
   },

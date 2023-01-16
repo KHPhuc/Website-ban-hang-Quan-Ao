@@ -15,6 +15,7 @@
     "antd": "^5.1.4",
     "autoprefixer": "^10.4.13",
     "axios": "^1.2.1",
+    "dotenv-webpack": "^8.0.1",
     "dvhcvn": "^1.0.20221001",
     "email-validator": "^2.0.4",
     "js-file-download": "^0.4.12",

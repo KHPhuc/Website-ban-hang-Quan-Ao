@@ -2,7 +2,7 @@ import { message } from "antd";
 import { toast } from "react-toastify";
 
 const loadingToast = (message: any) => {
-  const id = toast.loading(message);
+  const id = toast.loading(message, { containerId: "CT" });
   return id;
 };
 
@@ -18,6 +18,7 @@ const updateToast = (id: any, message: any, type: any) => {
       pauseOnFocusLoss: false,
       pauseOnHover: false,
       theme: "light",
+      containerId: "CT",
     });
   }, 100);
 };
@@ -34,6 +35,7 @@ const updateToastNoStop = (id: any, message: any, type: any) => {
       pauseOnFocusLoss: false,
       pauseOnHover: false,
       theme: "light",
+      containerId: "CT",
     });
   }, 100);
 };
@@ -179,5 +181,5 @@ export {
   updateFail,
   deleteSuccess,
   deleteFail,
-  updateToastNoStop
+  updateToastNoStop,
 };

@@ -15,7 +15,7 @@
 }
 
 .ant-layout .ant-layout-header {
-  background: var(--main-color);
+  background: #a04444;
   height: 1rem;
   padding-inline: 0rem;
   @apply flex flex-col items-center md:h-[1.6rem];
@@ -33,7 +33,7 @@
   width: 100%;
   height: 0.6rem;
   padding-inline: 0.3rem;
-  background: var(--third-color);
+  background: #d3f0f0;
   @apply flex justify-center items-center;
 }
 
@@ -41,7 +41,7 @@
   width: 100%;
   max-width: 15rem;
   height: 100%;
-  background: var(--third-color);
+  background: #d3f0f0;
   list-style-type: none;
   @apply flex items-center;
 }
@@ -275,13 +275,25 @@
   top: 5px;
 }
 
+.box-infor-cart {
+  border: 1px solid #d9d9d9;
+  border-radius: 7px;
+  padding: 5px 20px;
+  /* position: relative; */
+  font-size: 15px;
+  height: 32px;
+  margin-right: 15px;
+  @apply flex items-center justify-center
+  /* #d9d9d9 */
+}
+
 .button-number-cart {
   border: 1px solid black;
   border-radius: 10px;
   padding: 0 40px;
   position: relative;
   font-size: 15px;
-  height: 25px;
+  height: 30px;
   margin-right: 15px;
 }
 
@@ -302,19 +314,24 @@
   background-color: #2f5acf;
 }
 
+.button-add-cart:hover {
+  background-color: #4272f5;
+}
+
 .borderRight {
   @apply md:border-r-[1px] md:border-solid md:divide-gray-300;
 }
 
 .button-pay {
-  background-color: #000;
+  background-color: #000 !important;
   color: #fff;
   border-radius: 20px;
 }
 
 .button-pay:hover {
-  background-color: #d9d9d9;
-  color: #000;
+  background-color: #d9d9d9 !important;
+  color: #000 !important;
+  border:none;
 }
 
 .Toastify__toast-container .Toastify__toast {
@@ -366,4 +383,3 @@ img.ant-image-preview-img {
 .ant-table-wrapper a:hover {
   color: #69b1ff !important;
 }
-

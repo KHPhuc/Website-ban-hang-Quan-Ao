@@ -33,6 +33,20 @@ const payment = createSlice({
 
 export const { setPayment, setUpdateStatus } = payment.actions;
 
+export const getPaymentUser = () => async (dispatch: any) => {
+  api
+    .get("/payment/getForUser")
+    .then((res) => {
+      if (res.data.length) {
+        dispatch(setPayment(res.data));
+      } else {
+        dispatch(setPayment(""));
+      }
+    })
+    .catch((err) => {})
+    .finally(() => {});
+};
+
 export const getPayment = () => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
   api
@@ -53,16 +67,16 @@ export const getPayment = () => async (dispatch: any) => {
 
 export const updatePayment =
   (paymentId: any, payment: any) => async (dispatch: any) => {
-    // var idToast = loadingToast("Đang cập nhật ...");
+    var idToast = loadingToast("Đang cập nhật ...");
     api
       .put(`/payment/update/${paymentId}`, JSON.stringify(payment))
       .then((res) => {
         dispatch(setPayment(res.data));
-        // updateToast(idToast, updateSuccess.message, updateSuccess.type);
+        updateToast(idToast, updateSuccess.message, updateSuccess.type);
       })
       .catch((err) => {
         let toast = updateFail(err.data.message);
-        // updateToast(idToast, toast.message, toast.type);
+        updateToast(idToast, toast.message, toast.type);
       })
       .finally(() => {});
   };
