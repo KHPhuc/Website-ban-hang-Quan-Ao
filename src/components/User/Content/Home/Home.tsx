@@ -48,7 +48,7 @@ export default function Home({
 
   return (
     <>
-      <div className="home">
+      <div className="home pb-[0.5rem]">
         <div className="container">
           {/* <div className="carousel">
             <Slider {...settings} className="slider">
@@ -192,7 +192,9 @@ export default function Home({
           </div>
         </div>
       </div>
-      <FooterAntd />
+      <div className="absolute bottom-0 w-full">
+        <FooterAntd />
+      </div>
     </>
   );
 }

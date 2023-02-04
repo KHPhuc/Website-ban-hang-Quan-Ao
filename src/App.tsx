@@ -19,6 +19,7 @@ import PayHandle from "./components/Result/PayHandle/PayHandle";
 import OrderSuccess from "./containers/Common/OrderSuccess";
 import PageOrderFail from "./components/Result/PageOrderFail/PagePaySuccess";
 import PagePayFail from "./components/Result/PagePayFail/PagePaySuccess";
+import Account from "./containers/User/Account/Account";
 
 const Home = React.lazy(() => import("./containers/User/Home/Home"));
 const Product = React.lazy(() => import("./containers/User/Product/Product"));
@@ -119,6 +120,10 @@ function App({ auth, setDevice, login, account, setCart }: any) {
                   <Route
                     path="cart"
                     element={auth.isAdmin ? <Navigate to={"/"} /> : <Cart />}
+                  />
+                  <Route
+                    path="account/*"
+                    element={auth ? <Account /> : <Navigate to={"/login"} />}
                   />
                   <Route
                     path="login"

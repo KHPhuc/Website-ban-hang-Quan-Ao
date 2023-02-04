@@ -10,7 +10,7 @@ import {
   logoutToast,
 } from "../../../components/common/Toast/Toast";
 import api from "../API";
-import { getCart } from "../Cart/Cart";
+import { getCart, setCart, setDetailCart } from "../Cart/Cart";
 
 const initialState = {
   auth: "",
@@ -88,6 +88,8 @@ export const login =
   };
 
 export const logout = () => async (dispatch: any) => {
+  dispatch(setCart([]));
+  dispatch(setDetailCart(""));
   dispatch(setAuth(""));
   var idToast = loadingToast("Đăng xuất ...");
   updateToast(idToast, logoutToast.message, logoutToast.type);

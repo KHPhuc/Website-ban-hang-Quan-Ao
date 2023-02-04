@@ -29,7 +29,7 @@ export default function Product({
 
   return (
     <>
-      <div className="home">
+      <div className="home pb-[0.5rem]">
         <div className="container">
           <div className="filter">
             <Title level={3} style={{ marginBottom: 0 }} className="mr-[15px]">

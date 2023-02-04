@@ -52,8 +52,20 @@ export default function HeaderAnt({
         ]
       : [
           {
-            label: <Link to="/login">Thông tin cá nhân</Link>,
+            label: <Link to="/account/info">Thông tin cá nhân</Link>,
             key: "infor",
+          },
+          {
+            label: <Link to="/account/change-password">Đổi mật khẩu</Link>,
+            key: "change-password",
+          },
+          {
+            label: <Link to="/account/orders">Danh sách đơn hàng</Link>,
+            key: "orders",
+          },
+          {
+            label: <Link to="/account/reviews">Đánh giá</Link>,
+            key: "reviews",
           },
           {
             label: (
@@ -164,10 +176,10 @@ export default function HeaderAnt({
   }, [cart]);
 
   const onLogout = () => {
-    setCart([] );
+    setCart([]);
     setDetailCart("");
     logout();
-  } 
+  };
 
   return (
     <>
@@ -262,7 +274,7 @@ export default function HeaderAnt({
               </Dropdown>
             )}
 
-            {auth.isAdmin ? (
+            {!auth || auth.isAdmin ? (
               ""
             ) : (
               <Badge count={quantityCart} showZero size="small" color="#faad14">

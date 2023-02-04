@@ -202,7 +202,7 @@ export default function Cart({
 
   return (
     <>
-      <div className="home  pb-[1rem]">
+      <div className="home  pb-[0.5rem]">
         <div
           className="container md:flex md:flex-row-reverse"
           style={{ marginTop: "0.3rem" }}
@@ -635,9 +635,6 @@ export default function Cart({
             </Form>
           </div>
         </div>
-      </div>
-      <div className="absolute bottom-0 w-full" style={{ marginTop: "0.4rem" }}>
-        <FooterAntd />
       </div>
     </>
   );

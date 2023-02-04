@@ -99,14 +99,14 @@ export default function LoginRegister({ login, register, auth, account }: any) {
     <>
       <div
         className="home"
-        style={{
-          position: "absolute",
-          width: "100%",
-          //   backgroundColor: "#0f0",
-          transform: "translate(-50%, -50%)",
-          top: "50%",
-          left: "50%",
-        }}
+        // style={{
+        //   position: "absolute",
+        //   width: "100%",
+        //   //   backgroundColor: "#0f0",
+        //   transform: "translate(-50%, -50%)",
+        //   top: "50%",
+        //   left: "50%",
+        // }}
       >
         <div className="container flex justify-center">
           <div
@@ -258,15 +258,7 @@ export default function LoginRegister({ login, register, auth, account }: any) {
           </div>
         </div>
       </div>
-      <div
-        style={{
-          position: "absolute",
-          width: "100%",
-          transform: "translate(-50%)",
-          bottom: 0,
-          left: "50%",
-        }}
-      >
+      <div className="absolute w-full bottom-0">
         <FooterAntd />
       </div>
     </>
