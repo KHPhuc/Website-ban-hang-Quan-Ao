@@ -130,40 +130,43 @@ export default function Cart({
   };
 
   const handleOrder = (e: any) => {
-    let money = detailCart.reduce(
-      (x1: any, x2: any) => x1 + x2.currentPrice,
-      0
-    );
-    let cache: any = {
-      address: e.address,
-      ward: e.ward,
-      district: e.district,
-      city: e.city,
-      name: auth.name,
-      phoneNumber: e.phoneNumber,
-      email: e.email,
-      customerId: auth.id,
-      totalMoney: money,
-      orderDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
-      orderStatus: "Chuẩn bị hàng",
-      paymentMethodId: payment[paymentSelect].paymentMethodId,
-      paymentStatus:
-        payment[paymentSelect].paymentMethodId === "PM-01"
-          ? "Thanh toán khi nhận hàng"
-          : payment[paymentSelect].paymentMethodId === "PM-02"
-          ? "Chưa thanh toán"
-          : "",
-      note: e.note,
-      listProduct: [],
-    };
-    detailCart.forEach((e1: any) => {
-      cache.listProduct.push({
-        detailProductId: e1.detailProductId,
-        quantity: e1.quantity,
+    if (detailCart.length) {
+      let money = detailCart.reduce(
+        (x1: any, x2: any) => x1 + x2.currentPrice,
+        0
+      );
+      let cache: any = {
+        address: e.address,
+        ward: e.ward,
+        district: e.district,
+        city: e.city,
+        name: auth.name,
+        phoneNumber: e.phoneNumber,
+        email: e.email,
+        customerId: auth.id,
+        totalMoney: money,
+        orderDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+        orderStatus: "Chuẩn bị hàng",
+        paymentMethodId: payment[paymentSelect].paymentMethodId,
+        paymentStatus:
+          payment[paymentSelect].paymentMethodId === "PM-01"
+            ? "Thanh toán khi nhận hàng"
+            : payment[paymentSelect].paymentMethodId === "PM-02"
+            ? "Chưa thanh toán"
+            : "",
+        note: e.note,
+        listProduct: [],
+      };
+      detailCart.forEach((e1: any) => {
+        cache.listProduct.push({
+          detailProductId: e1.detailProductId,
+          quantity: e1.quantity,
+        });
       });
-    });
-    // console.log(cache);
-    createOrder(cache);
+      // console.log(cache);
+      createOrder(cache);
+    } else {
+    }
   };
 
   const changeQuantity = (n: any, e: any) => {
@@ -624,7 +627,9 @@ export default function Cart({
               </Radio.Group>
               <div style={{ marginTop: "0.3rem", width: "100%" }}>
                 <Button
-                  className="button-pay"
+                  className={` ${
+                    detailCart.length ? "button-pay" : "button-pay-disabled"
+                  }`}
                   style={{ width: "100%", height: "0.8rem" }}
                   htmlType="submit"
                 >

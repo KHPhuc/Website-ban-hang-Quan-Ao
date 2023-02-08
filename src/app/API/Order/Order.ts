@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 const initialState = {
   linkToPay: "",
   order: "",
+  orderCustomer: "",
 };
 
 const customer = createSlice({
@@ -29,10 +30,13 @@ const customer = createSlice({
     setLinkToPay(state, action) {
       state.linkToPay = action.payload;
     },
+    setOrderCustomer(state, action) {
+      state.orderCustomer = action.payload;
+    },
   },
 });
 
-export const { setOrder, setLinkToPay } = customer.actions;
+export const { setOrder, setLinkToPay, setOrderCustomer } = customer.actions;
 
 export const getAllOrder = () => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
@@ -70,6 +74,20 @@ export const createOrder = (data: any) => async (dispatch: any) => {
       toast.error("Có lỗi. Vui lòng thử lại!", { containerId: "CT" });
     })
     .finally(() => {});
+};
+
+export const getOrderForCustomer = (data: any) => async (dispatch: any) => {
+  // dispatch(setOrderCustomer(""));
+  return new Promise((resolve, reject) => {
+    api
+      .post("/order/orders", JSON.stringify(data))
+      .then((res) => {
+        // dispatch(setOrderCustomer(res.data));
+        resolve(res.data);
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  });
 };
 
 export default customer.reducer;

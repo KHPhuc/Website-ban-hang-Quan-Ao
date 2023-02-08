@@ -1,11 +1,10 @@
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import FooterAntd from "../../../common/Footer/Footer";
-import ChangePassword from "./ChangePassword/ChangePassword";
-import Info from "./Info/Info";
-import Orders from "./Orders/Orders";
-import Reviews from "./Reviews/Reviews";
+import ChangePassword from "../../../../containers/User/Account/ChangePassword/ChangePassword";
+import Info from "../../../../containers/User/Account/Info/Info";
+import Orders from "../../../../containers/User/Account/Orders/Orders";
 
-export default function Account({ logout }: any) {
+export default function Account({ auth, logout }: any) {
   const location = useLocation().pathname.split("/");
   const navigate = useNavigate();
 
@@ -18,7 +17,7 @@ export default function Account({ logout }: any) {
             style={{ borderRight: "1px solid #d9d9d9" }}
           >
             <h1 className="text-[0.35rem] font-[600] leading-[0.6rem]">
-              Kiều Hoàng Phúc
+              {auth.name}
             </h1>
             <button
               className={`btn-account ${
@@ -51,16 +50,6 @@ export default function Account({ logout }: any) {
               Danh sách đơn hàng
             </button>
             <button
-              className={`btn-account ${
-                location[1] === "account" && location[2] === "reviews"
-                  ? "btn-account-active"
-                  : ""
-              }`}
-              onClick={() => navigate("reviews")}
-            >
-              Đánh giá
-            </button>
-            <button
               className="btn-account"
               onClick={() => {
                 navigate("/");
@@ -75,7 +64,6 @@ export default function Account({ logout }: any) {
               <Route path="info" element={<Info />} />
               <Route path="change-password" element={<ChangePassword />} />
               <Route path="orders" element={<Orders />} />
-              <Route path="reviews" element={<Reviews />} />
             </Routes>
           </div>
         </div>

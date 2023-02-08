@@ -165,6 +165,34 @@ const deleteFail = (message: any) => {
   };
 };
 
+const changePasswordSuccess = {
+  message: "Đổi mật khẩu thành công!",
+  type: "success",
+};
+
+const changePasswordFail = {
+  message: (
+    <div className="text-red-500">
+      <div>Đổi mật khẩu thất bại!</div>
+    </div>
+  ),
+  type: "error",
+};
+
+const updateInfoSuccess = {
+  message: "Cập nhật thành công!",
+  type: "success",
+};
+
+const updateInfoFail = {
+  message: (
+    <div className="text-red-500">
+      <div>Cập nhật thất bại!</div>
+    </div>
+  ),
+  type: "error",
+};
+
 export {
   loadingToast,
   updateToast,
@@ -182,4 +210,8 @@ export {
   deleteSuccess,
   deleteFail,
   updateToastNoStop,
+  changePasswordFail,
+  changePasswordSuccess,
+  updateInfoSuccess,
+  updateInfoFail,
 };

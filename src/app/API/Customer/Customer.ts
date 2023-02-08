@@ -11,11 +11,17 @@ import {
   updateFail,
   deleteSuccess,
   deleteFail,
+  changePasswordSuccess,
+  changePasswordFail,
+  updateInfoSuccess,
+  updateInfoFail,
 } from "../../../components/common/Toast/Toast";
+import { setAccount, setAuth } from "../Auth/Auth";
 
 const initialState = {
   customer: "",
   addStatus: "",
+  info: "",
 };
 
 const customer = createSlice({
@@ -28,10 +34,13 @@ const customer = createSlice({
     setAddStatus(state, action) {
       state.addStatus = action.payload;
     },
+    setInfo(state, action) {
+      state.info = action.payload;
+    },
   },
 });
 
-export const { setCustomer, setAddStatus } = customer.actions;
+export const { setCustomer, setAddStatus, setInfo } = customer.actions;
 
 export const getCustomer = () => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
@@ -47,6 +56,30 @@ export const getCustomer = () => async (dispatch: any) => {
     })
     .catch((err) => {
       updateToast(idToast, getDataFail.message, getDataFail.type);
+    })
+    .finally(() => {});
+};
+
+export const getInfo = (customerId: any) => async (dispatch: any) => {
+  api
+    .get(`/customer/info/${customerId}`)
+    .then((res) => {
+      dispatch(setInfo(res.data));
+    })
+    .catch((err) => {})
+    .finally(() => {});
+};
+
+export const updateInfo = (info: any, cId: any) => async (dispatch: any) => {
+  var idToast = loadingToast("Đang tải dữ liệu ...");
+  api
+    .post(`/customer/updateInfo/${cId}`, JSON.stringify(info))
+    .then((res) => {
+      dispatch(setAuth(res.data));
+      updateToast(idToast, updateInfoSuccess.message, updateInfoSuccess.type);
+    })
+    .catch((err) => {
+      updateToast(idToast, updateInfoFail.message, updateInfoFail.type);
     })
     .finally(() => {});
 };
@@ -67,6 +100,39 @@ export const createCustomer = (customer: any) => async (dispatch: any) => {
     })
     .finally(() => {});
 };
+
+export const changePassword =
+  (newPassword: any, customerId: any, username: any) =>
+  async (dispatch: any) => {
+    var idToast = loadingToast("Đang thêm ...");
+    var data = {
+      newPassword: newPassword,
+      customerId: customerId,
+    };
+    api
+      .post(`/customer/changePassword`, JSON.stringify(data))
+      .then((res) => {
+        dispatch(
+          setAccount({
+            username: username,
+            password: newPassword,
+          })
+        );
+        updateToast(
+          idToast,
+          changePasswordSuccess.message,
+          changePasswordSuccess.type
+        );
+      })
+      .catch((err) => {
+        updateToast(
+          idToast,
+          changePasswordFail.message,
+          changePasswordFail.type
+        );
+      })
+      .finally(() => {});
+  };
 
 export const banCustomer = (customerId: any) => async (dispatch: any) => {
   var idToast = loadingToast("Đang cấm ...");

@@ -119,7 +119,7 @@ function App({ auth, setDevice, login, account, setCart }: any) {
                   <Route path="productdetail/:id" element={<DetailProduct />} />
                   <Route
                     path="cart"
-                    element={auth.isAdmin ? <Navigate to={"/"} /> : <Cart />}
+                    element={!auth ? <Navigate to={"/"} /> : <Cart />}
                   />
                   <Route
                     path="account/*"

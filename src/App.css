@@ -334,6 +334,18 @@
   border: none;
 }
 
+.button-pay-disabled {
+  background-color: #d9d9d9 !important;
+  color: #fff !important;
+  border: none;
+}
+
+.button-pay-disabled:hover {
+  background-color: #d9d9d9 !important;
+  color: #000 !important;
+  border: none;
+}
+
 .Toastify__toast-container .Toastify__toast {
   margin-bottom: 0.15rem;
 }

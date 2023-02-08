@@ -167,7 +167,6 @@ export default function HeaderAnt({
     } else {
       if (cart.length) {
         var total = cart.reduce((x1: any, x2: any) => x1 + x2.quantity, 0);
-        console.log(total);
         setQuantityCart(total);
       } else {
         setQuantityCart(0);
