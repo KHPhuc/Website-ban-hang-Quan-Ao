@@ -2,7 +2,7 @@ import { Rate } from "antd";
 import { useEffect, useState } from "react";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { NumericFormat } from "react-number-format";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import FooterAntd from "../../../common/Footer/Footer";
 import { getProductByUrl } from "../../../../app/API/Product/Product";
 
@@ -31,7 +31,7 @@ export default function DetailProduct({
   const [selectColor, setSelectColor]: any = useState();
   const [selectSize, setSelectSize]: any = useState();
   const [quantity, setQuantity] = useState(1);
-
+  
   useEffect(() => {
     let url = location.pathname.split("/");
     if (url[1] === "productdetail") {

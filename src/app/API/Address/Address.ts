@@ -35,7 +35,7 @@ export const getAddress = (customerId: any) => async (dispatch: any) => {
     .get(`/address/${customerId}`)
     .then((res) => {
       if (res.data.length) {
-        dispatch(setAddress(res.data));
+        dispatch(setAddress(res.data[0]));
       } else {
         dispatch(setAddress(""));
       }

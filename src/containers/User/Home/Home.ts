@@ -5,19 +5,14 @@ import Home from "../../../components/User/Content/Home/Home";
 import {
   getProductToShow,
   setSelectedProduct,
-  setDetailProduct
+  setDetailProduct,
 } from "../../../app/API/Product/Product";
 
-const mapStatesToProps = (state: any) => {
-  return {
-    product: state.product.product,
-  };
-};
 
 const mapActionsToProps = {
-  getProductToShow: () => getProductToShow(),
+  getProductToShow: (page: any) => getProductToShow(page),
   setSelectedProduct: (value: any) => setSelectedProduct(value),
-  setDetailProduct: (value: any) => setDetailProduct(value)
+  setDetailProduct: (value: any) => setDetailProduct(value),
 };
 
-export default connect(mapStatesToProps, mapActionsToProps)(Home);
+export default connect(null, mapActionsToProps)(Home);

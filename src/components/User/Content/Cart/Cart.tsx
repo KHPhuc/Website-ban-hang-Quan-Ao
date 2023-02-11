@@ -77,6 +77,9 @@ export default function Cart({
         city: address.city,
         district: address.district,
         ward: address.ward,
+        name: address.name,
+        phoneNumber: address.phoneNumber,
+        email: address.email,
       });
     }
   }, [address]);
@@ -135,28 +138,55 @@ export default function Cart({
         (x1: any, x2: any) => x1 + x2.currentPrice,
         0
       );
-      let cache: any = {
-        address: e.address,
-        ward: e.ward,
-        district: e.district,
-        city: e.city,
-        name: auth.name,
-        phoneNumber: e.phoneNumber,
-        email: e.email,
-        customerId: auth.id,
-        totalMoney: money,
-        orderDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
-        orderStatus: "Chuẩn bị hàng",
-        paymentMethodId: payment[paymentSelect].paymentMethodId,
-        paymentStatus:
-          payment[paymentSelect].paymentMethodId === "PM-01"
-            ? "Thanh toán khi nhận hàng"
-            : payment[paymentSelect].paymentMethodId === "PM-02"
-            ? "Chưa thanh toán"
-            : "",
-        note: e.note,
-        listProduct: [],
-      };
+      if (
+        e.name !== address.name ||
+        e.phoneNumber !== address.phoneNumber ||
+        e.email !== address.email ||
+        e.address !== address.address ||
+        e.ward !== address.ward ||
+        e.district !== address.district ||
+        e.city !== address.city
+      ) {
+        var cache: any = {
+          address: e.address,
+          ward: e.ward,
+          district: e.district,
+          city: e.city,
+          name: e.name,
+          phoneNumber: e.phoneNumber,
+          email: e.email,
+          customerId: auth.id,
+          totalMoney: money,
+          orderDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+          orderStatus: "Chuẩn bị hàng",
+          paymentMethodId: payment[paymentSelect].paymentMethodId,
+          paymentStatus:
+            payment[paymentSelect].paymentMethodId === "PM-01"
+              ? "Thanh toán khi nhận hàng"
+              : payment[paymentSelect].paymentMethodId === "PM-02"
+              ? "Chưa thanh toán"
+              : "",
+          note: e.note,
+          listProduct: [],
+        };
+      } else {
+        var cache: any = {
+          addressId: address.addressId,
+          customerId: auth.id,
+          totalMoney: money,
+          orderDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+          orderStatus: "Chuẩn bị hàng",
+          paymentMethodId: payment[paymentSelect].paymentMethodId,
+          paymentStatus:
+            payment[paymentSelect].paymentMethodId === "PM-01"
+              ? "Thanh toán khi nhận hàng"
+              : payment[paymentSelect].paymentMethodId === "PM-02"
+              ? "Chưa thanh toán"
+              : "",
+          note: e.note,
+          listProduct: [],
+        };
+      }
       detailCart.forEach((e1: any) => {
         cache.listProduct.push({
           detailProductId: e1.detailProductId,

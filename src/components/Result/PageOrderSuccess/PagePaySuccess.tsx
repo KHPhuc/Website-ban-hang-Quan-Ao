@@ -15,8 +15,8 @@ export default function PageOrderSuccess({ auth, getCart }: any) {
       title="Đặt hàng thành công!"
       subTitle="Đơn hàng đang được chuẩn bị!"
       extra={
-        <Button type="primary" onClick={() => nav("/")}>
-          Go Console
+        <Button type="primary" onClick={() => nav("/account/orders")}>
+          Tới trang danh sách đặt hàng
         </Button>
         // <Button key="buy">Buy Again</Button>,
       }

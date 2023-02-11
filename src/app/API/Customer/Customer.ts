@@ -22,6 +22,7 @@ const initialState = {
   customer: "",
   addStatus: "",
   info: "",
+  address: "",
 };
 
 const customer = createSlice({
@@ -37,10 +38,14 @@ const customer = createSlice({
     setInfo(state, action) {
       state.info = action.payload;
     },
+    setAddress(state, action) {
+      state.address = action.payload;
+    },
   },
 });
 
-export const { setCustomer, setAddStatus, setInfo } = customer.actions;
+export const { setCustomer, setAddStatus, setInfo, setAddress } =
+  customer.actions;
 
 export const getCustomer = () => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
@@ -159,6 +164,16 @@ export const unBanCustomer = (customerId: any) => async (dispatch: any) => {
     .catch((err) => {
       updateToast(idToast, "Bỏ cấm thất bại!", "error");
     })
+    .finally(() => {});
+};
+
+export const getAddress = (customerId: any) => async (dispatch: any) => {
+  api
+    .get(`/customer/address/${customerId}`)
+    .then((res) => {
+      dispatch(setAddress(res.data));
+    })
+    .catch((err) => {})
     .finally(() => {});
 };
 

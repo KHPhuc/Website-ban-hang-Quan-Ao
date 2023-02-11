@@ -64,10 +64,6 @@ export default function HeaderAnt({
             key: "orders",
           },
           {
-            label: <Link to="/account/reviews">Đánh giá</Link>,
-            key: "reviews",
-          },
-          {
             label: (
               <div className="cursor-pointer" onClick={() => onLogout()}>
                 Đăng xuất

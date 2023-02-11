@@ -1,4 +1,4 @@
-import { Card, Table, Tabs } from "antd";
+import { Card, Descriptions, Modal, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { BACKEND } from "../../../../common/Config/Config";
@@ -10,8 +10,9 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
   const [all, setAll] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(0);
-
   const [tab, setTab] = useState("");
+
+  const [expandItem, setExpandItem]: any = useState();
 
   useEffect(() => {
     setData([]);
@@ -52,7 +53,11 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
   };
 
   const detailOrder = (e: any) => {
-    console.log(e);
+    if (expandItem === e.orderId) {
+      setExpandItem("");
+    } else {
+      setExpandItem(e.orderId);
+    }
   };
 
   const sampleCode = (
@@ -82,17 +87,46 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
                     {dayjs(new Date(e.orderDate)).format("DD-MM-YYYY HH:mm:ss")}
                   </div>
                   <div className="text-[#a04444] flex">
-                    <div
-                      className="pr-[5px]"
-                      style={{ borderRight: "1px solid #0000001f" }}
-                    >
-                      {e.paymentStatus.toUpperCase()}
-                    </div>
+                    {e.orderId === expandItem ? (
+                      <div
+                        className="pr-[5px]"
+                        style={{ borderRight: "1px solid #0000001f" }}
+                      >
+                        MÃ ĐƠN HÀNG: {e.orderId.toUpperCase()}
+                      </div>
+                    ) : (
+                      ""
+                    )}
                     <div className="ml-[5px]">
                       {e.orderStatus.toUpperCase()}
                     </div>
                   </div>
                 </div>
+                {e.orderId === expandItem ? (
+                  <div
+                    className="mt-[10px] pb-[15px]"
+                    style={{ borderBottom: "1px solid #00000017" }}
+                  >
+                    <Descriptions title="" bordered>
+                      <Descriptions.Item label="Địa chỉ nhận hàng" span={3}>
+                        {e.name} - {e.phoneNumber}
+                        <br />
+                        {e.address}, {e.ward}, {e.district}, {e.city}
+                      </Descriptions.Item>
+                      <Descriptions.Item
+                        label="Phương thức thanh toán"
+                        span={3}
+                      >
+                        {e.description}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Trạng thái thanh toán" span={3}>
+                        {e.paymentStatus}
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </div>
+                ) : (
+                  ""
+                )}
                 <div className="pt-[10px]">
                   {e.detailOrder.map((e1: any, i1: any) => {
                     return (
@@ -112,7 +146,7 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
                             <p className="text-[#0000008a]">
                               Phân loại sản phẩm: {e1.color}/{e1.size}
                             </p>
-                            <p>x{e1.quantity}</p>
+                            <p>x{Math.abs(e1.quantity)}</p>
                           </div>
                         </div>
                         <div className="flex items-center">
@@ -139,17 +173,85 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
                   })}
                 </div>
                 <div className="pt-[10px] flex justify-end">
-                  <div className="flex items-center">
-                    <p className="mr-[5px]">Thành tiền:</p>
-                    <NumericFormat
-                      className="text-[24px] text-[#a04444]"
-                      displayType={"text"}
-                      thousandSeparator={"."}
-                      decimalSeparator={","}
-                      suffix={" ₫"}
-                      value={e.totalMoney}
-                    />
-                  </div>
+                  {e.orderId === expandItem ? (
+                    <div className="w-full">
+                      <div
+                        className="flex justify-end"
+                        style={{ border: "1px dotted #00000017" }}
+                      >
+                        <div className="py-[13px] px-[10px]">
+                          Tổng tiền hàng
+                        </div>
+                        <div
+                          className="w-[180px] flex justify-end py-[13px] pl-[10px]"
+                          style={{ borderLeft: "1px dotted #00000017" }}
+                        >
+                          <NumericFormat
+                            // className="text-[24px] text-[#a04444]"
+                            displayType={"text"}
+                            thousandSeparator={"."}
+                            decimalSeparator={","}
+                            suffix={" ₫"}
+                            value={e.detailOrder.reduce(
+                              (x1: any, x2: any) =>
+                                x1 + x2.currentPrice * x2.quantity,
+                              0
+                            )}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="flex justify-end"
+                        style={{ border: "1px dotted #00000017" }}
+                      >
+                        <div className="py-[13px] px-[10px]">Mã giảm giá</div>
+                        <div
+                          className="w-[180px] flex justify-end py-[13px] pl-[10px]"
+                          style={{ borderLeft: "1px dotted #00000017" }}
+                        >
+                          <NumericFormat
+                            // className="text-[24px] text-[#a04444]"
+                            displayType={"text"}
+                            thousandSeparator={"."}
+                            decimalSeparator={","}
+                            suffix={" ₫"}
+                            value={e.sale ? e.sale : 0}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className="flex justify-end"
+                        style={{ border: "1px dotted #00000017" }}
+                      >
+                        <div className="py-[13px] px-[10px]">Thành tiền</div>
+                        <div
+                          className="w-[180px] flex justify-end py-[13px] pl-[10px]"
+                          style={{ borderLeft: "1px dotted #00000017" }}
+                        >
+                          <NumericFormat
+                            className="text-[24px] text-[#a04444]"
+                            displayType={"text"}
+                            thousandSeparator={"."}
+                            decimalSeparator={","}
+                            suffix={" ₫"}
+                            value={e.totalMoney}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center">
+                      <p className="mr-[5px]">Thành tiền:</p>
+                      <NumericFormat
+                        className="text-[24px] text-[#a04444]"
+                        displayType={"text"}
+                        thousandSeparator={"."}
+                        decimalSeparator={","}
+                        suffix={" ₫"}
+                        value={e.totalMoney}
+                      />
+                    </div>
+                  )}
                 </div>
               </Card>
             );
@@ -207,7 +309,6 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
   ];
 
   const fetchFirst = (tab: any) => {
-    // setData([]);
     setHasMore(true);
     setPage(0);
     setTab(tab);
@@ -225,7 +326,6 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
     });
   };
   const handleOnChange = (e: any) => {
-    console.log(e);
     switch (e) {
       case "1":
         fetchFirst("");

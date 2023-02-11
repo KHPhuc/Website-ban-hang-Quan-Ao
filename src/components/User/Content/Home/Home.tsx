@@ -10,11 +10,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { info } from "console";
 import { removeAccents } from "../../../common/RemoveAccents/RemoveAccents";
 import { BACKEND } from "../../../common/Config/Config";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const { Title } = Typography;
 
 export default function Home({
-  product,
   getProductToShow,
   setSelectedProduct,
 
@@ -24,6 +24,10 @@ export default function Home({
   const location = useLocation();
   const [loading, setLoading] = useState(true);
   const banner = ["/img/banner/banner_1.jpg", "/img/banner/banner_2.jpg"];
+
+  const [data, setData]: any = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(0);
 
   const settings = {
     dots: false,
@@ -43,8 +47,28 @@ export default function Home({
   //   }
   // }, [location.pathname]);
   useEffect(() => {
-    getProductToShow();
+    getProductToShow(0).then((res: any) => {
+      setData(res);
+      if (res.length < 20) {
+        setHasMore(false);
+      } else {
+        setPage(page + 1);
+      }
+    });
   }, []);
+
+  const fetchData = () => {
+    getProductToShow(page).then((res: any) => {
+      let cache = [...data, ...res];
+      setData(cache);
+      console.log(cache);
+      if (res.length < 20) {
+        setHasMore(false);
+      } else {
+        setPage(page + 1);
+      }
+    });
+  };
 
   return (
     <>
@@ -63,9 +87,23 @@ export default function Home({
           </div> */}
 
           <div className="my-[20px]">
-            <div className="row">
-              {product ? (
-                product.map((e: any, i: any) => {
+            {/* <div className="row"> */}
+            {data ? (
+              <InfiniteScroll
+                className="row"
+                dataLength={data.length}
+                next={fetchData}
+                hasMore={hasMore}
+                loader={
+                  <></>
+                  // <div className="text-center mt-[20px]">Đang tải...</div>
+                }
+                endMessage={
+                  <></>
+                  // <div className="text-center mt-[20px]">Đã tải hết!</div>
+                }
+              >
+                {data.map((e: any, i: any) => {
                   return (
                     <div
                       key={i}
@@ -88,7 +126,7 @@ export default function Home({
                           alt=""
                           loading="lazy"
                           onLoad={(e) =>
-                            i === product.length - 1 ? setLoading(false) : null
+                            i === data.length - 1 ? setLoading(false) : null
                           }
                         />
                         {e.totalComment !== 0 ? (
@@ -162,33 +200,34 @@ export default function Home({
                       )}
                     </div>
                   );
-                })
-              ) : (
-                <>
-                  <div className="col">
-                    <Skeleton.Image
-                      active
-                      className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
-                    />
-                    <Skeleton active className="w-full mt-[0.15rem] h-[1rem]" />
-                  </div>
-                  <div className="col">
-                    <Skeleton.Image
-                      active
-                      className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
-                    />
-                    <Skeleton active className="w-full mt-[0.15rem] h-[1rem]" />
-                  </div>
-                  <div className="col">
-                    <Skeleton.Image
-                      active
-                      className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
-                    />
-                    <Skeleton active className="w-full mt-[0.15rem] h-[1rem]" />
-                  </div>
-                </>
-              )}
-            </div>
+                })}
+              </InfiniteScroll>
+            ) : (
+              <>
+                <div className="col">
+                  <Skeleton.Image
+                    active
+                    className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
+                  />
+                  <Skeleton active className="w-full mt-[0.15rem] h-[1rem]" />
+                </div>
+                <div className="col">
+                  <Skeleton.Image
+                    active
+                    className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
+                  />
+                  <Skeleton active className="w-full mt-[0.15rem] h-[1rem]" />
+                </div>
+                <div className="col">
+                  <Skeleton.Image
+                    active
+                    className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
+                  />
+                  <Skeleton active className="w-full mt-[0.15rem] h-[1rem]" />
+                </div>
+              </>
+            )}
+            {/* </div> */}
           </div>
         </div>
       </div>

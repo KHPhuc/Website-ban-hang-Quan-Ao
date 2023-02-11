@@ -104,20 +104,6 @@ export const deleteImage = (name: any) => {
 //     .finally(() => {});
 // };
 
-export const getProductToShow = () => async (dispatch: any) => {
-  api
-    .get("/detail_product")
-    .then((res) => {
-      if (res.data.length) {
-        dispatch(setProduct(res.data));
-      } else {
-        dispatch(setProduct(res.data));
-      }
-    })
-    .catch((err) => {})
-    .finally(() => {});
-};
-
 export const getProductTypeToShow =
   (detailPTId: any) => async (dispatch: any) => {
     api
@@ -133,25 +119,31 @@ export const getProductTypeToShow =
       .finally(() => {});
   };
 
-// => async (dispatch: any)
+// use: user
+export const getProductToShow = (page: any) => async (dispatch: any) => {
+  return new Promise((resolve, rej) => {
+    api
+      .get(`/detail_product/${page}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  });
+};
+
+// use: user
 export const getProductByUrl = (linkProduct: any) => {
   return new Promise((resolve, reject) => {
     api
       .get(`/product/detail_product/${linkProduct}`)
       .then((res) => {
         resolve(res.data);
-        if (res.data.length) {
-          // dispatch(setDetailProduct(res.data));
-        } else {
-          // dispatch(setDetailProduct(res.data));
-        }
       })
       .catch((err) => {
         reject(err);
       })
-      .finally(() => {
-        // dispatch(setLoadingGetDetailProduct(false));
-      });
+      .finally(() => {});
   });
 };
 
