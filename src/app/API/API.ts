@@ -8,6 +8,7 @@ const api = axios.create({
   // baseURL: `https://server-ban-hang.herokuapp.com/api`,
   baseURL: `${BACKEND}/api`,
   headers: {
+    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
   },
   withCredentials: true,

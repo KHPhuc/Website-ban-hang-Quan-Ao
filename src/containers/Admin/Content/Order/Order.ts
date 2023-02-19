@@ -4,7 +4,7 @@ import Order from "../../../../components/Admin/Content/Order/Order";
 
 import { setTitle } from "../../../../app/Admin/Header/Header";
 
-import { getAllOrder } from "../../../../app/API/Order/Order";
+import { getAllOrder, updateOrder } from "../../../../app/API/Order/Order";
 
 const mapStatesToProps = (state: any) => {
   return {
@@ -14,7 +14,8 @@ const mapStatesToProps = (state: any) => {
 
 const mapActionsToProps = {
   setTitle: (value: any) => setTitle(value),
-  getAllOrder: () => getAllOrder(),
+  getAllOrder: (value: any) => getAllOrder(value),
+  updateOrder: (value: any) => updateOrder(value),
 };
 
 export default connect(mapStatesToProps, mapActionsToProps)(Order);

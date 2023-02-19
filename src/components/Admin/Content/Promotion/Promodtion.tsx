@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import dayjs from "dayjs";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const { TextArea } = Input;
 
@@ -39,9 +40,14 @@ export default function Promotion({
 
   var [valueUpdate, setValueUpdate]: any = useState();
 
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
   useEffect(() => {
+    setPage(0);
+    setHasMore(false);
     setTitle("Quản lý mã giảm giá");
-    getPromotion();
+    getPromotion(0);
   }, []);
 
   useEffect(() => {
@@ -57,6 +63,21 @@ export default function Promotion({
     }
     setUpdateStatus("");
   }, [updateStatus]);
+
+  useEffect(() => {
+    if (promotion) {
+      if (promotion.length < 10) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+    }
+  }, [promotion]);
+
+  const getMore = (p: any) => {
+    setPage(p);
+    getMore(p);
+  };
 
   const columns = [
     Table.EXPAND_COLUMN,
@@ -209,6 +230,7 @@ export default function Promotion({
             </Button>
           </div>
         )}
+        pagination={false}
         rowKey={"promotionId"}
         columns={columns}
         dataSource={[...promotion]}
@@ -230,6 +252,35 @@ export default function Promotion({
           ),
         }}
       />
+      <div className="mt-[10px] text-center">
+        <div className="flex items-center justify-center">
+          <div
+            className={`px-[5px] ${
+              page === 0 ? "btn-arrow-disabled" : "btn-arrow"
+            } `}
+            onClick={() => {
+              if (page !== 0) {
+                getMore(page - 1);
+              }
+            }}
+          >
+            <AiOutlineLeft className="cursor-pointer" />
+          </div>
+          <Button className="mx-[15px]">{page + 1}</Button>
+          <div
+            className={`px-[5px] ${
+              !hasMore ? "btn-arrow-disabled" : "btn-arrow"
+            } `}
+            onClick={() => {
+              if (hasMore) {
+                getMore(page + 1);
+              }
+            }}
+          >
+            <AiOutlineRight className="cursor-pointer" />
+          </div>
+        </div>
+      </div>
       <Modal
         title={isAdd ? "Thêm mã giảm giá" : "Sửa mã giảm giá"}
         open={isOpenModal}

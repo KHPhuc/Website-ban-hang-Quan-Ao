@@ -58,6 +58,7 @@ export const getDetailCart = (customerId: any) => async (dispatch: any) => {
     .finally(() => {});
 };
 
+// use: user
 export const addCart = (data: any) => async (dispatch: any) => {
   api
     .post("/cart/create", JSON.stringify(data))

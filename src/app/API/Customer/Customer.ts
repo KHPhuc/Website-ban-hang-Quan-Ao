@@ -47,10 +47,10 @@ const customer = createSlice({
 export const { setCustomer, setAddStatus, setInfo, setAddress } =
   customer.actions;
 
-export const getCustomer = () => async (dispatch: any) => {
+export const getCustomer = (page:any) => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
   api
-    .get("/customer")
+    .get(`/customer/${page}`)
     .then((res) => {
       if (res.data.length) {
         dispatch(setCustomer(res.data));

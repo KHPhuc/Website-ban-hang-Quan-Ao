@@ -38,10 +38,11 @@ const customer = createSlice({
 
 export const { setOrder, setLinkToPay, setOrderCustomer } = customer.actions;
 
-export const getAllOrder = () => async (dispatch: any) => {
+// use: admin
+export const getAllOrder = (value: any) => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
   api
-    .get("/order")
+    .post("/order", JSON.stringify(value))
     .then((res) => {
       if (res.data.length) {
         dispatch(setOrder(res.data));
@@ -56,6 +57,26 @@ export const getAllOrder = () => async (dispatch: any) => {
     .finally(() => {});
 };
 
+// use: admin
+export const updateOrder = (value: any) => async (dispatch: any) => {
+  var idToast = loadingToast("Đang tải dữ liệu ...");
+  api
+    .post("/order/updateOrder", JSON.stringify(value))
+    .then((res) => {
+      if (res.data.length) {
+        dispatch(setOrder(res.data));
+      } else {
+        dispatch(setOrder(""));
+      }
+      updateToast(idToast, updateSuccess.message, updateSuccess.type);
+    })
+    .catch((err) => {
+      updateToast(idToast, updateFail("").message, updateFail("").type);
+    })
+    .finally(() => {});
+};
+
+// use: user
 export const createOrder = (data: any) => async (dispatch: any) => {
   // var idToast = loadingToast("Đang tải dữ liệu ...");
   api
@@ -76,6 +97,22 @@ export const createOrder = (data: any) => async (dispatch: any) => {
     .finally(() => {});
 };
 
+// use: user
+export const cancelOrder = (value: any) => {
+  return new Promise((resolve, reject) => {
+    api
+      .post("/order/cancelOrder", JSON.stringify(value))
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      })
+      .finally(() => {});
+  });
+};
+
+// use: user
 export const getOrderForCustomer = (data: any) => async (dispatch: any) => {
   // dispatch(setOrderCustomer(""));
   return new Promise((resolve, reject) => {

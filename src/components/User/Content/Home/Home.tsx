@@ -11,14 +11,12 @@ import { info } from "console";
 import { removeAccents } from "../../../common/RemoveAccents/RemoveAccents";
 import { BACKEND } from "../../../common/Config/Config";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { getProductToShow } from "../../../../app/API/Product/Product";
 
 const { Title } = Typography;
 
 export default function Home({
-  getProductToShow,
   setSelectedProduct,
-
-  setDetailProduct,
 }: any) {
   const nav = useNavigate();
   const location = useLocation();
@@ -88,7 +86,7 @@ export default function Home({
 
           <div className="my-[20px]">
             {/* <div className="row"> */}
-            {data ? (
+            {data.length ? (
               <InfiniteScroll
                 className="row"
                 dataLength={data.length}
@@ -109,7 +107,6 @@ export default function Home({
                       key={i}
                       className="col"
                       onClick={() => {
-                        setDetailProduct("");
                         setSelectedProduct(e);
                         nav(
                           `productdetail/${removeAccents(e.productName)

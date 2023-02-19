@@ -53,6 +53,7 @@ export default function Payment({
         columns={columns}
         dataSource={payment}
         rowKey={"paymentMethodId"}
+        pagination={false}
       />
     </>
   );

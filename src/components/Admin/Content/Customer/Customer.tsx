@@ -15,6 +15,7 @@ import { validate } from "email-validator";
 import { detectPhoneNumber } from "../../../common/CheckPhoneNumber/CheckPhoneNumber";
 
 import dayjs from "dayjs";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 export default function Customer({
   setTitle,
@@ -32,9 +33,14 @@ export default function Customer({
   const [form]: any = Form.useForm();
   const [isOpenModalAdd, setIsOpenMoadlAdd] = useState(false);
 
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
   useEffect(() => {
+    setPage(0);
+    setHasMore(false);
     setTitle("Quản lý khách hàng");
-    getCustomer();
+    getCustomer(0);
   }, []);
 
   useEffect(() => {
@@ -44,6 +50,21 @@ export default function Customer({
       setIsOpenMoadlAdd(false);
     }
   }, [addStatus]);
+
+  useEffect(() => {
+    if (customer) {
+      if (customer.length < 10) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+    }
+  }, [customer]);
+
+  const getMore = (p: any) => {
+    setPage(p);
+    getCustomer(p);
+  };
 
   const columns = [
     // Table.EXPAND_COLUMN,
@@ -64,6 +85,11 @@ export default function Customer({
     },
     {
       title: "Ngày sinh",
+      render: (x: any) => (
+        <>
+          {x.birthday ? dayjs(new Date(x.birthday)).format("DD-MM-YYYY") : ""}
+        </>
+      ),
     },
     {
       title: "Giới tính",
@@ -142,10 +168,40 @@ export default function Customer({
         dataSource={customer}
         rowKey="customerId"
         scroll={{ x: "max-content" }}
+        pagination={false}
         //   expandable={{
         //     expandedRowRender: (record: any) => <></>,
         //   }}
       />
+      <div className="mt-[10px] text-center">
+        <div className="flex items-center justify-center">
+          <div
+            className={`px-[5px] ${
+              page === 0 ? "btn-arrow-disabled" : "btn-arrow"
+            } `}
+            onClick={() => {
+              if (page !== 0) {
+                getMore(page - 1);
+              }
+            }}
+          >
+            <AiOutlineLeft className="cursor-pointer" />
+          </div>
+          <Button className="mx-[15px]">{page + 1}</Button>
+          <div
+            className={`px-[5px] ${
+              !hasMore ? "btn-arrow-disabled" : "btn-arrow"
+            } `}
+            onClick={() => {
+              if (hasMore) {
+                getMore(page + 1);
+              }
+            }}
+          >
+            <AiOutlineRight className="cursor-pointer" />
+          </div>
+        </div>
+      </div>
       <Modal
         title="Thêm khách hàng"
         open={isOpenModalAdd}

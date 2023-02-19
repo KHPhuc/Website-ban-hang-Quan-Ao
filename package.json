@@ -19,6 +19,7 @@
     "dvhcvn": "^1.0.20221001",
     "email-validator": "^2.0.4",
     "js-file-download": "^0.4.12",
+    "lodash": "^4.17.21",
     "postcss": "^8.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -36,6 +37,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.191",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",

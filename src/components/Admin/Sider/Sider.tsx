@@ -21,11 +21,11 @@ export default function SiderAnt({ sidebar, setSidebar }: any) {
   const [collapsedWidth, setCollapsedWidth] = useState(80);
 
   const itemMenu = [
-    getItem(
-      <Link to={"/admin"}>Thống kê</Link>,
-      "dashboard",
-      <TableOutlined />
-    ),
+    // getItem(
+    //   <Link to={"/admin"}>Thống kê</Link>,
+    //   "dashboard",
+    //   <TableOutlined />
+    // ),
     getItem("Quản lý sản phẩm", "productManagement", <GiClothes />, [
       getItem(
         <Link to={"/admin/productType"}>Loại</Link>,

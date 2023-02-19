@@ -130,7 +130,7 @@ function App({ auth, setDevice, login, account, setCart }: any) {
                     element={
                       auth ? (
                         auth.isAdmin ? (
-                          <Navigate to={"/admin"} />
+                          <Navigate to={"/admin/order"} />
                         ) : (
                           <Navigate to={"/"} />
                         )

@@ -22,8 +22,6 @@ const initialState = {
 
   selectedProductType: "", // chọn loại sản phẩm để xem
   selectedProduct: "", // chọn sản phẩm xem chi tiết
-  detailProduct: "", //chi tiết sản phẩm
-  loadingGetDetailProduct: false,
 };
 
 const product = createSlice({
@@ -46,12 +44,6 @@ const product = createSlice({
     setSelectedProduct(state, action) {
       state.selectedProduct = action.payload;
     },
-    setDetailProduct(state, action) {
-      state.detailProduct = action.payload;
-    },
-    setLoadingGetDetailProduct(state, action) {
-      state.loadingGetDetailProduct = action.payload;
-    },
   },
 });
 
@@ -61,8 +53,6 @@ export const {
   setUpdateStatus,
   setSelectedProductType,
   setSelectedProduct,
-  setDetailProduct,
-  setLoadingGetDetailProduct,
 } = product.actions;
 
 export const uploadImage = (file: any) => {
@@ -104,23 +94,34 @@ export const deleteImage = (name: any) => {
 //     .finally(() => {});
 // };
 
-export const getProductTypeToShow =
-  (detailPTId: any) => async (dispatch: any) => {
+// use: user
+export const getProductTypeToShow = (value: any) => {
+  return new Promise((resolve, reject) => {
     api
-      .get(`/detail_product/productType/${detailPTId}`)
+      .post(`/detail_product/productType`, JSON.stringify(value))
       .then((res) => {
-        if (res.data.length) {
-          dispatch(setProduct(res.data));
-        } else {
-          dispatch(setProduct(res.data));
-        }
+        resolve(res.data);
       })
       .catch((err) => {})
       .finally(() => {});
-  };
+  });
+};
 
 // use: user
-export const getProductToShow = (page: any) => async (dispatch: any) => {
+export const getProperties = (detailPTId: any) => {
+  return new Promise((resolve, reject) => {
+    api
+      .get(`/detail_product/productType/${detailPTId}`)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {})
+      .finally(() => {});
+  });
+};
+
+// use: user
+export const getProductToShow = (page: any) => {
   return new Promise((resolve, rej) => {
     api
       .get(`/detail_product/${page}`)
@@ -147,10 +148,10 @@ export const getProductByUrl = (linkProduct: any) => {
   });
 };
 
-export const getProduct = () => async (dispatch: any) => {
+export const getProduct = (page:any) => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
   api
-    .get("/product")
+    .get(`/product/${page}`)
     .then((res) => {
       if (res.data.length) {
         dispatch(setProduct(res.data));

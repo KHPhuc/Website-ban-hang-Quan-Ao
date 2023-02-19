@@ -38,7 +38,7 @@ export default function HeaderAnt({
     ? auth.isAdmin
       ? [
           {
-            label: <Link to="/admin">Bảng điều khiển</Link>,
+            label: <Link to="/admin/order">Bảng điều khiển</Link>,
             key: "dashboard",
           },
           {
@@ -288,7 +288,6 @@ export default function HeaderAnt({
           <div className="nav">
             <Menu
               items={itemsNav}
-              onClick={(e) => console.log(e)}
               mode="horizontal"
               selectedKeys={[selectedKey]}
             />

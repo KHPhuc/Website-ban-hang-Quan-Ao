@@ -10,14 +10,7 @@ import { toast } from "react-toastify";
 import { BACKEND } from "../../../common/Config/Config";
 
 export default function DetailProduct({
-  detailProduct,
-  setDetailProduct,
-
-  // getProductByUrl,
   selectedProduct,
-
-  loadingGetDetailProduct,
-  setLoadingGetDetailProduct,
 
   auth,
 
@@ -31,11 +24,10 @@ export default function DetailProduct({
   const [selectColor, setSelectColor]: any = useState();
   const [selectSize, setSelectSize]: any = useState();
   const [quantity, setQuantity] = useState(1);
-  
+
   useEffect(() => {
     let url = location.pathname.split("/");
     if (url[1] === "productdetail") {
-      setLoadingGetDetailProduct(true);
       getProductByUrl(url[2])
         .then((res: any) => {
           if (res) {
@@ -45,7 +37,10 @@ export default function DetailProduct({
             );
             if (index !== -1) {
               setSelectColor(res.detailProduct[index]);
-              setSelectSize(res.detailProduct[index].sizes[0]);
+              let index1 = res.detailProduct[index].sizes.findIndex(
+                (x1: any) => x1.size === selectedProduct.size
+              );
+              setSelectSize(res.detailProduct[index].sizes[index1]);
             } else {
               setSelectColor(res.detailProduct[0]);
               setSelectSize(res.detailProduct[0].sizes[0]);
@@ -131,8 +126,8 @@ export default function DetailProduct({
         detailProductId: selectSize.detailProductId,
         quantity: quantity,
       });
+      toast.success("Thêm sản phẩm thành công", { containerId: "RT" });
     }
-    toast.success("Thêm sản phẩm thành công", { containerId: "RT" });
   };
 
   useEffect(() => {
@@ -149,9 +144,7 @@ export default function DetailProduct({
           <div className="md:flex" style={{ marginTop: "0.3rem" }}>
             <div style={{ width: "100%", marginRight: "0.5rem" }}>
               <img
-                src={`${BACKEND}/${
-                  selectColor ? selectColor.image : ""
-                }`}
+                src={`${BACKEND}/${selectColor ? selectColor.image : ""}`}
                 alt=""
                 style={{ borderRadius: "20px" }}
               />

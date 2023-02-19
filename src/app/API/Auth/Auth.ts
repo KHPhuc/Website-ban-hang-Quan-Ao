@@ -93,6 +93,7 @@ export const logout = () => async (dispatch: any) => {
   dispatch(setAuth(""));
   var idToast = loadingToast("Đăng xuất ...");
   updateToast(idToast, logoutToast.message, logoutToast.type);
+  api.get("/customer/logout").then((res) => {});
 };
 
 export default auth.reducer;

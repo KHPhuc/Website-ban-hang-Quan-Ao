@@ -19,6 +19,7 @@ import * as XLSX from "xlsx";
 import { addProductByExcel } from "../../../../app/API/Product/Product";
 import { NumericFormat } from "react-number-format";
 import { BACKEND } from "../../../common/Config/Config";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 export default function Product({
   setTitle,
@@ -52,16 +53,31 @@ export default function Product({
 
   var [arrColorProduct, setArrColorProduct]: any = useState();
 
+  const [page, setPage]: any = useState(0);
+  const [hasMore, setHasMore]: any = useState(true);
+
   useEffect(() => {
     setTitle("Quản lý sản phẩm");
+    setPage(0);
+    setHasMore(false);
     getAllProductType();
-    getProduct();
+    getProduct(0);
   }, []);
 
   useEffect(() => {
     if (product) {
+      if (product.length < 10) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
     }
   }, [product]);
+
+  const getMore = (p: any) => {
+    setPage(p);
+    getProduct(p);
+  };
 
   const columns = [
     {
@@ -171,11 +187,7 @@ export default function Product({
     {
       title: "Hình ảnh",
       render: (x: any) => (
-        <img
-          className="w-[100px]"
-          src={`${BACKEND}/${x.image}`}
-          alt=""
-        />
+        <img className="w-[100px]" src={`${BACKEND}/${x.image}`} alt="" />
       ),
       onCell: (x: any, index: any) => {
         return x.span ? { rowSpan: x.span } : { rowSpan: 0 };
@@ -515,6 +527,7 @@ export default function Product({
             </div>
           </div>
         )}
+        pagination={false}
         columns={columns}
         dataSource={product}
         rowKey="productId"
@@ -533,6 +546,35 @@ export default function Product({
           ),
         }}
       />
+      <div className="mt-[10px] text-center">
+        <div className="flex items-center justify-center">
+          <div
+            className={`px-[5px] ${
+              page === 0 ? "btn-arrow-disabled" : "btn-arrow"
+            } `}
+            onClick={() => {
+              if (page !== 0) {
+                getMore(page - 1);
+              }
+            }}
+          >
+            <AiOutlineLeft className="cursor-pointer" />
+          </div>
+          <Button className="mx-[15px]">{page + 1}</Button>
+          <div
+            className={`px-[5px] ${
+              !hasMore ? "btn-arrow-disabled" : "btn-arrow"
+            } `}
+            onClick={() => {
+              if (hasMore) {
+                getMore(page + 1);
+              }
+            }}
+          >
+            <AiOutlineRight className="cursor-pointer" />
+          </div>
+        </div>
+      </div>
       <AddProduct
         isOpenModalAdd={isOpenModalAdd}
         setIsOpenModalAdd={setIsOpenModalAdd}

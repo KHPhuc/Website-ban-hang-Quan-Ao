@@ -21,7 +21,7 @@ const mapStatesToProps = (state: any) => {
 
 const mapActionsToProps = {
   setTitle: (value: any) => setTitle(value),
-  getCustomer: () => getCustomer(),
+  getCustomer: (page: any) => getCustomer(page),
   createCustomer: (value: any) => createCustomer(value),
   setAddStatus: (value: any) => setAddStatus(value),
   banCustomer: (customerId: any) => banCustomer(customerId),

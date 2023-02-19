@@ -1,31 +1,175 @@
-import { product1 } from "../../../DataTest/DataTest";
 import { Typography, Select, Skeleton } from "antd";
 import { AiTwotoneStar } from "react-icons/ai";
 import FooterAntd from "../../../common/Footer/Footer";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import { removeAccents } from "../../../common/RemoveAccents/RemoveAccents";
 import { useNavigate } from "react-router-dom";
 import { BACKEND } from "../../../common/Config/Config";
+import InfiniteScroll from "react-infinite-scroll-component";
+import {
+  getProductTypeToShow,
+  getProperties,
+} from "../../../../app/API/Product/Product";
+import { debounce } from "lodash";
 
 const { Title } = Typography;
 
 export default function Product({
   selectedProductType,
-  product,
-  getProductTypeToShow,
   setSelectedProduct,
-
-  setDetailProduct,
 }: any) {
   const nav = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+
+  const [dataP, setDataP] = useState([]);
+  const [selectColor, setSelectColor]: any = useState([]);
+  const [selectSize, setSelectSize]: any = useState([]);
+
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
 
   useEffect(() => {
     if (selectedProductType) {
-      getProductTypeToShow(selectedProductType[0]);
+      getProperties(selectedProductType[0]).then((res: any) => {
+        setDataP(res);
+        let cacheC: any = [];
+        let cacheC1: any = [];
+        let cacheS: any = [];
+        let cacheS1: any = [];
+        res.forEach((e: any) => {
+          if (!cacheC.includes(e.color)) {
+            cacheC.push(e.color);
+            cacheC1.push({ value: e.color, label: e.color });
+          }
+          if (e.size && !cacheS.includes(e.size)) {
+            cacheS.push(e.size);
+            cacheS1.push({
+              value: e.size,
+              label: e.size,
+            });
+          }
+        });
+        setSelectColor(cacheC1);
+        setSelectSize(cacheS1);
+      });
+      getProductTypeToShow({
+        detailPTId: selectedProductType[0],
+        page: 0,
+        color: null,
+        size: null,
+      })
+        .then((res: any) => {
+          setData(res);
+          if (res.length < 20) {
+            setHasMore(false);
+          } else {
+            setPage(1);
+          }
+        })
+        .finally(() => {
+          setDataLoading(false);
+        });
     }
   }, [selectedProductType]);
+
+  const fetchData = () => {
+    getProductTypeToShow({
+      detailPTId: selectedProductType[0],
+      page: page,
+      color: selectColor,
+      size: selectSize,
+    }).then((res: any) => {
+      setData(res);
+      if (res.length < 20) {
+        setHasMore(false);
+      } else {
+        setPage(page + 1);
+      }
+    });
+  };
+
+  const onChangeColor = (value: any) => {
+    let cache: any = [];
+    let cache1: any = [];
+    setSelectedColor(value);
+    if (value) {
+      dataP.forEach((e: any) => {
+        if (value === e.color && !cache.includes(e.size)) {
+          cache.push(e.size);
+          cache1.push({
+            value: e.size,
+            label: e.size,
+          });
+        }
+      });
+    } else {
+      dataP.forEach((e: any) => {
+        if (!cache.includes(e.size)) {
+          cache.push(e.size);
+          cache1.push({
+            value: e.size,
+            label: e.size,
+          });
+        }
+      });
+    }
+    setSelectSize(cache1);
+    fetchAgain(value, selectedSize, selectedProductType[0]);
+  };
+
+  const onChangeSize = (value: any) => {
+    let cache: any = [];
+    let cache1: any = [];
+    setSelectedSize(value);
+    if (value) {
+      dataP.forEach((e: any) => {
+        if (value === e.size && !cache.includes(e.color)) {
+          cache.push(e.color);
+          cache1.push({
+            value: e.color,
+            label: e.color,
+          });
+        }
+      });
+    } else {
+      dataP.forEach((e: any) => {
+        if (!cache.includes(e.color)) {
+          cache.push(e.color);
+          cache1.push({
+            value: e.color,
+            label: e.color,
+          });
+        }
+      });
+    }
+    setSelectColor(cache1);
+    fetchAgain(selectedColor, value, selectedProductType[0]);
+  };
+
+  const fetchAgain = useCallback(
+    debounce((color: any, size: any, type: any) => {
+      getProductTypeToShow({
+        detailPTId: type,
+        page: 0,
+        color: color,
+        size: size,
+      }).then((res: any) => {
+        setData(res);
+        if (res.length < 20) {
+          setHasMore(false);
+        } else {
+          setHasMore(true);
+          setPage(1);
+        }
+      });
+    }, 500),
+    []
+  );
 
   return (
     <>
@@ -37,52 +181,24 @@ export default function Product({
             </Title>
             <Select
               className="hidden md:flex mr-[15px]"
-              defaultValue="Danh mục"
+              placeholder="Màu sắc"
               style={{ width: 180 }}
-              options={[
-                {
-                  value: "jack",
-                  label: "Jack",
-                },
-                {
-                  value: "lucy",
-                  label: "Lucy",
-                },
-                {
-                  value: "disabled",
-                  disabled: true,
-                  label: "Disabled",
-                },
-                {
-                  value: "Yiminghe",
-                  label: "yiminghe",
-                },
-              ]}
+              options={selectColor}
+              onChange={(e) => onChangeColor(e)}
+              allowClear
             />
-            <Select
-              className="hidden md:flex"
-              defaultValue="Danh mục"
-              style={{ width: 180 }}
-              options={[
-                {
-                  value: "jack",
-                  label: "Jack",
-                },
-                {
-                  value: "lucy",
-                  label: "Lucy",
-                },
-                {
-                  value: "disabled",
-                  disabled: true,
-                  label: "Disabled",
-                },
-                {
-                  value: "Yiminghe",
-                  label: "yiminghe",
-                },
-              ]}
-            />
+            {selectSize.length ? (
+              <Select
+                className="hidden md:flex"
+                placeholder="Kích thước"
+                style={{ width: 180 }}
+                options={selectSize}
+                onChange={(e) => onChangeSize(e)}
+                allowClear
+              />
+            ) : (
+              ""
+            )}
           </div>
           <div className="product">
             <div
@@ -93,15 +209,33 @@ export default function Product({
                 <Title level={4}>{selectedProductType[1] || ""}</Title>
                 {/* <a>Xem tất cả</a> */}
               </div>
-              <div className="row">
-                {product ? (
-                  product.map((e: any, i: any) => {
+              {data.length ? (
+                <InfiniteScroll
+                  className="row"
+                  dataLength={data.length}
+                  next={fetchData}
+                  hasMore={hasMore}
+                  loader={
+                    <></>
+                    // <div className="text-center mt-[20px]">Đang tải...</div>
+                  }
+                  endMessage={
+                    <></>
+                    // <div className="text-center mt-[20px]">Đã tải hết!</div>
+                  }
+                >
+                  {data.map((e: any, i: any) => {
                     return (
                       <div
                         key={i}
                         className="col"
                         onClick={() => {
-                          setDetailProduct("");
+                          if (selectedColor) {
+                            e.color = selectedColor;
+                          }
+                          if (selectedSize) {
+                            e.size = selectedSize;
+                          }
                           setSelectedProduct(e);
                           nav(
                             `../productdetail/${removeAccents(e.productName)
@@ -118,9 +252,7 @@ export default function Product({
                             alt=""
                             loading="lazy"
                             onLoad={(e) =>
-                              i === product.length - 1
-                                ? setLoading(false)
-                                : null
+                              i === data.length - 1 ? setLoading(false) : null
                             }
                           />
                           {e.totalComment !== 0 ? (
@@ -197,42 +329,42 @@ export default function Product({
                         )}
                       </div>
                     );
-                  })
-                ) : (
-                  <>
-                    <div className="col">
-                      <Skeleton.Image
-                        active
-                        className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
-                      />
-                      <Skeleton
-                        active
-                        className="w-full mt-[0.15rem] h-[1rem]"
-                      />
-                    </div>
-                    <div className="col">
-                      <Skeleton.Image
-                        active
-                        className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
-                      />
-                      <Skeleton
-                        active
-                        className="w-full mt-[0.15rem] h-[1rem]"
-                      />
-                    </div>
-                    <div className="col">
-                      <Skeleton.Image
-                        active
-                        className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
-                      />
-                      <Skeleton
-                        active
-                        className="w-full mt-[0.15rem] h-[1rem]"
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
+                  })}
+                </InfiniteScroll>
+              ) : (
+                <div className="row">
+                  <div className="col">
+                    <Skeleton.Image
+                      active={dataLoading}
+                      className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
+                    />
+                    <Skeleton
+                      active={dataLoading}
+                      className="w-full mt-[0.15rem] h-[1rem]"
+                    />
+                  </div>
+                  <div className="col">
+                    <Skeleton.Image
+                      active={dataLoading}
+                      className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
+                    />
+                    <Skeleton
+                      active={dataLoading}
+                      className="w-full mt-[0.15rem] h-[1rem]"
+                    />
+                  </div>
+                  <div className="col">
+                    <Skeleton.Image
+                      active={dataLoading}
+                      className="w-full h-[5.3rem] 2xl:h-[4.2rem]"
+                    />
+                    <Skeleton
+                      active={dataLoading}
+                      className="w-full mt-[0.15rem] h-[1rem]"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

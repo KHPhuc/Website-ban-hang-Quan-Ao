@@ -22,7 +22,7 @@ const mapStatesToProps = (state: any) => {
 const mapActionsToProps = {
   setTitle: (value: any) => setTitle(value),
   getAllProductType: () => getAllProductType(),
-  getProduct: () => getProduct(),
+  getProduct: (page:any) => getProduct(page),
   deleteProduct: (productId: any) => deleteProduct(productId),
   deleteDetailProduct: (detailProductId: any) =>
     deleteDetailProduct(detailProductId),

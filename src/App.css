@@ -417,3 +417,12 @@ img.ant-image-preview-img {
   background: #d9d9d9;
   transition: all 0.3s;
 }
+
+.btn-arrow:hover {
+  color: #4096ff;
+  transition: all 0.3s;
+}
+
+.btn-arrow-disabled {
+  color: #00000040;
+}
