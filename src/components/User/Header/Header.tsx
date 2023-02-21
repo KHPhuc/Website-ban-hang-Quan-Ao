@@ -176,6 +176,12 @@ export default function HeaderAnt({
     logout();
   };
 
+  const search = (text: any) => {
+    if (text) {
+      nav(`search/text=${text}`);
+    }
+  };
+
   return (
     <>
       <div
@@ -183,7 +189,11 @@ export default function HeaderAnt({
       >
         <div ref={refSidebar} className="container">
           <div className="flex justify-center pt-1">
-            <Search placeholder="input search text" style={{ width: "98%" }} />
+            <Search
+              placeholder="Tên sản phẩm cần tìm ..."
+              style={{ width: "98%" }}
+              onSearch={search}
+            />
           </div>
 
           <Menu style={{ width: "100%" }} mode="inline" items={itemsNav} />
@@ -221,8 +231,9 @@ export default function HeaderAnt({
             {device === "desktop" ? (
               <>
                 <Search
-                  placeholder="input search text"
+                  placeholder="Tên sản phẩm cần tìm ..."
                   style={{ width: "3rem" }}
+                  onSearch={search}
                 />
                 {auth ? (
                   ""

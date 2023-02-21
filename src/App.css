@@ -426,3 +426,7 @@ img.ant-image-preview-img {
 .btn-arrow-disabled {
   color: #00000040;
 }
+
+.searchP .ant-input-search-button {
+  color: #000 !important;
+}

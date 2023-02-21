@@ -148,7 +148,21 @@ export const getProductByUrl = (linkProduct: any) => {
   });
 };
 
-export const getProduct = (page:any) => async (dispatch: any) => {
+export const searchProduct = (value: any) => {
+  return new Promise((resolve, reject) => {
+    api
+      .post(`/detail_product/search`, JSON.stringify(value))
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      })
+      .finally(() => {});
+  });
+};
+
+export const getProduct = (page: any) => async (dispatch: any) => {
   var idToast = loadingToast("Đang tải dữ liệu ...");
   api
     .get(`/product/${page}`)

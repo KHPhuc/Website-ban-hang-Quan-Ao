@@ -20,6 +20,7 @@ import OrderSuccess from "./containers/Common/OrderSuccess";
 import PageOrderFail from "./components/Result/PageOrderFail/PagePaySuccess";
 import PagePayFail from "./components/Result/PagePayFail/PagePaySuccess";
 import Account from "./containers/User/Account/Account";
+import SearchProduct from "./containers/User/SearchProduct/SearchProduct";
 
 const Home = React.lazy(() => import("./containers/User/Home/Home"));
 const Product = React.lazy(() => import("./containers/User/Product/Product"));
@@ -117,6 +118,7 @@ function App({ auth, setDevice, login, account, setCart }: any) {
                   <Route path="" element={<Home />} />
                   <Route path="product/:id" element={<Product />} />
                   <Route path="productdetail/:id" element={<DetailProduct />} />
+                  <Route path="search/*" element={<SearchProduct />} />
                   <Route
                     path="cart"
                     element={!auth ? <Navigate to={"/"} /> : <Cart />}
