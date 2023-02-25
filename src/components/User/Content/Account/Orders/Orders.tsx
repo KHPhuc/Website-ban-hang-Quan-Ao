@@ -69,7 +69,10 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
         var cache = data;
         cache[index].paymentStatus = res.paymentStatus;
         cache[index].orderStatus = "Đã hủy";
-        setData(cache);
+        if (tab === "Chuẩn bị hàng" || tab === "Đang giao") {
+          cache.splice(index, 1);
+        }
+        setData([...cache]);
         toast.success("Hủy thành công", { containerId: "RT" });
       })
       .catch((err) => {
