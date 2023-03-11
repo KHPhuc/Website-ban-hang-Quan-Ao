@@ -160,7 +160,7 @@ export default function Orders({ auth, orders, getOrderForCustomer }: any) {
                         >
                           <div className="flex">
                             <div className="w-[80px]">
-                              <img src={`${BACKEND}/` + e1.image} alt="" />
+                              <img src={`${BACKEND}/` + e1.image} alt="" loading="lazy" />
                             </div>
                             <div className="ml-[15px]">
                               <p className="text-[16px]">{e1.productName}</p>

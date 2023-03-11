@@ -314,6 +314,7 @@ export default function Cart({
                                       width: "125px",
                                       borderRadius: "10px",
                                     }}
+                                    loading="lazy"
                                   />
                                 </div>
                                 <div
@@ -641,6 +642,7 @@ export default function Cart({
                                       height: "35px",
                                       width: "35px",
                                     }}
+                                    loading="lazy"
                                   />
                                 </div>
                                 <div>

@@ -187,7 +187,12 @@ export default function Product({
     {
       title: "Hình ảnh",
       render: (x: any) => (
-        <img className="w-[100px]" src={`${BACKEND}/${x.image}`} alt="" />
+        <img
+          className="w-[100px]"
+          src={`${BACKEND}/${x.image}`}
+          alt=""
+          loading="lazy"
+        />
       ),
       onCell: (x: any, index: any) => {
         return x.span ? { rowSpan: x.span } : { rowSpan: 0 };

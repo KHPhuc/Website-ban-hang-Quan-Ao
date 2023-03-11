@@ -77,7 +77,7 @@ export default function Home({
               {banner.map((e: any, i: any) => {
                 return (
                   <div key={i}>
-                    <img src={e} alt="" className="w-full h-full" />
+                    <img src={e} alt="" className="w-full h-full" loading="lazy" />
                   </div>
                 );
               })}

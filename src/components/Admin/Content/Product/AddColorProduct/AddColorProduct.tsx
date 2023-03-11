@@ -442,6 +442,7 @@ export default function AddColorProduct(props: any) {
                     className="img-upload-preview"
                     src={`${BACKEND}/${urlImage}`}
                     width={110}
+                    loading="lazy"
                   />
                   <div className="absolute bottom-0 w-[110px] h-[25px] bg-[#0000004f] img-upload">
                     <div className="flex items-center justify-center h-full text-white">
