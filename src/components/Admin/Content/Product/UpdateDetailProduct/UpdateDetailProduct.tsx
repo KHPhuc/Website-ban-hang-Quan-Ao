@@ -309,14 +309,14 @@ export default function UpdateDetailProduct(props: any) {
           e.currentPrice !== props.data[i].currentPrice
         ) {
           hasUp1 = true;
-          let dtP = { ...e, image: urlImage };
+          let dtP = { ...e, image: urlImage, page: props.page };
           pre.push(dtP);
         } else if (e.quantity !== props.data[i].quantity) {
           hasUp2 = true;
-          let dtP = { ...e, image: urlImage };
+          let dtP = { ...e, image: urlImage, page: props.page };
           pre2.push(dtP);
         } else {
-          let dtP = { ...e, image: urlImage };
+          let dtP = { ...e, image: urlImage, page: props.page };
           pre3.push(dtP);
         }
       });
@@ -340,12 +340,12 @@ export default function UpdateDetailProduct(props: any) {
           e.currentPrice !== props.data[i].currentPrice
         ) {
           hasUp1 = true;
-          let dtP = { ...e };
+          let dtP = { ...e, page: props.page };
           pre.push(dtP);
         } else {
           if (e.quantity !== props.data[i].quantity) {
             hasUp2 = true;
-            let dtP = { ...e };
+            let dtP = { ...e, page: props.page };
             pre2.push(dtP);
           }
         }

@@ -605,6 +605,7 @@ export default function Product({
         data={valueUpdateDetailProduct}
         color={arrColorProduct}
         detailPT={detailPT}
+        page={page}
       />
       <AddDetailProduct
         isOpenModalAddDetailProduct={isOpenModalAddDetailProduct}
