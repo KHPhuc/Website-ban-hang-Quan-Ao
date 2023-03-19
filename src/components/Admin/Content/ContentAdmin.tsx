@@ -8,6 +8,7 @@ import Payment from "../../../containers/Admin/Content/Payment/Payment";
 import Customer from "../../../containers/Admin/Content/Customer/Customer";
 import Cart from "../../../containers/Admin/Content/Cart/Cart";
 import Order from "../../../containers/Admin/Content/Order/Order";
+import Statistic from "../../../containers/Admin/Content/Statistic/Statistic";
 
 // const Payment = React.lazy(
 //   () => import("../../../containers/Admin/Content/Payment/Payment")
@@ -26,6 +27,7 @@ export default function ContentAdmin() {
       }}
     >
       <Routes>
+        <Route path="" element={<Statistic />} />
         <Route path="productType" element={<ProductType />} />
         <Route path="product" element={<Product />} />
         <Route path="promotion" element={<Promotion />} />

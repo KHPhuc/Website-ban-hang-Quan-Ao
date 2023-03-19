@@ -8,7 +8,7 @@ import {
   RiBillFill,
 } from "react-icons/ri";
 import { MdPayment, MdLocalShipping } from "react-icons/md";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillHome, AiOutlineDashboard } from "react-icons/ai";
 import { TableOutlined } from "@ant-design/icons";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -21,11 +21,11 @@ export default function SiderAnt({ sidebar, setSidebar }: any) {
   const [collapsedWidth, setCollapsedWidth] = useState(80);
 
   const itemMenu = [
-    // getItem(
-    //   <Link to={"/admin"}>Thống kê</Link>,
-    //   "dashboard",
-    //   <TableOutlined />
-    // ),
+    getItem(
+      <Link to={"/admin"}>Thống kê</Link>,
+      "dashboard",
+      <AiOutlineDashboard />
+    ),
     getItem("Quản lý sản phẩm", "productManagement", <GiClothes />, [
       getItem(
         <Link to={"/admin/productType"}>Loại</Link>,
