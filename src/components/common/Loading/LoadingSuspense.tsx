@@ -28,6 +28,7 @@ export function LoadingSupense() {
           style={{ width: "100%", height: "100%", maxWidth: "300px" }}
           src="https://www.b52king.com/public/html/images/common_img/puff.svg"
           alt=""
+          loading="lazy"
         />
       </div>
     </div>

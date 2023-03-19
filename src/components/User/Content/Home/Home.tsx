@@ -35,7 +35,7 @@ export default function Home({
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 9000,
+    autoplaySpeed: 5000,
     arrows: false,
   };
 
@@ -72,17 +72,17 @@ export default function Home({
     <>
       <div className="home pb-[0.5rem]">
         <div className="container">
-          {/* <div className="carousel">
+          <div className="carousel">
             <Slider {...settings} className="slider">
               {banner.map((e: any, i: any) => {
                 return (
                   <div key={i}>
-                    <img src={e} alt="" className="w-full h-full" />
+                    <img src={e} alt="" className="w-full h-full" loading="lazy" />
                   </div>
                 );
               })}
             </Slider>
-          </div> */}
+          </div>
 
           <div className="my-[20px]">
             {/* <div className="row"> */}

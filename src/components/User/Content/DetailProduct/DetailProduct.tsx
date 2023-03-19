@@ -147,6 +147,7 @@ export default function DetailProduct({
                 src={`${BACKEND}/${selectColor ? selectColor.image : ""}`}
                 alt=""
                 style={{ borderRadius: "20px" }}
+                loading="lazy"
               />
             </div>
             <div className="w-full md:w-[80%] mt-[0.2rem] md:mt-0">

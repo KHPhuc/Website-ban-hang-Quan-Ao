@@ -202,7 +202,7 @@ export default function AddProduct(props: any) {
       <>
         {url ? (
           <div className="relative">
-            <img className="img-upload-preview" src={url} width={110} />
+            <img className="img-upload-preview" src={url} width={110} loading="lazy" />
             <div className="absolute bottom-0 w-[110px] h-[25px] bg-[#0000004f] img-upload">
               <div className="flex items-center justify-center h-full text-white">
                 <AiOutlineDelete
@@ -335,7 +335,7 @@ export default function AddProduct(props: any) {
               <>
                 {url ? (
                   <div className="relative">
-                    <img className="img-upload-preview" src={url} width={110} />
+                    <img className="img-upload-preview" src={url} width={110} loading="lazy" />
                     <div className="absolute bottom-0 w-[110px] h-[25px] bg-[#0000004f] img-upload">
                       <div className="flex items-center justify-center h-full text-white">
                         <AiOutlineDelete
