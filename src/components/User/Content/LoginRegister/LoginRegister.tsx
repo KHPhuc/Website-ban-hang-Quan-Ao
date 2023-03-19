@@ -98,7 +98,7 @@ export default function LoginRegister({ login, register, auth, account }: any) {
   return (
     <>
       <div
-        className="home"
+        className="home pb-[353px] md:pb-[180px]"
         // style={{
         //   position: "absolute",
         //   width: "100%",

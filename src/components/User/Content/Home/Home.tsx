@@ -15,9 +15,7 @@ import { getProductToShow } from "../../../../app/API/Product/Product";
 
 const { Title } = Typography;
 
-export default function Home({
-  setSelectedProduct,
-}: any) {
+export default function Home({ setSelectedProduct }: any) {
   const nav = useNavigate();
   const location = useLocation();
   const [loading, setLoading] = useState(true);
@@ -70,14 +68,19 @@ export default function Home({
 
   return (
     <>
-      <div className="home pb-[0.5rem]">
+      <div className="home pb-[353px] md:pb-[180px]">
         <div className="container">
           <div className="carousel">
             <Slider {...settings} className="slider">
               {banner.map((e: any, i: any) => {
                 return (
                   <div key={i}>
-                    <img src={e} alt="" className="w-full h-full" loading="lazy" />
+                    <img
+                      src={e}
+                      alt=""
+                      className="w-full h-full"
+                      loading="lazy"
+                    />
                   </div>
                 );
               })}

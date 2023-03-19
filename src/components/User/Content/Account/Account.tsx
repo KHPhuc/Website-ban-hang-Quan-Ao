@@ -10,7 +10,7 @@ export default function Account({ auth, logout }: any) {
 
   return (
     <>
-      <div className="home mb-[1rem]">
+      <div className="home pb-[353px] md:pb-[180px]">
         <div className="container md:flex mt-[0.3rem]">
           <div
             className=" hidden md:flex md:w-[35%] md:flex-col pr-[15px]"

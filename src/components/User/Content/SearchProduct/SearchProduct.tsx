@@ -7,9 +7,7 @@ import { removeAccents } from "../../../common/RemoveAccents/RemoveAccents";
 import { useNavigate, useParams } from "react-router-dom";
 import { BACKEND } from "../../../common/Config/Config";
 import InfiniteScroll from "react-infinite-scroll-component";
-import {
-  searchProduct,
-} from "../../../../app/API/Product/Product";
+import { searchProduct } from "../../../../app/API/Product/Product";
 
 const { Title } = Typography;
 const { Search } = Input;
@@ -64,7 +62,7 @@ export default function SearchProduct({ setSelectedProduct }: any) {
 
   return (
     <>
-      <div className="home pb-[0.5rem]">
+      <div className="home pb-[353px] md:pb-[180px]">
         <div className="container">
           <div className="filter">
             <Title level={3} style={{ marginBottom: 0 }} className="mr-[15px]">
@@ -72,7 +70,7 @@ export default function SearchProduct({ setSelectedProduct }: any) {
             </Title>
             <Search
               placeholder="Tên sản phẩm cần tìm ..."
-              style={{ width: "25%"}}
+              style={{ width: "25%" }}
               onSearch={search}
               className="searchP"
               value={param?.split("=")[1]}

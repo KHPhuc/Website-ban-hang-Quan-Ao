@@ -173,7 +173,7 @@ export default function Product({
 
   return (
     <>
-      <div className="home pb-[0.5rem]">
+      <div className="home pb-[353px] md:pb-[180px]">
         <div className="container">
           <div className="filter">
             <Title level={3} style={{ marginBottom: 0 }} className="mr-[15px]">
