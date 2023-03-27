@@ -32,15 +32,15 @@ const Cart = React.lazy(() => import("./containers/User/Cart/Cart"));
 function App({ auth, setDevice, login, account, setCart }: any) {
   const location = useLocation();
   useEffect(() => {
-    if (account) {
-      login(account.username, account.password);
-    } else {
-      const items = localStorage.getItem("cart");
-      if (items) {
-        const p = JSON.parse(items);
-        setCart(p);
-      }
-    }
+    // if (account) {
+    //   login(account.username, account.password);
+    // } else {
+    //   const items = localStorage.getItem("cart");
+    //   if (items) {
+    //     const p = JSON.parse(items);
+    //     setCart(p);
+    //   }
+    // }
 
     if (window.innerWidth < 768) {
       setDevice("mobile");

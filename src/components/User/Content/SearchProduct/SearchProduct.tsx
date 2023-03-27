@@ -21,7 +21,10 @@ export default function SearchProduct({ setSelectedProduct }: any) {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
+  const [inputSearch, setInputSearch]: any = useState();
+
   useEffect(() => {
+    setInputSearch(param?.split("=")[1]);
     setPage(0);
     setData([]);
     setHasMore(true);
@@ -40,7 +43,7 @@ export default function SearchProduct({ setSelectedProduct }: any) {
       .finally(() => {
         setDataLoading(false);
       });
-  }, []);
+  }, [param]);
 
   const fetchData = () => {
     searchProduct({
@@ -73,7 +76,8 @@ export default function SearchProduct({ setSelectedProduct }: any) {
               style={{ width: "25%" }}
               onSearch={search}
               className="searchP"
-              value={param?.split("=")[1]}
+              value={inputSearch}
+              onChange={(e: any) => setInputSearch(e.target.value)}
             />
           </div>
           <div className="product">

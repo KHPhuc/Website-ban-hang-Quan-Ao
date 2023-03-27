@@ -179,6 +179,7 @@ export default function HeaderAnt({
   const search = (text: any) => {
     if (text) {
       nav(`search/text=${text}`);
+      setIsOpenSidebar(false);
     }
   };
 
@@ -301,6 +302,8 @@ export default function HeaderAnt({
               items={itemsNav}
               mode="horizontal"
               selectedKeys={[selectedKey]}
+              // style={{ border: "1px solid black" }}
+              className="text-[16px] font-[600]"
             />
             {/* <ul>
               {itemsNav.map((e: MenuProps, i: any) => {

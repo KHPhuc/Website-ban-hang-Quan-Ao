@@ -36,6 +36,7 @@ export default function AddProduct(props: any) {
     description: "",
     detailProduct: [],
   });
+  const [nameDPTId, setNameDPTId]: any = useState(true);
   const [treeSelectData, setTreeSelectData]: any = useState();
 
   const [isFocusFakePrice, setIsFocusFakePrice]: any = useState(false);
@@ -202,7 +203,12 @@ export default function AddProduct(props: any) {
       <>
         {url ? (
           <div className="relative">
-            <img className="img-upload-preview" src={url} width={110} loading="lazy" />
+            <img
+              className="img-upload-preview"
+              src={url}
+              width={110}
+              loading="lazy"
+            />
             <div className="absolute bottom-0 w-[110px] h-[25px] bg-[#0000004f] img-upload">
               <div className="flex items-center justify-center h-full text-white">
                 <AiOutlineDelete
@@ -335,7 +341,12 @@ export default function AddProduct(props: any) {
               <>
                 {url ? (
                   <div className="relative">
-                    <img className="img-upload-preview" src={url} width={110} loading="lazy" />
+                    <img
+                      className="img-upload-preview"
+                      src={url}
+                      width={110}
+                      loading="lazy"
+                    />
                     <div className="absolute bottom-0 w-[110px] h-[25px] bg-[#0000004f] img-upload">
                       <div className="flex items-center justify-center h-full text-white">
                         <AiOutlineDelete
@@ -512,7 +523,7 @@ export default function AddProduct(props: any) {
           className="mb-[10px]"
           name={"size-" + key + "-" + kInput}
           rules={[
-            { required: true, message: "Không được để trống ô" },
+            { required: nameDPTId, message: "Không được để trống ô" },
             ({ getFieldValue }) => ({
               validator(o: any, value) {
                 let values = form.getFieldsValue();
@@ -545,7 +556,7 @@ export default function AddProduct(props: any) {
                 } `}
                 placeholder="ví dụ: S, M, v.v"
                 onChange={(e) => handleInputSize(e, key, kInput)}
-                maxLength={3}
+                maxLength={5}
               />
               {ls[index].sizeLength.length > 0 ? (
                 <Button
@@ -792,7 +803,17 @@ export default function AddProduct(props: any) {
           <Cascader
             options={treeSelectData}
             displayRender={displayRender}
-            onChange={(e) => (dataConvert.detailPTId = e[1])}
+            onChange={(e) => {
+              dataConvert.detailPTId = e[1];
+              setNameDPTId(
+                props.allProductType
+                  .find((x: any) => x.productTypeId === e[0])
+                  .detailProductType.find((y: any) => y.detailPTId === e[1])
+                  .detailPTName === "Mũ (Nón)"
+                  ? false
+                  : true
+              );
+            }}
           />
           {/* <TreeSelect
             treeLine

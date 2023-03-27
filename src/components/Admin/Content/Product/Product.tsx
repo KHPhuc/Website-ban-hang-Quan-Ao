@@ -510,7 +510,8 @@ export default function Product({
       <Table
         title={() => (
           <div className="flex justify-between">
-            <div>Danh sách sản phẩm</div>
+            {/* <div>Danh sách sản phẩm</div> */}
+            <div></div>
             <div className="flex">
               <Button
                 type="primary"

@@ -1,4 +1,4 @@
-import { Rate } from "antd";
+import { Button, Modal, Rate } from "antd";
 import { useEffect, useState } from "react";
 import { IoStar, IoStarHalf, IoStarOutline } from "react-icons/io5";
 import { NumericFormat } from "react-number-format";
@@ -24,6 +24,8 @@ export default function DetailProduct({
   const [selectColor, setSelectColor]: any = useState();
   const [selectSize, setSelectSize]: any = useState();
   const [quantity, setQuantity] = useState(1);
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
 
   useEffect(() => {
     let url = location.pathname.split("/");
@@ -92,34 +94,35 @@ export default function DetailProduct({
   const handleAddCart = () => {
     if (!auth) {
       // console.log(selectColor, selectSize, quantity);
-      if (cart.length === 0) {
-        let cache = Object.assign([], cart);
-        cache.push({
-          detailProductId: selectSize.detailProductId,
-          quantity: quantity,
-        });
-        setCart(cache);
-      } else {
-        let index = cart.findIndex(
-          (x: any) => x.detailProductId === selectSize.detailProductId
-        );
-        if (index !== -1) {
-          let q = cart[index].quantity + 1;
-          let cache = Object.assign({}, cart[index], { quantity: q });
-          // cache[index].quantity += quantity;
-          let cache1 = Object.assign([], cart);
-          cache1[index] = cache;
-          setCart(cache1);
-        } else {
-          setCart([
-            ...cart,
-            {
-              detailProductId: selectSize.detailProductId,
-              quantity: quantity,
-            },
-          ]);
-        }
-      }
+      // if (cart.length === 0) {
+      //   let cache = Object.assign([], cart);
+      //   cache.push({
+      //     detailProductId: selectSize.detailProductId,
+      //     quantity: quantity,
+      //   });
+      //   setCart(cache);
+      // } else {
+      //   let index = cart.findIndex(
+      //     (x: any) => x.detailProductId === selectSize.detailProductId
+      //   );
+      //   if (index !== -1) {
+      //     let q = cart[index].quantity + 1;
+      //     let cache = Object.assign({}, cart[index], { quantity: q });
+      //     // cache[index].quantity += quantity;
+      //     let cache1 = Object.assign([], cart);
+      //     cache1[index] = cache;
+      //     setCart(cache1);
+      //   } else {
+      //     setCart([
+      //       ...cart,
+      //       {
+      //         detailProductId: selectSize.detailProductId,
+      //         quantity: quantity,
+      //       },
+      //     ]);
+      //   }
+      // }
+      setIsOpenModal(true);
     } else {
       addCart({
         customerId: auth.id,
@@ -130,12 +133,12 @@ export default function DetailProduct({
     }
   };
 
-  useEffect(() => {
-    // console.log(cart);
-    if (!auth) {
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
-  }, [cart]);
+  // useEffect(() => {
+  //   // console.log(cart);
+  //   if (!auth) {
+  //     // localStorage.setItem("cart", JSON.stringify(cart));
+  //   }
+  // }, [cart]);
 
   return (
     <>
@@ -473,6 +476,21 @@ export default function DetailProduct({
           </div>
         </div>
       </div>
+      <Modal
+        // title="Đăng nhập để thêm vào giỏ"
+        open={isOpenModal}
+        onCancel={() => setIsOpenModal(false)}
+        footer={null}
+      >
+        <div className="w-full flex flex-col justify-center items-center">
+          <div className="mb-[10px] font-[500] text-[16px]">
+            <p>Đăng nhập để thêm vào giỏ</p>
+          </div>
+          <Button type="primary" onClick={() => nav("/login")}>
+            Đăng nhập
+          </Button>
+        </div>
+      </Modal>
       <FooterAntd />
     </>
   );
