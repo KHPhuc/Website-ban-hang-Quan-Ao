@@ -3,48 +3,44 @@ import { useEffect, useState } from "react";
 import { Pie } from "@ant-design/plots";
 import { NumericFormat } from "react-number-format";
 import { abbreviateNumber } from "js-abbreviation-number";
+import LineChart from "./Line";
+import PieChart from "./Pie";
+import TreeChart from "./Tree";
 
-export default function Statistic({ setTitle }: any) {
-  const [data, setData] = useState([]);
+export default function Statistic({
+  setTitle,
+  getCard,
+  card,
+  getLine,
+  line,
+  getPie,
+  pie,
+  getTree,
+  tree,
+}: any) {
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
+  const [data3, setData3] = useState([]);
 
   useEffect(() => {
     setTitle("Thống kê");
-    asyncFetch();
+    getCard();
+    getLine();
+    getPie();
+    getTree();
   }, []);
 
-  const asyncFetch = () => {
-    fetch(
-      "https://gw.alipayobjects.com/os/bmw-prod/e00d52f4-2fa6-47ee-a0d7-105dd95bde20.json"
-    )
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => {
-        console.log("fetch data failed", error);
-      });
-  };
+  useEffect(() => {
+    setData1(line);
+  }, [line]);
 
-  const config = {
-    data,
-    xField: "year",
-    yField: "gdp",
-    seriesField: "name",
-    yAxis: {
-      label: {
-        formatter: (v: any) => `${(v / 10e8).toFixed(1)} B`,
-      },
-    },
-    legend: {
-      position: "top",
-    },
-    smooth: true,
-    // @TODO 后续会换一种动画方式
-    animation: {
-      appear: {
-        animation: "path-in",
-        duration: 5000,
-      },
-    },
-  };
+  useEffect(() => {
+    setData2(pie);
+  }, [pie]);
+
+  useEffect(() => {
+    setData3(tree);
+  }, [tree]);
 
   return (
     <>
@@ -56,7 +52,14 @@ export default function Statistic({ setTitle }: any) {
                 <img src="/img/assets/sales.png" alt="" />
               </div>
               <div className="font-[600] text-[32px]">
-                {abbreviateNumber(10010000, 2)}
+                {/* {abbreviateNumber(card.doanhThu, 2)} */}
+                <NumericFormat
+                  displayType={"text"}
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  suffix={" ₫"}
+                  value={card.doanhThu}
+                />
               </div>
               <div className="font-[500] text-[16px] text-[#2b2b2b]">
                 Doanh thu
@@ -69,7 +72,14 @@ export default function Statistic({ setTitle }: any) {
                 <img src="/img/assets/received.png" alt="" />
               </div>
               <div className="font-[600] text-[32px]">
-                {abbreviateNumber(10010000, 2)}
+                {/* {abbreviateNumber(card.donHang, 2)} */}
+                <NumericFormat
+                  displayType={"text"}
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  suffix={""}
+                  value={card.donHang}
+                />
               </div>
               <div className="font-[500] text-[16px]">Đơn hàng</div>
             </div>
@@ -80,7 +90,14 @@ export default function Statistic({ setTitle }: any) {
                 <img src="/img/assets/shirts.png" alt="" />
               </div>
               <div className="font-[600] text-[32px]">
-                {abbreviateNumber(10010000, 2)}
+                {/* {abbreviateNumber(card.daBan, 2)} */}
+                <NumericFormat
+                  displayType={"text"}
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  suffix={""}
+                  value={card.daBan}
+                />
               </div>
               <div className="font-[500] text-[16px]">Đã bán</div>
             </div>
@@ -91,13 +108,45 @@ export default function Statistic({ setTitle }: any) {
                 <img src="/img/assets/people.png" alt="" />
               </div>
               <div className="font-[600] text-[32px]">
-                {abbreviateNumber(10010000, 2)}
+                {/* {abbreviateNumber(card.khachHang, 2)} */}
+                <NumericFormat
+                  displayType={"text"}
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  suffix={""}
+                  value={card.khachHang}
+                />
               </div>
               <div className="font-[500] text-[16px]">Khách hàng</div>
             </div>
           </Card>
         </div>
-        <div></div>
+        <div className="w-full mt-[20px]">
+          <Card>
+            <LineChart data={data1} />
+            <p className="font-[500] text-[16px] text-center">
+              Biểu đồ đường số lượng tình trạng đơn hàng tháng
+            </p>
+          </Card>
+        </div>
+        <div className="w-full mt-[20px] flex gap-[20px]">
+          <div className="w-[50%]">
+            <Card>
+              <PieChart data={data2} />
+              <p className="font-[500] text-[16px] text-center">
+                Tỷ lệ tình trạng đơn hàng
+              </p>
+            </Card>
+          </div>
+          <div className="w-[50%]">
+            <Card>
+              <TreeChart data={data3} />
+              <p className="font-[500] text-[16px] text-center">
+                Số lượng sản phẩm đã bán
+              </p>
+            </Card>
+          </div>
+        </div>
       </div>
     </>
   );

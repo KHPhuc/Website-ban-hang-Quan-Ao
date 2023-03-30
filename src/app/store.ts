@@ -19,6 +19,7 @@ import Customer from "./API/Customer/Customer";
 import Cart from "./API/Cart/Cart";
 import Address from "./API/Address/Address";
 import Order from "./API/Order/Order";
+import Statistic from "./API/Statistic/Statistic";
 
 const persistConfig = {
   key: "root",
@@ -40,6 +41,7 @@ const reducer = combineReducers({
   cart: Cart,
   address: Address,
   order: Order,
+  statistic: Statistic,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

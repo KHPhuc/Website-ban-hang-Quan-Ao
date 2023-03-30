@@ -76,18 +76,11 @@ export default function DetailProduct({
   };
 
   const changeQuantity = (e: any) => {
-    if (e === 1) {
-      if (quantity < selectSize.quantity) {
-        setQuantity(quantity + 1);
-      } else {
-        toast.warning("Vượt quá số lượng hàng còn!");
-      }
-    } else if (e === -1) {
-      if (quantity > 1) {
-        setQuantity(quantity - 1);
-      } else {
-        toast.warning("Tối thiểu 1 cái!");
-      }
+    var x = quantity + e;
+    if (x > 0) {
+      setQuantity(x);
+    } else {
+      toast.warning("Tối thiểu 1 cái!", { containerId: "CT" });
     }
   };
 

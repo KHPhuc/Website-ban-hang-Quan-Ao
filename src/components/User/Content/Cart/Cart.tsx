@@ -201,7 +201,7 @@ export default function Cart({
 
   const changeQuantity = (n: any, e: any) => {
     if (n === 1) {
-      if (e.quantity + 1 < e.kho) {
+      if (e.quantity + 1 <= e.kho) {
         if (auth) {
           updateCart({
             customerId: auth.id,

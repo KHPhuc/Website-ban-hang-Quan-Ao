@@ -1,8 +1,18 @@
+import React from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import FooterAntd from "../../../common/Footer/Footer";
-import ChangePassword from "../../../../containers/User/Account/ChangePassword/ChangePassword";
-import Info from "../../../../containers/User/Account/Info/Info";
-import Orders from "../../../../containers/User/Account/Orders/Orders";
+
+const FooterAntd = React.lazy(() => import("../../../common/Footer/Footer"));
+
+const ChangePassword = React.lazy(
+  () =>
+    import("../../../../containers/User/Account/ChangePassword/ChangePassword")
+);
+const Info = React.lazy(
+  () => import("../../../../containers/User/Account/Info/Info")
+);
+const Orders = React.lazy(
+  () => import("../../../../containers/User/Account/Orders/Orders")
+);
 
 export default function Account({ auth, logout }: any) {
   const location = useLocation().pathname.split("/");

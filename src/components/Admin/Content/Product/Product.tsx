@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -7,11 +8,7 @@ import {
   Modal,
   Space,
 } from "antd";
-import AddProduct from "../../../../containers/Admin/Content/Product/AddProduct/AddProduct";
-import UpdateProduct from "../../../../containers/Admin/Content/Product/UpdateProduct/UpdateProduct";
-import UpdateDetailProduct from "../../../../containers/Admin/Content/Product/UpdateDetailProduct/UpdateDetailProduct";
-import AddDetailProduct from "../../../../containers/Admin/Content/Product/AddDetailProduct/AddDetailProduct";
-import AddColorProduct from "../../../../containers/Admin/Content/Product/AddColorProduct/AddColorProduct";
+
 // import { AiFillFileAdd, AiFillFileExcel } from "react-icons/ai";
 // import { getExcelPT } from "../../../../app/API/Product/Product";
 // var XLSX = require("xlsx");
@@ -20,6 +17,35 @@ import { addProductByExcel } from "../../../../app/API/Product/Product";
 import { NumericFormat } from "react-number-format";
 import { BACKEND } from "../../../common/Config/Config";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+
+const AddProduct = React.lazy(
+  () =>
+    import("../../../../containers/Admin/Content/Product/AddProduct/AddProduct")
+);
+const UpdateProduct = React.lazy(
+  () =>
+    import(
+      "../../../../containers/Admin/Content/Product/UpdateProduct/UpdateProduct"
+    )
+);
+const UpdateDetailProduct = React.lazy(
+  () =>
+    import(
+      "../../../../containers/Admin/Content/Product/UpdateDetailProduct/UpdateDetailProduct"
+    )
+);
+const AddDetailProduct = React.lazy(
+  () =>
+    import(
+      "../../../../containers/Admin/Content/Product/AddDetailProduct/AddDetailProduct"
+    )
+);
+const AddColorProduct = React.lazy(
+  () =>
+    import(
+      "../../../../containers/Admin/Content/Product/AddColorProduct/AddColorProduct"
+    )
+);
 
 export default function Product({
   setTitle,

@@ -1,6 +1,6 @@
+import React from "react";
 import { Typography, Input, Skeleton } from "antd";
 import { AiTwotoneStar } from "react-icons/ai";
-import FooterAntd from "../../../common/Footer/Footer";
 import { useCallback, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import { removeAccents } from "../../../common/RemoveAccents/RemoveAccents";
@@ -8,6 +8,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BACKEND } from "../../../common/Config/Config";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { searchProduct } from "../../../../app/API/Product/Product";
+
+const FooterAntd = React.lazy(() => import("../../../common/Footer/Footer"));
 
 const { Title } = Typography;
 const { Search } = Input;

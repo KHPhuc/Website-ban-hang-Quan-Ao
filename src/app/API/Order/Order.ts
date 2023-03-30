@@ -92,7 +92,11 @@ export const createOrder = (data: any) => async (dispatch: any) => {
     })
     .catch((err) => {
       // updateToast(idToast, getDataFail.message, getDataFail.type);
-      toast.error("Có lỗi. Vui lòng thử lại!", { containerId: "CT" });
+      if (err.data?.message) {
+        toast.error(err.data.message, { containerId: "CT" });
+      } else {
+        toast.error("Có lỗi. Vui lòng thử lại!", { containerId: "CT" });
+      }
     })
     .finally(() => {});
 };

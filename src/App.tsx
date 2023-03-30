@@ -1,26 +1,13 @@
+import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { Suspense, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
 import { toast, ToastContainer } from "react-toastify";
-import LayoutAnt from "./components/Ant/Layout";
 import { LoadingSupense } from "./components/common/Loading/LoadingSuspense";
-import Header from "./containers/User/Header/Header";
-// import Home from "./containers/User/Home/Home";
-// import Product from "./containers/User/Product/Product";
-import LoginRegister from "./containers/User/LoginRegister/LoginRegister";
-// import DetailProduct from "./containers/User/DetailProduct/DetailProduct";
-// import Cart from "./containers/User/Cart/Cart";
-import Admin from "./containers/Admin/Admin";
-import React from "react";
-import Page404 from "./components/Result/Page404/Page404";
-import PagePaySuccess from "./components/Result/PagePaySuccess/PagePaySuccess";
-import PayHandle from "./components/Result/PayHandle/PayHandle";
-import OrderSuccess from "./containers/Common/OrderSuccess";
-import PageOrderFail from "./components/Result/PageOrderFail/PagePaySuccess";
-import PagePayFail from "./components/Result/PagePayFail/PagePaySuccess";
-import Account from "./containers/User/Account/Account";
-import SearchProduct from "./containers/User/SearchProduct/SearchProduct";
+
+const LayoutAnt = React.lazy(() => import("./components/Ant/Layout"));
+const Header = React.lazy(() => import("./containers/User/Header/Header"));
 
 const Home = React.lazy(() => import("./containers/User/Home/Home"));
 const Product = React.lazy(() => import("./containers/User/Product/Product"));
@@ -28,6 +15,32 @@ const DetailProduct = React.lazy(
   () => import("./containers/User/DetailProduct/DetailProduct")
 );
 const Cart = React.lazy(() => import("./containers/User/Cart/Cart"));
+const SearchProduct = React.lazy(
+  () => import("./containers/User/SearchProduct/SearchProduct")
+);
+
+const Account = React.lazy(() => import("./containers/User/Account/Account"));
+const Admin = React.lazy(() => import("./containers/Admin/Admin"));
+const LoginRegister = React.lazy(
+  () => import("./containers/User/LoginRegister/LoginRegister")
+);
+
+const Page404 = React.lazy(() => import("./components/Result/Page404/Page404"));
+const PagePaySuccess = React.lazy(
+  () => import("./components/Result/PagePaySuccess/PagePaySuccess")
+);
+const PayHandle = React.lazy(
+  () => import("./components/Result/PayHandle/PayHandle")
+);
+const OrderSuccess = React.lazy(
+  () => import("./containers/Common/OrderSuccess")
+);
+const PageOrderFail = React.lazy(
+  () => import("./components/Result/PageOrderFail/PagePaySuccess")
+);
+const PagePayFail = React.lazy(
+  () => import("./components/Result/PagePayFail/PagePaySuccess")
+);
 
 function App({ auth, setDevice, login, account, setCart }: any) {
   const location = useLocation();
@@ -90,6 +103,7 @@ function App({ auth, setDevice, login, account, setCart }: any) {
         className={"text-[0.3rem] md:text-[0.2rem]"}
         enableMultiContainer
         containerId={"CT"}
+        limit={3}
       />
 
       <ToastContainer

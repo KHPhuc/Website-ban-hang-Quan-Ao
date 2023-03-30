@@ -176,10 +176,13 @@ export default function HeaderAnt({
     logout();
   };
 
+  const [textS, setTextS] = useState("");
+
   const search = (text: any) => {
     if (text) {
       nav(`search/text=${text}`);
       setIsOpenSidebar(false);
+      setTextS("");
     }
   };
 
@@ -194,6 +197,8 @@ export default function HeaderAnt({
               placeholder="Tên sản phẩm cần tìm ..."
               style={{ width: "98%" }}
               onSearch={search}
+              value={textS}
+              onChange={(e: any) => setTextS(e.target.value)}
             />
           </div>
 
@@ -235,6 +240,8 @@ export default function HeaderAnt({
                   placeholder="Tên sản phẩm cần tìm ..."
                   style={{ width: "3rem" }}
                   onSearch={search}
+                  value={textS}
+                  onChange={(e) => setTextS(e.target.value)}
                 />
                 {auth ? (
                   ""

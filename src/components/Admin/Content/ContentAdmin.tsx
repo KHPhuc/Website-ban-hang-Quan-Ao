@@ -1,18 +1,31 @@
 import { Layout } from "antd";
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Product from "../../../containers/Admin/Content/Product/Product";
-import ProductType from "../../../containers/Admin/Content/ProductType/ProductType";
-import Promotion from "../../../containers/Admin/Content/Promotion/Promotion";
-import Payment from "../../../containers/Admin/Content/Payment/Payment";
-import Customer from "../../../containers/Admin/Content/Customer/Customer";
-import Cart from "../../../containers/Admin/Content/Cart/Cart";
-import Order from "../../../containers/Admin/Content/Order/Order";
-import Statistic from "../../../containers/Admin/Content/Statistic/Statistic";
 
-// const Payment = React.lazy(
-//   () => import("../../../containers/Admin/Content/Payment/Payment")
-// );
+const Product = React.lazy(
+  () => import("../../../containers/Admin/Content/Product/Product")
+);
+const ProductType = React.lazy(
+  () => import("../../../containers/Admin/Content/ProductType/ProductType")
+);
+const Promotion = React.lazy(
+  () => import("../../../containers/Admin/Content/Promotion/Promotion")
+);
+const Payment = React.lazy(
+  () => import("../../../containers/Admin/Content/Payment/Payment")
+);
+const Customer = React.lazy(
+  () => import("../../../containers/Admin/Content/Customer/Customer")
+);
+const Cart = React.lazy(
+  () => import("../../../containers/Admin/Content/Cart/Cart")
+);
+const Order = React.lazy(
+  () => import("../../../containers/Admin/Content/Order/Order")
+);
+const Statistic = React.lazy(
+  () => import("../../../containers/Admin/Content/Statistic/Statistic")
+);
 
 const { Content } = Layout;
 

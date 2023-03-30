@@ -1,5 +1,5 @@
 // export const BACKEND = "https://server-ban-hang.herokuapp.com";
-// export const BACKEND = "https://server-website-ban-hang.onrender.com";
-export const BACKEND = "http://localhost:5000";
+export const BACKEND = "https://server-website-ban-hang.onrender.com";
+// export const BACKEND = "http://localhost:5000";
 // export const BACKEND = "http://14.225.205.209:5000";
 // export const BACKEND = "https://api.kieuphuc.tk:5000";
