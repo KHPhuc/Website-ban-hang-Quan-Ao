@@ -48,7 +48,7 @@ export const getPaymentUser = () => async (dispatch: any) => {
 };
 
 export const getPayment = () => async (dispatch: any) => {
-  var idToast = loadingToast("Đang tải dữ liệu ...");
+  // var idToast = loadingToast("Đang tải dữ liệu ...");
   api
     .get("/payment")
     .then((res) => {
@@ -57,26 +57,26 @@ export const getPayment = () => async (dispatch: any) => {
       } else {
         dispatch(setPayment(""));
       }
-      updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
+      // updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
     })
     .catch((err) => {
-      updateToast(idToast, getDataFail.message, getDataFail.type);
+      // updateToast(idToast, getDataFail.message, getDataFail.type);
     })
     .finally(() => {});
 };
 
 export const updatePayment =
   (paymentId: any, payment: any) => async (dispatch: any) => {
-    var idToast = loadingToast("Đang cập nhật ...");
+    // var idToast = loadingToast("Đang cập nhật ...");
     api
       .put(`/payment/update/${paymentId}`, JSON.stringify(payment))
       .then((res) => {
         dispatch(setPayment(res.data));
-        updateToast(idToast, updateSuccess.message, updateSuccess.type);
+        // updateToast(idToast, updateSuccess.message, updateSuccess.type);
       })
       .catch((err) => {
         let toast = updateFail(err.data.message);
-        updateToast(idToast, toast.message, toast.type);
+        // updateToast(idToast, toast.message, toast.type);
       })
       .finally(() => {});
   };

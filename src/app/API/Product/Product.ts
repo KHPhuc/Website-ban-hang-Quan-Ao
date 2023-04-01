@@ -163,7 +163,7 @@ export const searchProduct = (value: any) => {
 };
 
 export const getProduct = (page: any) => async (dispatch: any) => {
-  var idToast = loadingToast("Đang tải dữ liệu ...");
+  // var idToast = loadingToast("Đang tải dữ liệu ...");
   api
     .get(`/product/${page}`)
     .then((res) => {
@@ -172,10 +172,10 @@ export const getProduct = (page: any) => async (dispatch: any) => {
       } else {
         dispatch(setProduct(res.data));
       }
-      updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
+      // updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
     })
     .catch((err) => {
-      updateToast(idToast, getDataFail.message, getDataFail.type);
+      // updateToast(idToast, getDataFail.message, getDataFail.type);
     })
     .finally(() => {});
 };

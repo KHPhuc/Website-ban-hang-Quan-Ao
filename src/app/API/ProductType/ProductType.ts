@@ -38,7 +38,7 @@ const productType = createSlice({
 export const { setProductType, setDetailProductType, setAllProductType } = productType.actions;
 
 export const getProductType = () => async (dispatch: any) => {
-  var idToast = loadingToast("Đang tải dữ liệu ...");
+  // var idToast = loadingToast("Đang tải dữ liệu ...");
   api
     .get("/product_type")
     .then((res) => {
@@ -47,16 +47,16 @@ export const getProductType = () => async (dispatch: any) => {
       } else {
         dispatch(setProductType(""));
       }
-      updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
+      // updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
     })
     .catch((err) => {
-      updateToast(idToast, getDataFail.message, getDataFail.type);
+      // updateToast(idToast, getDataFail.message, getDataFail.type);
     })
     .finally(() => {});
 };
 
 export const getAllProductType = () => async (dispatch:any) => {
-  var idToast = loadingToast("Đang tải dữ liệu ...");
+  // var idToast = loadingToast("Đang tải dữ liệu ...");
   api
     .get("/product_type/all")
     .then((res) => {
@@ -65,10 +65,10 @@ export const getAllProductType = () => async (dispatch:any) => {
       } else {
         dispatch(setAllProductType(""));
       }
-      updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
+      // updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
     })
     .catch((err) => {
-      updateToast(idToast, getDataFail.message, getDataFail.type);
+      // updateToast(idToast, getDataFail.message, getDataFail.type);
     })
     .finally(() => {});
 }
@@ -145,7 +145,7 @@ export const deleteProductType =
 
 export const getDetailProductType =
   (productTypeId: any) => async (dispatch: any) => {
-    var idToast = loadingToast("Đang tải dữ liệu ...");
+    // var idToast = loadingToast("Đang tải dữ liệu ...");
     api
       .get(`/detail_product_type/${productTypeId}`)
       .then((res) => {
@@ -154,10 +154,10 @@ export const getDetailProductType =
         } else {
           dispatch(setDetailProductType(""));
         }
-        updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
+        // updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
       })
       .catch((err) => {
-        updateToast(idToast, getDataFail.message, getDataFail.type);
+        // updateToast(idToast, getDataFail.message, getDataFail.type);
       })
       .finally(() => {});
   };

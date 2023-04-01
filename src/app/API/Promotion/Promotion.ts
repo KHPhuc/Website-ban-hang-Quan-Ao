@@ -39,7 +39,7 @@ export const { setPromotion, setAddStatus, setUpdateStatus } =
   promotion.actions;
 
 export const getPromotion = () => async (dispatch: any) => {
-  var idToast = loadingToast("Đang tải dữ liệu ...");
+  // var idToast = loadingToast("Đang tải dữ liệu ...");
   api
     .get("/promotion")
     .then((res) => {
@@ -48,10 +48,10 @@ export const getPromotion = () => async (dispatch: any) => {
       } else {
         dispatch(setPromotion(""));
       }
-      updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
+      // updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
     })
     .catch((err) => {
-      updateToast(idToast, getDataFail.message, getDataFail.type);
+      // updateToast(idToast, getDataFail.message, getDataFail.type);
     })
     .finally(() => {});
 };

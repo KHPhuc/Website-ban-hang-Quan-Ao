@@ -48,7 +48,7 @@ export const { setCustomer, setAddStatus, setInfo, setAddress } =
   customer.actions;
 
 export const getCustomer = (page:any) => async (dispatch: any) => {
-  var idToast = loadingToast("Đang tải dữ liệu ...");
+  // var idToast = loadingToast("Đang tải dữ liệu ...");
   api
     .get(`/customer/${page}`)
     .then((res) => {
@@ -57,10 +57,10 @@ export const getCustomer = (page:any) => async (dispatch: any) => {
       } else {
         dispatch(setCustomer(""));
       }
-      updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
+      // updateToast(idToast, getDataSuccess.message, getDataSuccess.type);
     })
     .catch((err) => {
-      updateToast(idToast, getDataFail.message, getDataFail.type);
+      // updateToast(idToast, getDataFail.message, getDataFail.type);
     })
     .finally(() => {});
 };
@@ -76,15 +76,15 @@ export const getInfo = (customerId: any) => async (dispatch: any) => {
 };
 
 export const updateInfo = (info: any, cId: any) => async (dispatch: any) => {
-  var idToast = loadingToast("Đang tải dữ liệu ...");
+  // var idToast = loadingToast("Đang tải dữ liệu ...");
   api
     .post(`/customer/updateInfo/${cId}`, JSON.stringify(info))
     .then((res) => {
       dispatch(setAuth(res.data));
-      updateToast(idToast, updateInfoSuccess.message, updateInfoSuccess.type);
+      // updateToast(idToast, updateInfoSuccess.message, updateInfoSuccess.type);
     })
     .catch((err) => {
-      updateToast(idToast, updateInfoFail.message, updateInfoFail.type);
+      // updateToast(idToast, updateInfoFail.message, updateInfoFail.type);
     })
     .finally(() => {});
 };

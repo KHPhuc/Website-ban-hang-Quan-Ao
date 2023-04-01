@@ -2,6 +2,7 @@ import axios from "axios";
 import store from "../store";
 // import { refreshToken } from "./Auth/Auth";
 import { BACKEND } from "../../components/common/Config/Config";
+import { logout } from "./Auth/Auth";
 
 const api = axios.create({
   // baseURL: "http://localhost:5000/api",
@@ -40,6 +41,7 @@ api.interceptors.response.use(
       //     store.dispatch(refreshToken(-1));
       //   }
       //   return Promise.reject(err);
+      // store.dispatch(logout());
     }
     // else {
     //   return Promise.reject(err.response);
